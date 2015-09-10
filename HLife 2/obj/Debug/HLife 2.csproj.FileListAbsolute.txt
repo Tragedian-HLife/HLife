@@ -1,0 +1,27 @@
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife 2.exe.config
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife_2.Properties.Resources.resources
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife 2.csproj.GenerateResource.Cache
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife 2.exe
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife 2.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife 2.exe
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife 2.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife 2 Default Implimentations.dll
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife 2 Default Implimentations.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife 2 Utilities.dll
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife_2_Interfaces.dll
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife 2 Utilities.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\bin\Debug\HLife_2_Interfaces.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\Release\HLife 2.exe.config
+E:\Dropbox\Release\HLife 2.exe.config
+E:\Dropbox\Release\HLife 2.exe
+E:\Dropbox\Release\HLife 2.pdb
+E:\Dropbox\Programming\HLife 2\Release\HLife 2.exe.config
+E:\Dropbox\Programming\HLife 2\Release\HLife 2.exe
+E:\Dropbox\Programming\HLife 2\Release\HLife 2.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\Release\HLife 2.exe
+E:\Dropbox\Programming\HLife 2\HLife2\Release\HLife 2.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife_2.Hlife2.resources
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife_2.MapWindow.resources
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife_2.OutputWindow.resources
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife_2.PlayerInfoWindow.resources
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2\obj\Debug\HLife 2.csprojResolveAssemblyReference.cache

@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{99509788-2E71-4C62-B8ED-DA8AF9CDE4CC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HLife_2</RootNamespace>
+    <AssemblyName>HLife 2</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Misc\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FuzzyLogicLibrary">
+      <HintPath>.\FuzzyLogicLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Magick.NET-AnyCPU, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET-AnyCPU.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Magick.NET.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Action\Action.cs" />
+    <Compile Include="GameEntity\Person\AI\Pathfinding\Map\PathNode.cs" />
+    <Compile Include="GameEntity\Person\AI\Pathfinding\Map\NavMap.cs" />
+    <Compile Include="GameEntity\Person\AI\RelationalAgent.cs" />
+    <Compile Include="Misc\Utilities\AI\Pathfinding.cs" />
+    <Compile Include="GameEntity\Person\AI\AIAgent.cs" />
+    <Compile Include="GameEntity\Person\AI\Pathfinding\NavAgent.cs" />
+    <Compile Include="Misc\Events\CustomEventArgs.cs" />
+    <Compile Include="GameEntity\Location\City.cs" />
+    <Compile Include="Controllers\ActionController.cs" />
+    <Compile Include="Controllers\Controller.cs" />
+    <Compile Include="Controllers\DialogController.cs" />
+    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PropController.cs" />
+    <Compile Include="Controllers\ResourceController.cs" />
+    <Compile Include="Controllers\WindowController.cs" />
+    <Compile Include="Dialog\Dialog.cs" />
+    <Compile Include="Dialog\DialogGroup.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameEntity\GameEntity.cs" />
+    <Compile Include="GameEntity\Location\Location.cs" />
+    <Compile Include="GameEntity\Location\LocationNetworkEdge.cs" />
+    <Compile Include="GameEntity\Person\Person.cs" />
+    <Compile Include="GameEntity\Person\PersonAttributes.cs" />
+    <Compile Include="GameEntity\Person\PersonPhysique.cs" />
+    <Compile Include="GameEntity\Person\PersonPreferences.cs" />
+    <Compile Include="GameEntity\Person\PersonStatus.cs" />
+    <Compile Include="GameEntity\Person\Player.cs" />
+    <Compile Include="GameEntity\Person\Relationship.cs" />
+    <Compile Include="GameEntity\Prop\Prop.cs" />
+    <Compile Include="GameEntity\Prop\PropTemplate.cs" />
+    <Compile Include="GUI\Controls\ComboBoxItem.cs" />
+    <Compile Include="GUI\Controls\ComboBoxWithValue.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\LocationButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GUI\Windows\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Windows\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Windows\MapWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Windows\MapWindow.Designer.cs">
+      <DependentUpon>MapWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Windows\OutputWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Windows\OutputWindow.Designer.cs">
+      <DependentUpon>OutputWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Windows\PlayerInfoWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Windows\PlayerInfoWindow.Designer.cs">
+      <DependentUpon>PlayerInfoWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Misc\Enums.cs" />
+    <Compile Include="Misc\Settings.cs" />
+    <Compile Include="Misc\Utilities\Image\ImageUtilities.cs" />
+    <Compile Include="Misc\Utilities\Math\MatrixUtilities.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Misc\Utilities\AI\FuzzyLogicUtilities.cs" />
+    <Compile Include="Misc\Utilities\Compiler\CompilerUtilities.cs" />
+    <Compile Include="Misc\Utilities\File\FileUtilities.cs" />
+    <Compile Include="Misc\Utilities\Math\GeometryUtilities.cs" />
+    <Compile Include="Misc\Utilities\MiscUtilities.cs" />
+    <Compile Include="Misc\Utilities\Compiler\ReflectiveUtilities.cs" />
+    <Compile Include="Misc\Utilities\StringUtilities.cs" />
+    <Compile Include="Misc\Utilities\File\XmlUtilities.cs" />
+    <EmbeddedResource Include="GUI\Windows\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Windows\MapWindow.resx">
+      <DependentUpon>MapWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Windows\OutputWindow.resx">
+      <DependentUpon>OutputWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Windows\PlayerInfoWindow.resx">
+      <DependentUpon>PlayerInfoWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Misc\logo.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  -->
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <MoveToLibFolder Include="$(OutputPath)*.dll ;" />
+    </ItemGroup>
+  </Target>
+</Project>
