@@ -126,10 +126,10 @@ namespace HLife_2
                 }
 
                 // If the target doesn't have a Relationship with the doer...
-                if (args.Doer.AIAgent.RelationalAgent[args.Doer] != null)
+                if (args.Target.AIAgent.RelationalAgent[args.Doer] == null)
                 {
                     // Add the relationship.
-                    args.Target.Relationships.Add(new Relationship(args.Doer));
+                    args.Target.AIAgent.RelationalAgent.Relationships.Add(args.Doer, new Relationship(args.Doer));
                 }
 
                 // Add the action to the target's Relationship history.
@@ -138,10 +138,10 @@ namespace HLife_2
 
 
                 // If the doer doesn't have a Relationship with the target...
-                if (args.Doer.AIAgent.RelationalAgent[args.Target] != null)
+                if (args.Doer.AIAgent.RelationalAgent[args.Target] == null)
                 {
                     // Add the relationship.
-                    args.Doer.Relationships.Add(new Relationship(args.Target));
+                    args.Doer.AIAgent.RelationalAgent.Relationships.Add(args.Target, new Relationship(args.Target));
                 }
 
                 // Add the action to the doer's Relationship history.
@@ -213,7 +213,7 @@ namespace HLife_2
             PictureBox pb = new PictureBox();
             pb.Dock = DockStyle.Fill;
             pb.SizeMode = PictureBoxSizeMode.StretchImage;
-            pb.Image = Game.Instance.ResourceController.GetImage(Game.Instance.ResourceController.BuildPath(@"Resources\Actions\Images\" + image));
+            pb.Image = Game.Instance.ResourceController.GetActionImage(image, true);
             pb.Enabled = true;
             pb.Parent = panel;
             pb.Click += (sender, e) => panel.Controls.Remove(pb);

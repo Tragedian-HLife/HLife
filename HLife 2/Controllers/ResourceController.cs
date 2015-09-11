@@ -24,6 +24,7 @@ namespace HLife_2
                     this.Paths.Add("Backgrounds", this.Paths["Images"] + @"Backgrounds\");
                     this.Paths.Add("Characters", this.Paths["Images"] + @"Characters\");
                     this.Paths.Add("Props", this.Paths["Images"] + @"Props\");
+                    this.Paths.Add("Action Images", @"Resources\Actions\Images\");
         }
 
         public override void Initialize()
@@ -64,6 +65,18 @@ namespace HLife_2
         public Image GetPropImage(string path)
         {
             return this.GetImage(this.BuildPath("Props", path));
+        }
+
+        public Image GetActionImage(string path, bool randomize)
+        {
+            if (randomize)
+            {
+                List<string> files = Directory.EnumerateFiles(this.BuildPath("Action Images", path), "*").ToList();
+
+                return this.GetImage(files[MiscUtilities.Rand.Next(files.Count)]);
+            }
+
+            return this.GetImage(this.BuildPath("Action Images", path));
         }
     }
 }

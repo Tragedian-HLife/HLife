@@ -8,14 +8,48 @@ using System.Windows.Forms;
 
 namespace HLife_2
 {
+    public struct DialogControl
+    {
+        public Image Image { get; set; }
+
+        public string Message { get; set; }
+
+        public bool BlurBackground { get; set; }
+
+        public DialogControl(string message, Image image, bool blurBackground)
+        {
+            this.Message = message;
+
+            this.Image = image;
+
+            this.BlurBackground = blurBackground;
+        }
+
+        public DialogControl(string message, string image, bool blurBackground)
+        {
+            this.Message = message;
+
+            this.Image = Game.Instance.ResourceController.GetActionImage(image, true);
+
+            this.BlurBackground = blurBackground;
+        }
+
+        public DialogControl(string message, bool blurBackground)
+        {
+            this.Message = message;
+
+            this.Image = null;
+
+            this.BlurBackground = blurBackground;
+        }
+    }
+
     public class DialogController
         : Controller
     {
         public Dictionary<string, DialogGroup> DialogGroups { get; set; }
 
-        private Bitmap Regular { get; set; }
-
-        private Bitmap Blurred { get; set; }
+        private DialogControl CurrentDialog { get; set; }
 
         public DialogController()
         {
@@ -31,32 +65,49 @@ namespace HLife_2
         public override void Update()
         { }
 
-        public void DrawDialog(string message, bool blur)
+        public void DrawDialog(DialogControl dialogControl)
         {
+            this.CurrentDialog = dialogControl;
+
             WindowController.Get<Hlife2>().SuspendLayout();
 
             Control container = ((SplitContainer)WindowController.Get<Hlife2>().Controls.Find("split", false)[0]).Panel2.Controls.Find("panel_View", false)[0];
 
-            this.Regular = new Bitmap(Game.Instance.ResourceController.GetBackgroundImage(Game.Instance.Player.Location.BackgroundImage));
-            this.Blurred = ImageUtilities.FastBlur(this.Regular, 2);
-            container.BackgroundImage = this.Blurred;
+            if (this.CurrentDialog.BlurBackground)
+            {
+                Game.Instance.Player.Location.BlurBackground();
+            }
 
             container.Controls.Clear();
 
+            PictureBox pb = new PictureBox();
+            if (this.CurrentDialog.Image != null)
+            {
+                pb.Dock = DockStyle.Fill;
+                pb.SizeMode = PictureBoxSizeMode.Zoom;
+                pb.Image = this.CurrentDialog.Image;
+                pb.BackColor = Color.Transparent;
+                pb.Enabled = true;
+                pb.Parent = container;
+                container.Controls.Add(pb);
+            }
+
             Label lbl = new Label();
-            lbl.Text = message;
+            lbl.Text = this.CurrentDialog.Message;
             lbl.BackColor = Color.Transparent;
             lbl.BackColor = Color.FromArgb(175, 0, 0, 0);
             lbl.ForeColor = Color.LightGray;
             lbl.Font = new Font(lbl.Font.FontFamily, 12f);
-            lbl.Parent = container;
-            container.Controls.Add(lbl);
+            //lbl.Parent = container;
+            //container.Controls.Add(lbl);
 
             PictureBox dialogBG = new PictureBox();
             dialogBG.Width = container.Width;
             dialogBG.Height = 200;
             dialogBG.Location = new Point(0, container.Height - dialogBG.Height);
             dialogBG.BackColor = Color.FromArgb(175, 0, 0, 0);
+            dialogBG.BackColor = Color.Transparent;
+            dialogBG.Image = Image.FromFile(Game.Instance.ResourceController.BuildPath(@"..\..\Global Resources\Assets\Images\black_50alpha.png"));
             dialogBG.SizeMode = PictureBoxSizeMode.StretchImage;
             dialogBG.Parent = container;
             container.Controls.Add(dialogBG);
@@ -66,7 +117,7 @@ namespace HLife_2
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    container.BackgroundImage = this.Regular;
+                    Game.Instance.Player.Location.UnblurBackground();
                     container.Controls.Clear();
                 }
                 else if (e.Button == MouseButtons.Right)
@@ -79,7 +130,7 @@ namespace HLife_2
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    container.BackgroundImage = this.Regular;
+                    Game.Instance.Player.Location.UnblurBackground();
                     container.Controls.Clear();
                 }
                 else if (e.Button == MouseButtons.Right)
@@ -92,7 +143,7 @@ namespace HLife_2
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    container.BackgroundImage = this.Regular;
+                    Game.Instance.Player.Location.UnblurBackground();
                     container.Controls.Clear();
                 }
                 else if (e.Button == MouseButtons.Right)
@@ -105,6 +156,24 @@ namespace HLife_2
             lbl.Width = dialogBG.Width - 10;
             lbl.Height = dialogBG.Height - 10;
             lbl.Location = new Point(dialogBG.Location.X + 20, dialogBG.Location.Y + 20);
+
+            if (this.CurrentDialog.Image != null)
+            {
+                container.Controls.Add(pb);
+
+                pb.MouseClick += (sender, e) =>
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        Game.Instance.Player.Location.UnblurBackground();
+                        container.Controls.Clear();
+                    }
+                    else if (e.Button == MouseButtons.Right)
+                    {
+                        this.ToggleDialog();
+                    }
+                };
+            }
 
             WindowController.Get<Hlife2>().ResumeLayout(true);
         }
@@ -124,13 +193,13 @@ namespace HLife_2
                 blurred = control.Visible;
             }
 
-            if (blurred)
+            if (blurred && this.CurrentDialog.BlurBackground)
             {
-                container.BackgroundImage = this.Blurred;
+                Game.Instance.Player.Location.BlurBackground();
             }
             else
             {
-                container.BackgroundImage = this.Regular;
+                Game.Instance.Player.Location.UnblurBackground();
             }
 
             WindowController.Get<Hlife2>().ResumeLayout(true);

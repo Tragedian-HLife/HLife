@@ -18,7 +18,7 @@ namespace HLife_2
         {
             get
             {
-                if (this.Relationships[index] == null)
+                if (this.Relationships.ContainsKey(index))
                 {
                     return this.Relationships[index];
                 }
@@ -28,7 +28,7 @@ namespace HLife_2
 
             set
             {
-                if (this.Relationships[index] == null)
+                if (this.Relationships.ContainsKey(index))
                 {
                     this.Relationships.Add(index, value);
                 }

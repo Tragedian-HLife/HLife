@@ -94,13 +94,33 @@ namespace HLife_2
         /// <param name="name">Name of the PersonStatusItem.</param>
         /// <param name="value">New value.</param>
         /// <returns>True if status item exists.</returns>
-        public bool SetValue(string name, object value)
+        public bool SetValue(string name, object value, bool relative = false)
         {
             PersonStatusItem item = this.GetItem(name);
 
             if (item != null)
             {
-                item.Value = value;
+                if(relative)
+                {
+                    try
+                    {
+                        item.Value = (double)item.Value + (double)value;
+                    }
+                    // If we're being a bitch and can't cast an int to a double...
+                    catch(InvalidCastException)
+                    {
+                        item.Value = (double)item.Value + (int)value;
+                    }
+                    // If something genuinely goes wrong...
+                    catch
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    item.Value = value;
+                }
 
                 return true;
             }

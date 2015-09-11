@@ -30,6 +30,8 @@ namespace HLife_2
 
         public string BackgroundImage { get; set; }
 
+        public Bitmap BackgroundImageBlurred { get; set; }
+
         public string MapImage { get; set; }
 
         public Size Size { get; set; }
@@ -117,7 +119,33 @@ namespace HLife_2
             Control container = ((SplitContainer)WindowController.Get<Hlife2>().Controls.Find("split", false)[0]).Panel2.Controls.Find("panel_View", false)[0];
 
             Image img = Game.Instance.ResourceController.GetBackgroundImage(this.BackgroundImage);
-            
+
+            Task.Factory.StartNew(() => CreateBlurredBackground());
+
+            container.BackgroundImage = img;
+        }
+
+        private void CreateBlurredBackground()
+        {
+            this.BackgroundImageBlurred = ImageUtilities.FastBlur(
+                new Bitmap(Game.Instance.ResourceController.GetBackgroundImage(this.BackgroundImage)), 2);
+        }
+
+        public void BlurBackground()
+        {
+            Control container = ((SplitContainer)WindowController.Get<Hlife2>().Controls.Find("split", false)[0]).Panel2.Controls.Find("panel_View", false)[0];
+
+            Image img = Game.Instance.ResourceController.GetBackgroundImage(this.BackgroundImage);
+
+            container.BackgroundImage = this.BackgroundImageBlurred;
+        }
+
+        public void UnblurBackground()
+        {
+            Control container = ((SplitContainer)WindowController.Get<Hlife2>().Controls.Find("split", false)[0]).Panel2.Controls.Find("panel_View", false)[0];
+
+            Image img = Game.Instance.ResourceController.GetBackgroundImage(this.BackgroundImage);
+
             container.BackgroundImage = img;
         }
 
