@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<City>
+
+	<DisplayName>Fairmont</DisplayName>
+	
+	<BackgroundImage>City\day.jpg</BackgroundImage>
+	
+	<MapImage>City\day.jpg</MapImage>
+	
+	<Description></Description>
+	
+	<SpawnLocation>Home</SpawnLocation>
+	
+	<AutoSize>true</AutoSize>
+	
+	<AutoSizeMultiplier>0.5</AutoSizeMultiplier>
+	
+	<LocationMode>Relative</LocationMode>
+	
+	
+	
+	<Size>
+	
+		<Width>0</Width>
+		
+		<Height>0</Height>
+		
+	</Size>
+	
+	
+	
+	<Edges>
+	
+		<LocationNetworkEdge>
+		
+			<Node>School</Node>
+			
+			<Cost>10</Cost>
+			
+			
+			
+			<Point>
+			
+				<X>1342</X>
+				
+				<Y>881</Y>
+				
+			</Point>
+			
+			
+			
+			<Size>
+			
+				<Width>100</Width>
+				
+				<Height>100</Height>
+				
+			</Size>
+			
+		</LocationNetworkEdge>
+		
+		
+		
+		<LocationNetworkEdge>
+		
+			<Node>Home</Node>
+			
+			<Cost>10</Cost>
+			
+			
+			
+			<Point>
+			
+				<X>753</X>
+				
+				<Y>635</Y>
+				
+			</Point>
+			
+			
+			
+			<Size>
+			
+				<Width>48</Width>
+				
+				<Height>30</Height>
+				
+			</Size>
+			
+		</LocationNetworkEdge>
+		
+	</Edges>
+	
+	
+	
+	<Children>
+
+		<Location>
+		
+			<DisplayName>Home</DisplayName>
+			
+			<BackgroundImage>Player House\Interior\Living Room\day.jpg</BackgroundImage>
+			
+			<MapImage>Player House\Interior\map.png</MapImage>
+	
+			<AutoSize>true</AutoSize>
+			
+			<AutoSizeMultiplier>0.5</AutoSizeMultiplier>
+			
+			<LocationMode>Relative</LocationMode>
+			
+			
+			
+			<Size>
+			
+				<Width>0</Width>
+				
+				<Height>0</Height>
+				
+			</Size>
+			
+			
+			
+			<XmlProps>
+				
+				<string>Couch</string>
+				
+			</XmlProps>
+			
+			
+			
+			<Edges>
+			
+				<LocationNetworkEdge>
+				
+					<Node>Fairmont</Node>
+					
+					<Cost>10</Cost>
+					
+					
+					
+					<Point>
+					
+						<X>0</X>
+						
+						<Y>184</Y>
+						
+					</Point>
+					
+					
+					
+					<Size>
+					
+						<Width>94</Width>
+						
+						<Height>84</Height>
+						
+					</Size>
+					
+				</LocationNetworkEdge>
+				
+				
+				
+				<LocationNetworkEdge>
+				
+					<Node>Home.Bedroom</Node>
+					
+					<Cost>1</Cost>
+					
+					
+					
+					<Point>
+					
+						<X>288</X>
+						
+						<Y>376</Y>
+						
+					</Point>
+					
+					
+					
+					<Size>
+					
+						<Width>270</Width>
+						
+						<Height>246</Height>
+						
+					</Size>
+					
+				</LocationNetworkEdge>
+				
+			</Edges>
+			
+			
+			
+			<Children>
+			
+				<Location>
+				
+					<DisplayName>Bedroom</DisplayName>
+					
+					<BackgroundImage>Player House\Interior\Bedroom\day.jpg</BackgroundImage>
+			
+					<MapImage>Player House\Interior\Bedroom\map.png</MapImage>
+	
+					<AutoSize>true</AutoSize>
+					
+					<AutoSizeMultiplier>1.0</AutoSizeMultiplier>
+					
+					<LocationMode>Relative</LocationMode>
+					
+					
+					
+					<Size>
+					
+						<Width>0</Width>
+						
+						<Height>0</Height>
+						
+					</Size>
+			
+			
+			
+					<XmlProps>
+					
+						<string>BasicBed</string>
+						
+					</XmlProps>
+					
+					
+					
+					<Edges>
+					
+						<LocationNetworkEdge>
+						
+							<Node>Home</Node>
+							
+							<Cost>1</Cost>
+					
+					
+					
+							<Point>
+							
+								<X>141</X>
+								
+								<Y>0</Y>
+								
+							</Point>
+							
+							
+							
+							<Size>
+							
+								<Width>86</Width>
+								
+								<Height>95</Height>
+								
+							</Size>
+							
+						</LocationNetworkEdge>
+						
+					</Edges>
+					
+				</Location>
+				
+			</Children>
+			
+		</Location>
+		
+		
+		
+		<Location>
+		
+			<DisplayName>School</DisplayName>
+			
+			<BackgroundImage>School\Interior\day.jpg</BackgroundImage>
+			
+			
+			
+			<Edges>
+			
+				<LocationNetworkEdge>
+				
+					<Node>Fairmont</Node>
+					
+					<Cost>10</Cost>
+					
+				</LocationNetworkEdge>
+				
+				
+				
+				<LocationNetworkEdge>
+				
+					<Node>Home</Node>
+					
+					<Cost>15</Cost>
+					
+				</LocationNetworkEdge>
+				
+			</Edges>
+			
+		</Location>
+		
+	</Children>
+	
+</City>

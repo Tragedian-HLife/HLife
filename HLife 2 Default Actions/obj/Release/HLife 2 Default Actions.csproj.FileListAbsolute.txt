@@ -1,0 +1,5 @@
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2 Default Actions\bin\Release\HLife 2 Default Actions.dll
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2 Default Actions\bin\Release\HLife 2 Default Actions.pdb
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2 Default Actions\obj\Release\HLife 2 Default Actions.csprojResolveAssemblyReference.cache
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2 Default Actions\obj\Release\HLife 2 Default Actions.dll
+E:\Dropbox\Programming\HLife 2\HLife2\HLife 2 Default Actions\obj\Release\HLife 2 Default Actions.pdb

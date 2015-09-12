@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Props>
+	<Prop>
+		<displayName>Bed</displayName>
+		<xmlActionsAllowed>
+			<XmlAction name="Sleep" />
+			<XmlAction name="Rest" />
+		</xmlActionsAllowed>
+	</Prop>
+	<Prop>
+		<displayName>T.V.</displayName>
+	</Prop>
+	<Prop>
+		<displayName>Couch</displayName>
+	</Prop>
+</Props>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dialogs>
+	<DialogGroup>
+		<Id>Bed.Sleep</Id>
+		<Entries>
+			<Dialog>
+				<RawText>"This is a test."</RawText>
+			</Dialog>
+			<Dialog>
+				<RawText>"This is another test."</RawText>
+			</Dialog>
+		</Entries>
+	</DialogGroup>
+</Dialogs>
