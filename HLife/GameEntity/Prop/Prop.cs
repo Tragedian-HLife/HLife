@@ -59,28 +59,25 @@ namespace HLife
             pb.Stretch = System.Windows.Media.Stretch.Uniform;
             pb.Source = this.GetImage();
             //pb.Margin = new Padding(10);
+            
+            ContextMenu menu = new ContextMenu();
 
-            // TODO: Fix this for WPF.
-            /*
-            ContextMenuStrip menu = new ContextMenuStrip();
-            menu.ShowItemToolTips = true;
-
-            ToolStripMenuItem actions = new ToolStripMenuItem("Actions");
+            MenuItem actions = new MenuItem();
+            actions.Header = "Actions";
 
             menu.Items.Add(actions);
 
             foreach (string actionName in this.Template.Actions)
             {
-                ToolStripMenuItem displayAction = Action.Get(actionName).GetContextMenuItem(new ActionEventArgs(Game.Instance.Player, null, this));
+                MenuItem displayAction = Action.Get(actionName).GetContextMenuItem(new ActionEventArgs(Game.Instance.Player, null, this));
 
                 if (displayAction != null)
                 {
-                    actions.DropDownItems.Add(displayAction);
+                    actions.Items.Add(displayAction);
                 }
             }
 
-            pb.ContextMenuStrip = menu;
-            */
+            pb.ContextMenu = menu;
 
             ToolTip tooltip = new ToolTip();
             tooltip.Content = this.Template.Description;

@@ -78,7 +78,7 @@ namespace HLife
                 Game.Instance.Player.Location.BlurBackground();
             }
 
-            container.Children.Clear();
+            //container.Children.Clear();
 
             MediaElement pb = new MediaElement();
             if (this.CurrentDialog.Image != null)

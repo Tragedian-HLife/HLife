@@ -11,6 +11,8 @@ using ImageMagick;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace HLife
 {
@@ -115,15 +117,17 @@ namespace HLife
         {
             this.BackgroundImageBlurred = ImageUtilities.FastBlur(
                 Game.Instance.ResourceController.GetBackgroundImage(this.BackgroundImage), 2);
+
+            this.BackgroundImageBlurred.Freeze();
         }
 
         public void BlurBackground()
         {
-            Image container = (Image)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "img_LocationBackground");
-
-            container.Source = this.BackgroundImageBlurred;
-
-            container.UpdateLayout();
+            Application.Current.Dispatcher.BeginInvoke(new System.Action(() =>
+            {
+                Image container = (Image)WindowController.Get<MainWindow>().FindName("img_LocationBackground");
+                container.Source = this.BackgroundImageBlurred;
+            }));
         }
 
         public void UnblurBackground()

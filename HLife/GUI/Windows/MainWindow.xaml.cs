@@ -32,6 +32,10 @@ namespace HLife
 
         private void img_LocationBackground_Unloaded(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void GameWindow_Unloaded(object sender, RoutedEventArgs e)
+        {
             // Exit the entire game.
             Application.Current.Shutdown();
         }

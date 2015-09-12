@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HLife"
         mc:Ignorable="d"
-        Title="HLife" Height="850" Width="1420" WindowStartupLocation="Manual">
+        Title="HLife" Height="850" Width="1420" WindowStartupLocation="Manual" Unloaded="GameWindow_Unloaded">
     <Grid x:Name="grid_Main">
         <TabControl x:Name="tabs_Location" Margin="0,25,0,0" HorizontalAlignment="Left" Width="351">
             <TabItem x:Name="tab_Info" Header="Info">
@@ -31,6 +31,8 @@
             </MenuItem>
         </Menu>
         <Label x:Name="lbl_Date" Content="January 1, 12:00:00" VerticalAlignment="Top" Height="20" HorizontalAlignment="Right" Width="193" HorizontalContentAlignment="Right" Padding="10,0" FontSize="16" FontFamily="Source Sans Pro"/>
-        <Image x:Name="img_LocationBackground" Margin="356,25,0,0" Unloaded="img_LocationBackground_Unloaded"/>
+        <Grid x:Name="grid_View" Margin="356,25,0,0">
+            <Image x:Name="img_LocationBackground" Unloaded="img_LocationBackground_Unloaded"/>
+        </Grid>
     </Grid>
 </Window>

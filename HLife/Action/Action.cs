@@ -219,24 +219,23 @@ namespace HLife
             //pb.Click += (sender, e) => panel.Controls.Remove(pb);
             panel.Children.Add(pb);
         }
-
-        // TODO: Fix this for WPF.
-        /*
-        public ToolStripMenuItem GetContextMenuItem(ActionEventArgs args)
+        
+        public MenuItem GetContextMenuItem(ActionEventArgs args)
         {
-            ToolStripMenuItem displayAction = new ToolStripMenuItem(this.DisplayName);
+            MenuItem displayAction = new MenuItem();
+            displayAction.Header = this.DisplayName;
 
             displayAction.Click += (sender, e) => Game.Instance.PropController.HandlePropAction(args.Doer, args.Prop, this, args.Target);
 
             if (this.CanPerform(args))
             {
-                displayAction.ToolTipText = this.Description;
+                //displayAction.Text = this.Description;
             }
             else if (this.DisableVisible)
             {
-                displayAction.ToolTipText = this.DisabledDescription;
+                //displayAction.Header = this.DisabledDescription;
 
-                displayAction.Enabled = false;
+                //displayAction.Enabled = false;
             }
             else
             {
@@ -245,6 +244,5 @@ namespace HLife
 
             return displayAction;
         }
-        */
     }
 }
