@@ -1,0 +1,22 @@
+﻿<Window x:Class="HLife.MapWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HLife"
+        mc:Ignorable="d"
+        Title="Map" Height="493" Width="496" ResizeMode="CanMinimize" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+    <Grid x:Name="grid_Primary">
+        <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PanningMode="Both" Margin="22,0,0,0">
+            <Grid x:Name="grid" Height="464" Width="468" RenderTransformOrigin="0.001,-0.001" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="scaleTransform"/>
+                    </TransformGroup>
+                </Grid.LayoutTransform>
+            </Grid>
+        </ScrollViewer>
+        <Slider x:Name="slider" HorizontalAlignment="Left" VerticalAlignment="Top" Height="464" Width="22" Orientation="Vertical"/>
+
+    </Grid>
+</Window>

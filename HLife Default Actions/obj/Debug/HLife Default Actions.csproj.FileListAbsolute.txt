@@ -1,0 +1,7 @@
+E:\Dropbox\Programming\HLife\HLife 2 Default Actions\obj\Debug\HLife Default Actions.csprojResolveAssemblyReference.cache
+E:\Dropbox\Programming\HLife\Release\Cities\Fairmont\Resources\Actions\HLife Default Actions.dll
+E:\Dropbox\Programming\HLife\Release\Cities\Fairmont\Resources\Actions\HLife Default Actions.pdb
+E:\Dropbox\Programming\HLife\HLife 2 Default Actions\obj\Debug\HLife Default Actions.dll
+E:\Dropbox\Programming\HLife\HLife 2 Default Actions\obj\Debug\HLife Default Actions.pdb
+E:\Dropbox\Programming\HLife\HLife\bin\Debug\Cities\Fairmont\Resources\Actions\HLife Default Actions.dll
+E:\Dropbox\Programming\HLife\HLife\bin\Debug\Cities\Fairmont\Resources\Actions\HLife Default Actions.pdb

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Locations>
+	<Location>
+		<displayName>Home</displayName>
+		<backgroundImage>Player House\Interior\Living Room\day.jpg</backgroundImage>
+		<xmlProps>
+			<XmlProp name="Bed" />
+			<XmlProp name="Couch" />
+		</xmlProps>
+	</Location>
+	<Location>
+		<displayName>School</displayName>
+		<backgroundImage>School\Interior\day.jpg</backgroundImage>
+	</Location>
+</Locations>

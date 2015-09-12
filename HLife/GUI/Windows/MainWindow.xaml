@@ -1,0 +1,36 @@
+﻿<Window x:Name="GameWindow" x:Class="HLife.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HLife"
+        mc:Ignorable="d"
+        Title="HLife" Height="850" Width="1420" WindowStartupLocation="Manual">
+    <Grid x:Name="grid_Main">
+        <TabControl x:Name="tabs_Location" Margin="0,25,0,0" HorizontalAlignment="Left" Width="351">
+            <TabItem x:Name="tab_Info" Header="Info">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem x:Name="tab_Occupants" Header="Occupants">
+                <Grid x:Name="grid_Occupants" Background="#FFE5E5E5">
+                    <WrapPanel x:Name="wrap_Occupants" Margin="10"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tab_Inventory" Header="Inventory">
+                <Grid x:Name="grid_Inventory" Margin="0,0,0,3">
+                    <WrapPanel x:Name="wrap_Inventory" Margin="10"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Menu x:Name="menu_Toolbar" Height="20" VerticalAlignment="Top" Background="#FFF1F1F1">
+            <MenuItem x:Name="menuItem_File" Header="File">
+                <Button Content="TEST"/>
+            </MenuItem>
+            <MenuItem x:Name="menuItem_Edit" Header="Edit">
+                <Button Content="TEST"/>
+            </MenuItem>
+        </Menu>
+        <Label x:Name="lbl_Date" Content="January 1, 12:00:00" VerticalAlignment="Top" Height="20" HorizontalAlignment="Right" Width="193" HorizontalContentAlignment="Right" Padding="10,0" FontSize="16" FontFamily="Source Sans Pro"/>
+        <Image x:Name="img_LocationBackground" Margin="356,25,0,0" Unloaded="img_LocationBackground_Unloaded"/>
+    </Grid>
+</Window>
