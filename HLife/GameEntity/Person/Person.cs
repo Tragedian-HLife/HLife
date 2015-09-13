@@ -229,5 +229,37 @@ namespace HLife
             //Prop temp = this.LookForProp(this.Location);
             //this.UseProp(temp);
         }
+
+        public string GetApparentAge()
+        {
+            if(this.Physique.Age < 14)
+            {
+                return "adolescent";
+            }
+            else if(this.Physique.Age < 20)
+            {
+                return "teenage";
+            }
+            else if (this.Physique.Age < 30)
+            {
+                return "young";
+            }
+            else if (this.Physique.Age < 45)
+            {
+                return "adult";
+            }
+            else if (this.Physique.Age < 55)
+            {
+                return "middle aged";
+            }
+            else if (this.Physique.Age < 65)
+            {
+                return "senior";
+            }
+            else
+            {
+                return "elderly";
+            }
+        }
     }
 }

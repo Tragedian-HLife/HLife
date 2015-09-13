@@ -153,5 +153,16 @@ namespace HLife
                 }
             }
         }
+
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            IconHelper.RemoveIcon(this);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            this.Hide();
+            e.Cancel = true;
+        }
     }
 }

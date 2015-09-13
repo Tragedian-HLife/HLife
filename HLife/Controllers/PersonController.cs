@@ -182,11 +182,11 @@ namespace HLife
                 stack_Parent.Children.Add(stack_Info);
 
                 Label lbl_Sex = new Label();
-                lbl_Sex.Content = "Appears " + (occupant.Physique.Sex == Sex.Futanari ? Sex.Female.ToString().ToLower() : occupant.Physique.Sex.ToString().ToLower()) + ".";
+                lbl_Sex.Content = "Apparent sex: " + (occupant.Physique.Sex == Sex.Futanari ? Sex.Female.ToString() : occupant.Physique.Sex.ToString());
                 stack_Info.Children.Add(lbl_Sex);
 
                 Label lbl_Age = new Label();
-                lbl_Age.Content = "Appears " + occupant.Physique.Age.ToString() + ".";
+                lbl_Age.Content = "Apparent age: " + occupant.GetApparentAge().CaptializeWords();
                 stack_Info.Children.Add(lbl_Age);
 
 

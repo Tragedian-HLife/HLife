@@ -17,7 +17,7 @@ namespace HLife
         /// </summary>
         /// <param name="message">Original string.</param>
         /// <returns>Capitalized string.</returns>
-        public static string CaptializeWords(string message)
+        public static string CaptializeWords(this string message)
         {
             return new CultureInfo("en-US", false).TextInfo.ToTitleCase(message);
         }

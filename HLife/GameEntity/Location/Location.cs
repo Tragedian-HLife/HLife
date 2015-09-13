@@ -163,8 +163,8 @@ namespace HLife
         {
             // Get background image's native size.
             this.Size = new Size(
-                Game.Instance.ResourceController.GetBackgroundImage(this.MapImage).Width,
-                Game.Instance.ResourceController.GetBackgroundImage(this.MapImage).Height);
+                Game.Instance.ResourceController.GetBackgroundImage(this.MapImage).PixelWidth,
+                Game.Instance.ResourceController.GetBackgroundImage(this.MapImage).PixelHeight);
 
             // Apply the multiplier.
             this.Size = new Size(
@@ -177,39 +177,30 @@ namespace HLife
             Window window = WindowController.Get<MapWindow>();
             Grid container = ((Grid)LogicalTreeHelper.FindLogicalNode(window, "grid"));
 
-            Label lblSize = new Label();
-            lblSize.Name = "lbl_size";
-            lblSize.Margin = new Thickness(this.Size.Width, this.Size.Height, 0, 0);
-            lblSize.Width = 0;
-            lblSize.Height = 0;
-            lblSize.Content = "";
-            lblSize.Background = Brushes.Transparent;
-            //container.Children.Add(lblSize);
-
             container.Width = this.Size.Width;
             container.Height = this.Size.Height;
-
-            /*
-            if(lblSize.Margin.Left > 500)
+            
+            if(this.Size.Width > 500)
             {
                 window.Width = 500;
             }
             else
             {
-                window.Width = lblSize.Margin.Left;
-                container.Width = lblSize.Margin.Left;
+                window.Width = this.Size.Width + 38;
+                //container.Width = this.Size.Width;
             }
 
-            if (lblSize.Margin.Top > 500)
+            if (this.Size.Height > 500)
             {
                 window.Height = 500;
             }
             else
             {
-                window.Height = lblSize.Margin.Top;
-                container.Width = lblSize.Margin.Top;
+                window.Height = this.Size.Height + 39;
+                //container.Height = this.Size.Height;
             }
-            */
+
+            container.UpdateLayout();
         }
 
         public void CreateMap()

@@ -33,77 +33,68 @@ namespace HLife
 
         protected void CreateStatus()
         {
-            int count = 0;
+            this.wrap_Status.Height = 0;
 
             foreach (PersonStatusItem item in XmlUtilities.CreateInstances<PersonStatusItem>(Game.Instance.ResourceController.BuildPath(@"Resources\PersonStatus.xml")))
             {
                 GroupBox box = new GroupBox();
-                box.Width = this.wrap_Status.Width - 40;
-                box.Height = 50;
+                box.Width = this.wrap_Status.Width - 20;
                 box.VerticalAlignment = VerticalAlignment.Top;
+                box.Header = item.Name;
                 this.wrap_Status.Children.Add(box);
 
 
                 Grid grid = new Grid();
                 grid.VerticalAlignment = VerticalAlignment.Top;
-                //grid.Margin = new Thickness(0, (100 * count), 0, 0);
                 box.Content = grid;
-
-                Label lbl = new Label();
-                //lbl.Margin = new Thickness(10, 10 , 0, 0);
-                lbl.Name = "lbl_" + item.Name;
-                lbl.VerticalAlignment = VerticalAlignment.Top;
-                lbl.Width = grid.Width;
-                lbl.Height = 30;
-                lbl.Content = item.Name;
-                lbl.Foreground = Brushes.Black;
-                grid.Children.Add(lbl);
 
 
                 if (item.ControlType == typeof(ProgressBar))
                 {
                     ProgressBar value = (ProgressBar)item.GetControlInstance();
-                    value.Margin = new Thickness(0, 30, 0, 0);
+                    value.Margin = new Thickness(0, 2, 0, 0);
                     value.Name = "pgb_" + item.Name;
-                    //value.Width = 100;
                     value.Height = 14;
                     grid.Children.Add(value);
                 }
                 else if (item.ControlType == typeof(CheckBox))
                 {
                     CheckBox value = (CheckBox)item.GetControlInstance();
-                    value.Margin = new Thickness(0, 30, 0, 0);
+                    value.Margin = new Thickness(0, 2, 0, 0);
                     value.Name = "chk_" + item.Name;
-                    //value.Width = 100;
                     value.Height = 14;
+                    value.IsEnabled = false;
                     grid.Children.Add(value);
                 }
 
-                count++;
+                this.wrap_Status.Height += box.Height;
             }
-
-            this.wrap_Status.Height = 50 * count;
-
-            this.UpdateLayout();
         }
 
         protected void CreateAttributes()
         {
-            int count = 0;
+            this.stack_Attributes.Height = 0;
 
             foreach (System.Reflection.PropertyInfo item in typeof(PersonAttributes).GetProperties())
             {
+                GroupBox box = new GroupBox();
+                box.Width = this.stack_Attributes.Width - 20;
+                box.VerticalAlignment = VerticalAlignment.Top;
+                box.Header = item.Name;
+                this.stack_Attributes.Children.Add(box);
+
+
+                Grid grid = new Grid();
+                grid.VerticalAlignment = VerticalAlignment.Top;
+                box.Content = grid;
+
+
                 Label lbl = new Label();
-                lbl.Margin = new Thickness(6, 3 + (33 * count), 0, 0);
                 lbl.Name = "lbl_" + item.Name;
-                lbl.Width = 66;
-                lbl.Height = 13;
-                lbl.Content = item.Name + ": -";
-
-
-                this.grid_Attributes.Children.Add(lbl);
-
-                count++;
+                lbl.Content = "-";
+                grid.Children.Add(lbl);
+                
+                this.stack_Attributes.Height += box.Height;
             }
         }
 
@@ -125,14 +116,10 @@ namespace HLife
 
         protected void UpdateAttributes(Person myPerson)
         {
-            int count = 0;
-
             foreach (System.Reflection.PropertyInfo item in typeof(PersonAttributes).GetProperties())
             {
                 Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(this.tab_Attributes, "lbl_" + item.Name);
-                lbl.Content = item.Name + ": " + item.GetValue(myPerson.Attributes, null);
-
-                count++;
+                lbl.Content = item.GetValue(myPerson.Attributes, null);
             }
         }
 
@@ -154,6 +141,34 @@ namespace HLife
                 }
 
                 count++;
+            }
+        }
+
+        private void Window_SourceInitialized(object sender, EventArgs e)
+        {
+            IconHelper.RemoveIcon(this);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Game.Instance.WindowController.Windows.Remove(this);
+        }
+
+        private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            switch(e.Key)
+            {
+                case Key.S:
+                    this.tab_Status.Focus();
+                    break;
+
+                case Key.A:
+                    this.tab_Attributes.Focus();
+                    break;
+
+                case Key.I:
+                    this.tab_Inventory.Focus();
+                    break;
             }
         }
     }

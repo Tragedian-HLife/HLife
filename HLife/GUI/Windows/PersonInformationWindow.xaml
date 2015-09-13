@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HLife"
         mc:Ignorable="d"
-        Title="PersonInformation" Height="487" Width="490">
+        Title="PersonInformation" Height="487" Width="490" Left="1420" Top="500" ShowInTaskbar="False" SourceInitialized="Window_SourceInitialized" Closed="Window_Closed" PreviewKeyUp="Window_PreviewKeyUp">
     <Grid x:Name="grid_Primary">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="155*"/>
@@ -20,7 +20,11 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="tab_Attributes" Header="Attributes">
-                <Grid x:Name="grid_Attributes" Background="#FFE5E5E5"/>
+                <Grid x:Name="grid_Attributes" Background="#FFE5E5E5">
+                    <ScrollViewer>
+                        <StackPanel x:Name="stack_Attributes" Height="428" Width="303" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
             <TabItem x:Name="tab_Inventory" Header="Inventory">
                 <Grid x:Name="grid_Inventory">

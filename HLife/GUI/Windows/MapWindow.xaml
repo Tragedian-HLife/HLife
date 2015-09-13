@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HLife"
         mc:Ignorable="d"
-        Title="Map" Height="493" Width="496" ResizeMode="CanMinimize" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        Title="Map" Height="500" Width="500" ResizeMode="CanMinimize" ScrollViewer.VerticalScrollBarVisibility="Disabled" Left="1420" Top="0" ShowInTaskbar="False" SourceInitialized="Window_SourceInitialized" Closing="Window_Closing">
     <Grid x:Name="grid_Primary">
         <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PanningMode="Both" Margin="22,0,0,0">
             <Grid x:Name="grid" Height="464" Width="468" RenderTransformOrigin="0.001,-0.001" HorizontalAlignment="Left" VerticalAlignment="Top">
