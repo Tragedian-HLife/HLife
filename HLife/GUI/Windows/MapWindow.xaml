@@ -16,7 +16,7 @@
                 </Grid.LayoutTransform>
             </Grid>
         </ScrollViewer>
-        <Slider x:Name="slider" HorizontalAlignment="Left" VerticalAlignment="Top" Height="464" Width="22" Orientation="Vertical"/>
+        <Slider x:Name="slider" HorizontalAlignment="Left" Width="22" Orientation="Vertical"/>
 
     </Grid>
 </Window>

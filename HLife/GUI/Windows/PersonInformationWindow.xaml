@@ -32,7 +32,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Image x:Name="img_Avatar" HorizontalAlignment="Stretch" Height="Auto" Margin="10" VerticalAlignment="Stretch" Width="Auto" Source="pack://siteoforigin:,,,/Cities/Fairmont/Assets/Images/Characters/Male/Male_0.png"/>
+        <Image x:Name="img_Avatar" HorizontalAlignment="Stretch" Height="Auto" Margin="10" VerticalAlignment="Stretch" Width="Auto"/>
 
     </Grid>
 </Window>

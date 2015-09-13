@@ -62,6 +62,10 @@ namespace HLife
             button.Load();
 
             ((Grid)LogicalTreeHelper.FindLogicalNode(form, "grid")).Children.Add(button);
+
+            ToolTip tooltip = new ToolTip();
+            tooltip.Content = this.Node;
+            button.ToolTip = tooltip;
         }
     }
 }

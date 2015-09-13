@@ -138,12 +138,12 @@ namespace HLife
             WrapPanel wrap_Occupants = (WrapPanel)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "wrap_Occupants");
 
             wrap_Occupants.Children.Clear();
+            wrap_Occupants.Height = 0;
 
             foreach (Person occupant in Game.Instance.PersonController.GetPeopleAtLocation(Game.Instance.Player.Location).FindAll(e => e != Game.Instance.Player))
             {
                 GroupBox panel = new GroupBox();
                 panel.Width = wrap_Occupants.Width - 0;
-                panel.Height = 120;
                 //panel.Margin = new Padding(10);
                 panel.Header = occupant.Name;
                 wrap_Occupants.Children.Add(panel);
@@ -164,7 +164,9 @@ namespace HLife
                     (occupant.Physique.Sex == Sex.Futanari ? "Female" : occupant.Physique.Sex.ToString()) + 
                     @"Heads_Cropped\" + occupant.Physique.Sex.ToString()[0] + "_Head" + MiscUtilities.Rand.Next(100) + ".png")));
                 pb.Margin = new Thickness(10, 20, 0, 0);
-                
+                pb.VerticalAlignment = VerticalAlignment.Top;
+                pb.HorizontalAlignment = HorizontalAlignment.Left;
+
                 pb.MouseLeftButtonDown += (sender, e) =>
                 {
                     if (e.ClickCount == 2)
@@ -216,9 +218,9 @@ namespace HLife
                 pb.ToolTip = tooltip;
 
                 count++;
-            }
 
-            wrap_Occupants.Height = 120 * count;
+                wrap_Occupants.Height += panel.Height;
+            }
         }
     }
 }

@@ -187,7 +187,6 @@ namespace HLife
             else
             {
                 window.Width = this.Size.Width + 38;
-                //container.Width = this.Size.Width;
             }
 
             if (this.Size.Height > 500)
@@ -197,7 +196,6 @@ namespace HLife
             else
             {
                 window.Height = this.Size.Height + 39;
-                //container.Height = this.Size.Height;
             }
 
             container.UpdateLayout();
@@ -218,8 +216,7 @@ namespace HLife
             WindowController.Get<MapWindow>().Title = this.DisplayName;
 
             // Set the background image.
-            container.Background =
-                new ImageBrush(Game.Instance.ResourceController.GetBackgroundImage(this.MapImage));
+            container.Background = new ImageBrush(Game.Instance.ResourceController.GetBackgroundImage(this.MapImage));
 
             // Add the controls.
             this.Edges.ForEach(e => e.AddMapButton(this));
@@ -234,7 +231,11 @@ namespace HLife
         {
             List<Location> locPath = new List<Location>();
 
-            PathNode path = PathfindingUtilities.FindPath(PathfindingUtilities.PathfindingAlgorithms.BreadthFirst, Game.Instance.City.NavMap.Nodes[start], Game.Instance.City.NavMap.Nodes[end], Game.Instance.City.NavMap);
+            PathNode path = PathfindingUtilities.FindPath(
+                PathfindingUtilities.PathfindingAlgorithms.BreadthFirst, 
+                Game.Instance.City.NavMap.Nodes[start], 
+                Game.Instance.City.NavMap.Nodes[end], 
+                Game.Instance.City.NavMap);
 
             while (path != null)
             {

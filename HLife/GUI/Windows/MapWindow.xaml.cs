@@ -36,6 +36,9 @@ namespace HLife
             scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
             scrollViewer.MouseMove += OnMouseMove;
 
+            slider.Minimum = 1;
+            scaleTransform.ScaleX = 1;
+            scaleTransform.ScaleY = 1;
             slider.ValueChanged += OnSliderValueChanged;
         }
 
@@ -104,6 +107,12 @@ namespace HLife
 
             var centerOfViewport = new Point(scrollViewer.ViewportWidth / 2, scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = scrollViewer.TranslatePoint(centerOfViewport, grid);
+
+            // Disable and reenable the scroll bars to allow them to disappear, if capable.
+            scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+            scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
