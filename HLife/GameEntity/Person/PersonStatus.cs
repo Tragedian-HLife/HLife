@@ -141,7 +141,7 @@ namespace HLife
         public void ConvertFromXml()
         {
             // Set the control type. We assume it's within System.Windows.Forms.
-            this.ControlType = Type.GetType("System.Windows.Forms." + ((XmlNode[])this.Value)[1].Value + "," + typeof(Label).Assembly.FullName);
+            this.ControlType = Type.GetType("System.Windows.Controls." + ((XmlNode[])this.Value)[1].Value + "," + typeof(Label).Assembly.FullName);
 
             // Get the type of the Value from the "type" attribute.
             Type temp = Type.GetType(((XmlNode[])this.Value)[0].Value);

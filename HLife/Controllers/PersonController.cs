@@ -133,14 +133,16 @@ namespace HLife
 
         public void PopulatePersonList()
         {
-            StackPanel wrap_Occupants = (StackPanel)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "wrap_Occupants");
+            int count = 0;
+
+            WrapPanel wrap_Occupants = (WrapPanel)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "wrap_Occupants");
 
             wrap_Occupants.Children.Clear();
 
             foreach (Person occupant in Game.Instance.PersonController.GetPeopleAtLocation(Game.Instance.Player.Location).FindAll(e => e != Game.Instance.Player))
             {
                 GroupBox panel = new GroupBox();
-                panel.Width = wrap_Occupants.Width - 40;
+                panel.Width = wrap_Occupants.Width - 0;
                 panel.Height = 120;
                 //panel.Margin = new Padding(10);
                 panel.Header = occupant.Name;
@@ -212,7 +214,11 @@ namespace HLife
                 ToolTip tooltip = new ToolTip();
                 tooltip.Content = occupant.FirstName + " " + occupant.LastName;
                 pb.ToolTip = tooltip;
+
+                count++;
             }
+
+            wrap_Occupants.Height = 120 * count;
         }
     }
 }

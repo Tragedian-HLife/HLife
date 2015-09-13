@@ -13,7 +13,9 @@
             </TabItem>
             <TabItem x:Name="tab_Occupants" Header="Occupants">
                 <Grid x:Name="grid_Occupants" Background="#FFE5E5E5">
-                    <StackPanel x:Name="wrap_Occupants" Margin="10"/>
+                    <ScrollViewer>
+                        <WrapPanel x:Name="wrap_Occupants" HorizontalAlignment="Center" Height="747" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Center" Width="324" />
+                    </ScrollViewer>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tab_Inventory" Header="Inventory">

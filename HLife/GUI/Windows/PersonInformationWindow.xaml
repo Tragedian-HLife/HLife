@@ -13,7 +13,11 @@
         </Grid.ColumnDefinitions>
         <TabControl x:Name="tabs_Info" Grid.Column="1">
             <TabItem x:Name="tab_Status" Header="Status">
-                <Grid x:Name="grid_Status" Background="#FFE5E5E5"/>
+                <Grid x:Name="grid_Status" Background="#FFF3F3F3">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="wrap_Status" Height="428" VerticalAlignment="Top" Width="303" HorizontalAlignment="Left"/>
+                    </ScrollViewer>
+                </Grid>
             </TabItem>
             <TabItem x:Name="tab_Attributes" Header="Attributes">
                 <Grid x:Name="grid_Attributes" Background="#FFE5E5E5"/>
