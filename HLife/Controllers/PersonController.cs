@@ -133,7 +133,7 @@ namespace HLife
 
         public void PopulatePersonList()
         {
-            WrapPanel wrap_Occupants = (WrapPanel)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "wrap_Occupants");
+            StackPanel wrap_Occupants = (StackPanel)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "wrap_Occupants");
 
             wrap_Occupants.Children.Clear();
 
@@ -141,10 +141,17 @@ namespace HLife
             {
                 GroupBox panel = new GroupBox();
                 panel.Width = wrap_Occupants.Width - 40;
-                panel.Height = 80;
+                panel.Height = 120;
                 //panel.Margin = new Padding(10);
                 panel.Header = occupant.Name;
                 wrap_Occupants.Children.Add(panel);
+
+                Grid grid = new Grid();
+                panel.Content = grid;
+
+                StackPanel stack_Parent = new StackPanel();
+                stack_Parent.Orientation = Orientation.Horizontal;
+                grid.Children.Add(stack_Parent);
 
                 Image pb = new Image();
                 pb.Width = panel.Width * .25;
@@ -155,40 +162,56 @@ namespace HLife
                     (occupant.Physique.Sex == Sex.Futanari ? "Female" : occupant.Physique.Sex.ToString()) + 
                     @"Heads_Cropped\" + occupant.Physique.Sex.ToString()[0] + "_Head" + MiscUtilities.Rand.Next(100) + ".png")));
                 pb.Margin = new Thickness(10, 20, 0, 0);
-                /*
-                pb.DoubleClick += (sender, e) =>
+                
+                pb.MouseLeftButtonDown += (sender, e) =>
                 {
-                    Game.Instance.WindowController.Add<PersonInformationWindow>(occupant).Show();
-                    WindowController.Get<PersonInformationWindow>(occupant).UpdateWindow();
+                    if (e.ClickCount == 2)
+                    {
+                        Game.Instance.WindowController.Add<PersonInformationWindow>(occupant).Show();
+                        WindowController.Get<PersonInformationWindow>(occupant).UpdateWindow();
+                    }
                 };
-                */
-                panel.Content = pb;
 
-                // TODO: Fix this for WPF.
-                /*
+                stack_Parent.Children.Add(pb);
+
+
+
+                StackPanel stack_Info = new StackPanel();
+                stack_Parent.Children.Add(stack_Info);
+
+                Label lbl_Sex = new Label();
+                lbl_Sex.Content = "Appears " + (occupant.Physique.Sex == Sex.Futanari ? Sex.Female.ToString().ToLower() : occupant.Physique.Sex.ToString().ToLower()) + ".";
+                stack_Info.Children.Add(lbl_Sex);
+
+                Label lbl_Age = new Label();
+                lbl_Age.Content = "Appears " + occupant.Physique.Age.ToString() + ".";
+                stack_Info.Children.Add(lbl_Age);
+
+
+
+
                 ContextMenu menu = new ContextMenu();
 
-                MenuItem actions = new MenuItem("Actions");
+                MenuItem actions = new MenuItem();
+                actions.Header = "Actions";
 
-                menu.MenuItems.Add(actions);
-
+                menu.Items.Add(actions);
 
                 foreach (Action action in Action.GetAll("Person"))
                 {
-                    MenuItem displayAction = new MenuItem(action.DisplayName);
+                    MenuItem displayAction = action.GetContextMenuItemPerson(new ActionEventArgs(Game.Instance.Player, occupant, null));
 
-                    displayAction.Click += (sender, e) => Game.Instance.Player.HandlePropAction(Game.Instance.Player, null, action, occupant);
-
-                    actions.MenuItems.Add(displayAction);
+                    if (displayAction != null)
+                    {
+                        actions.Items.Add(displayAction);
+                    }
                 }
-
 
                 pb.ContextMenu = menu;
 
                 ToolTip tooltip = new ToolTip();
-                tooltip.ToolTipTitle = occupant.FirstName + " " + occupant.LastName;
-                tooltip.SetToolTip(pb, "{PLACEHOLDER}");
-                */
+                tooltip.Content = occupant.FirstName + " " + occupant.LastName;
+                pb.ToolTip = tooltip;
             }
         }
     }

@@ -244,5 +244,30 @@ namespace HLife
 
             return displayAction;
         }
+
+        public MenuItem GetContextMenuItemPerson(ActionEventArgs args)
+        {
+            MenuItem displayAction = new MenuItem();
+            displayAction.Header = this.DisplayName;
+            
+            displayAction.Click += (sender, e) => Game.Instance.Player.HandlePropAction(Game.Instance.Player, args.Prop, this, args.Target);
+
+            if (this.CanPerform(args))
+            {
+                //displayAction.Text = this.Description;
+            }
+            else if (this.DisableVisible)
+            {
+                //displayAction.Header = this.DisabledDescription;
+
+                //displayAction.Enabled = false;
+            }
+            else
+            {
+                displayAction = null;
+            }
+
+            return displayAction;
+        }
     }
 }

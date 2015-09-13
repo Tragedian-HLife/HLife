@@ -71,14 +71,14 @@ namespace HLife
         {
             this.CurrentDialog = dialogControl;
 
-            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");// ((SplitContainer)WindowController.Get<MainWindow>().Controls.Find("split", false)[0]).Panel2.Controls.Find("panel_View", false)[0];
+            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
 
             if (this.CurrentDialog.BlurBackground)
             {
                 Game.Instance.Player.Location.BlurBackground();
             }
 
-            //container.Children.Clear();
+            container.Children.RemoveRange(1, container.Children.Count);
 
             MediaElement pb = new MediaElement();
             if (this.CurrentDialog.Image != null)
@@ -91,103 +91,54 @@ namespace HLife
 
             Label lbl = new Label();
             lbl.Content = this.CurrentDialog.Message;
-            lbl.Background = Brushes.Transparent;
+            lbl.Background = new SolidColorBrush(Brushes.Black.Color);
+            lbl.Background.Opacity = 0.75;
             lbl.Foreground = Brushes.LightGray;
             lbl.Width = container.Width;
-            lbl.Height = 200;
-            lbl.Margin = new Thickness(0, 0, 0, 200);
-            lbl.Padding = new Thickness(10);
-            //lbl.Font = new Font(lbl.Font.FontFamily, 12f);
-            //lbl.Parent = container;
+            lbl.Height = (container.ActualHeight / 3);
+            lbl.Padding = new Thickness(20);
+            lbl.Margin = new Thickness(0, (container.ActualHeight / 3) * 2, 0, 0);
+            lbl.FontSize = 16;
             container.Children.Add(lbl);
+            
 
-            /*
-            Image dialogBG = new PictureBox();
-            dialogBG.Width = container.Width;
-            dialogBG.Height = 200;
-            dialogBG.Location = new Point(0, container.Height - dialogBG.Height);
-            dialogBG.BackColor = Color.FromArgb(175, 0, 0, 0);
-            dialogBG.BackColor = Color.Transparent;
-            dialogBG.Image = Image.FromFile(Game.Instance.ResourceController.BuildPath(@"..\..\Global Resources\Assets\Images\black_50alpha.png"));
-            dialogBG.SizeMode = PictureBoxSizeMode.StretchImage;
-            dialogBG.Parent = container;
-            container.Controls.Add(dialogBG);
-            */
+            lbl.MouseLeftButtonUp += RemoveDialog;
 
-
-            lbl.MouseUp += (sender, e) =>
-            {
-                if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
-                {
-                    Game.Instance.Player.Location.UnblurBackground();
-                    container.Children.Clear();
-                }
-                else if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
-                {
-                    this.ToggleDialog();
-                }
-            };
-
-            /*
-            dialogBG.MouseClick += (sender, e) =>
-            {
-                if (e.Button == MouseButtons.Left)
-                {
-                    Game.Instance.Player.Location.UnblurBackground();
-                    container.Controls.Clear();
-                }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    this.ToggleDialog();
-                }
-            };
-            */
-
-            container.MouseUp += (sender, e) =>
-            {
-                if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
-                {
-                    Game.Instance.Player.Location.UnblurBackground();
-                    container.Children.Clear();
-                }
-                else if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
-                {
-                    this.ToggleDialog();
-                }
-            };
-
-
-            //lbl.Width = dialogBG.Width - 10;
-            //lbl.Height = dialogBG.Height - 10;
-            //lbl.Location = new Point(dialogBG.Location.X + 20, dialogBG.Location.Y + 20);
+            container.MouseLeftButtonUp += RemoveDialog;
+            container.MouseRightButtonUp += ToggleDialog;
 
             if (this.CurrentDialog.Image != null)
             {
-                pb.MouseUp += (sender, e) =>
-                {
-                    if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
-                    {
-                        Game.Instance.Player.Location.UnblurBackground();
-                        container.Children.Clear();
-                    }
-                    else if (e.RightButton == System.Windows.Input.MouseButtonState.Pressed)
-                    {
-                        this.ToggleDialog();
-                    }
-                };
+                pb.MouseLeftButtonUp += RemoveDialog;
             }
-
-            container.UpdateLayout();
         }
 
-        public void ToggleDialog()
+        private void RemoveDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");//.Controls.Find("split", false)[0]).Panel2.Controls.Find("panel_View", false)[0];
+            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
+
+            Game.Instance.Player.Location.UnblurBackground();
+
+            container.Children.RemoveRange(1, container.Children.Count);
+
+            ((UIElement)sender).MouseLeftButtonUp -= RemoveDialog;
+            container.MouseRightButtonUp -= ToggleDialog;
+        }
+
+        public void ToggleDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
 
             bool blurred = false;
 
-            foreach (Control control in container.Children)
+            foreach (FrameworkElement control in container.Children)
             {
+                if(     control.GetType() == typeof(Image)
+                    ||  control.GetType() == typeof(MediaElement))
+                {
+                    continue;
+                }
+
                 if(control.Visibility != Visibility.Visible)
                 {
                     control.Visibility = Visibility.Visible;
@@ -202,14 +153,12 @@ namespace HLife
 
             if (blurred && this.CurrentDialog.BlurBackground)
             {
-                Game.Instance.Player.Location.BlurBackground();
+                //Game.Instance.Player.Location.BlurBackground();
             }
             else
             {
-                Game.Instance.Player.Location.UnblurBackground();
+                //Game.Instance.Player.Location.UnblurBackground();
             }
-
-            WindowController.Get<MainWindow>().UpdateLayout();
         }
     }
 }
