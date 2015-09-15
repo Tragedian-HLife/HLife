@@ -22,7 +22,7 @@ namespace HLife.Actions.Person
         {
             if (DoerIsPlayer)
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl("You give " + args.Target.FirstName + " a warm hug.", @"person\hug\",  true));
+                Game.Instance.DialogController.DrawDialog(new DialogControl("You give " + args.Target.FirstName + " a warm hug.", this, @"person\hug\",  true));
             }
 
             args.Doer.Status.SetValue("Happiness", 10, true);

@@ -11,3 +11,6 @@ E:\Dropbox\Programming\HLife\HLife Default Actions\obj\Debug\HLife Default Actio
 E:\Dropbox\Programming\HLife\HLife\bin\Debug\Mods\DefaultActions\Actions\ModInfo.xml
 E:\Dropbox\Programming\HLife\HLife\bin\Debug\Mods\DefaultActions\Actions\HLife Default Actions.dll
 E:\Dropbox\Programming\HLife\HLife\bin\Debug\Mods\DefaultActions\Actions\HLife Default Actions.pdb
+E:\Dropbox\Programming\HLife\HLife\bin\Debug\Mods\DefaultActions\Resources\Actions\ModInfo.xml
+E:\Dropbox\Programming\HLife\HLife\bin\Debug\Mods\DefaultActions\Resources\Actions\HLife Default Actions.dll
+E:\Dropbox\Programming\HLife\HLife\bin\Debug\Mods\DefaultActions\Resources\Actions\HLife Default Actions.pdb

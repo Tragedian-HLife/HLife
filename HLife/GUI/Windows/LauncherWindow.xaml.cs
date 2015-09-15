@@ -27,16 +27,18 @@ namespace HLife.GUI.Windows
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            Game.Instance.WindowController.Add<Setup>();
+            // Create and show the setup window.
+            Setup window = new Setup();
+            window.Show();
 
-            WindowController.Get<Setup>().Show();
-            WindowController.Get<Setup>().Focus();
-
+            // Get rid of this.
             this.Close();
         }
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: Remove this, once game loading is implimented.
+            // Load in the default mods.
             foreach (string dir in Directory.EnumerateDirectories(Game.Instance.ResourceController.BuildRootPath(@"Mods\")))
             {
                 Mod mod = XmlUtilities.CreateInstance<Mod>(dir + @"\ModInfo.xml");
@@ -46,11 +48,17 @@ namespace HLife.GUI.Windows
                 {
                     mod.Enabled = true;
                 }
+                else if(mod.Name == "Default Props")
+                {
+                    mod.Enabled = true;
+                }
             }
 
+            // Create and show the game window.
             MainWindow window = new MainWindow();
             window.Show();
 
+            // Get rid of this window.
             this.Close();
         }
     }

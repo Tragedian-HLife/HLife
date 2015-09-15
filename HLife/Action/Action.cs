@@ -25,6 +25,8 @@ namespace HLife
 
         public bool CanBeDoneByOthers { get; set; }
 
+        public Mod Source { get; set; }
+
         /// <summary>
         /// When action isn't performable, true to still add the
         /// context menu entry but disable it; false to not add
@@ -215,7 +217,7 @@ namespace HLife
             pb.Width = panel.Width;
             pb.Height = panel.Height;
             pb.Stretch = System.Windows.Media.Stretch.Uniform;
-            pb.Source = Game.Instance.ResourceController.GetActionImage(image, true);
+            pb.Source = Game.Instance.ResourceController.GetActionImage(this, image, true);
             //pb.Click += (sender, e) => panel.Controls.Remove(pb);
             panel.Children.Add(pb);
         }

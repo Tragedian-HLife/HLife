@@ -41,6 +41,8 @@ namespace HLife
         /// </summary>
         public List<string> Categories { get; set; }
 
+        public Mod Source { get; set; }
+
         /// <summary>
         /// Default constructor.
         /// </summary>

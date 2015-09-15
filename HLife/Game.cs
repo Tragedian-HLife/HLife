@@ -140,7 +140,7 @@ namespace HLife
         /// <summary>
         /// Start the game.
         /// </summary>
-        public static void Run()
+        public static void Run(string cityName)
         {
             // Don't restart the game.
             if(!Game.HasStarted)
@@ -155,7 +155,7 @@ namespace HLife
                 Game.Instance.WindowController.Windows.Add(MainWindow.Instance);
 
                 // Initialize the game.
-                Game.Instance.Initialize("Fairmont");
+                Game.Instance.Initialize(cityName);
 
                 // Start the main window.
                 //Application.Run(main);

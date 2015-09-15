@@ -27,7 +27,7 @@ namespace HLife
             InitializeComponent();
             
             HLife.MainWindow.Instance = this;
-            Game.Run();
+            Game.Run("Fairmont");
         }
 
         private void img_LocationBackground_Unloaded(object sender, RoutedEventArgs e)

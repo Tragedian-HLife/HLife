@@ -48,7 +48,7 @@ namespace HLife
         public BitmapImage GetImage()
         {
             // Request the image from the ResourceController.
-            return Game.Instance.ResourceController.GetPropImage(this.Template.Image);
+            return new BitmapImage(Game.Instance.ResourceController.GetPropImage(this));
         }
 
         public Image GetContextMenuItem()

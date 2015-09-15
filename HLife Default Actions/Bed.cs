@@ -33,7 +33,7 @@ namespace HLife.Actions.Bed
         {
             if (DoerIsPlayer)
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl("You crawl into the bed and fall asleep.", @"bed\sleep\", true));
+                Game.Instance.DialogController.DrawDialog(new DialogControl("You crawl into the bed and fall asleep.", this, @"bed\sleep\", true));
             }
             else if (this.Witnesses.Contains(Game.Instance.Player))
             {
@@ -70,7 +70,7 @@ namespace HLife.Actions.Bed
         {
             if (DoerIsPlayer)
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl("You lie back on the bed and take a short nap.", @"bed\sleep\", true));
+                Game.Instance.DialogController.DrawDialog(new DialogControl("You lie back on the bed and take a short nap.", this, @"bed\sleep\", true));
             }
             else if(this.Witnesses.Contains(Game.Instance.Player))
             {

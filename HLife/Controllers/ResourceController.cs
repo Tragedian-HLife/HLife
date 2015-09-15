@@ -68,21 +68,21 @@ namespace HLife
             return this.GetImage(this.BuildPath("Backgrounds", path));
         }
 
-        public BitmapImage GetPropImage(string path)
+        public Uri GetPropImage(Prop prop)
         {
-            return this.GetImage(this.BuildPath("Props", path));
+            return new Uri(prop.Template.Source.Directory + @"\Props\Images\" + prop.Template.Image);
         }
 
-        public Uri GetActionImage(string path, bool randomize)
+        public Uri GetActionImage(Action action, string path, bool randomize)
         {
             if (randomize)
             {
-                List<string> files = Directory.EnumerateFiles(this.BuildPath("Action Images", path), "*").ToList();
+                List<string> files = Directory.EnumerateFiles(action.Source.Directory + @"\Actions\Images\" + path, "*").ToList();
 
                 return new Uri(files[MiscUtilities.Rand.Next(files.Count)]);
             }
 
-            return new Uri(this.BuildPath("Action Images", path));
+            return new Uri(action.Source.Directory + @"\Actions\Images\" + path);
         }
     }
 }

@@ -46,7 +46,8 @@ namespace HLife
                         foreach (Type type in group)
                         {
                             // Create an instance of that class.
-                            Activator.CreateInstance(type);
+                            Action action = (Action)Activator.CreateInstance(type);
+                            action.Source = mod;
                         }
                     }
                 }

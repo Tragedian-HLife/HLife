@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropTemplates>
+
+	<PropTemplate>
+	
+		<Name>BasicBed</Name>
+		<DisplayName>Bed</DisplayName>
+		<Description>A basic bed. It looks comfortable enough for a night's sleep.</Description>
+		<Image>Furniture\Bed\bed.png</Image>
+		
+		<Categories>
+			<string>Furniture</string>
+			<string>Bed</string>
+		</Categories>
+		
+		<Actions>
+			<string>Bed.Rest</string>
+			<string>Bed.Sleep</string>
+			<string>Bed.Masturbate</string>
+		</Actions>
+		
+	</PropTemplate>
+	
+	
+	
+	<PropTemplate>
+	
+		<Name>Couch</Name>
+		<DisplayName>Couch</DisplayName>
+		<Description>A basic couch. The cushions don't provide much support and the fabric is rough.</Description>
+		<Image>Furniture\Couch\couch.png</Image>
+		
+		<Categories>
+			<string>Furniture</string>
+			<string>Chair</string>
+		</Categories>
+		
+	</PropTemplate>
+	
+	
+	
+	<PropTemplate>
+	
+		<Name>Cellphone</Name>
+		<DisplayName>Cellphone</DisplayName>
+		<Description>An antiquated flip phone. Doesn't even have a camera.</Description>
+		<Image>PersonalItems\Cellphone\cellphone.png</Image>
+		
+		<Categories>
+			<string>Electronics</string>
+			<string>Phone</string>
+		</Categories>
+		
+		<Actions>
+			<string>Bed.Rest</string>
+		</Actions>
+		
+	</PropTemplate>
+	
+	
+	
+	<PropTemplate>
+	
+		<Name>TV</Name>
+		<DisplayName>TV</DisplayName>
+		<Description>A basic TV. The picture quality isn't great but it works.</Description>
+		
+		<Categories>
+			<string>Electronics</string>
+			<string>TV</string>
+		</Categories>
+		
+	</PropTemplate>
+	
+</PropTemplates>

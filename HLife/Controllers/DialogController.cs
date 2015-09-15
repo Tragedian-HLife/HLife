@@ -27,11 +27,11 @@ namespace HLife
             this.BlurBackground = blurBackground;
         }
 
-        public DialogControl(string message, string image, bool blurBackground)
+        public DialogControl(string message, Action action, string image, bool blurBackground)
         {
             this.Message = message;
 
-            this.Image = Game.Instance.ResourceController.GetActionImage(image, true);
+            this.Image = Game.Instance.ResourceController.GetActionImage(action, image, true);
 
             this.BlurBackground = blurBackground;
         }

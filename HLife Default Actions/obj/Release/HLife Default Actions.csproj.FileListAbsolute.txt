@@ -1,0 +1,6 @@
+E:\Dropbox\Programming\HLife\Release\Cities\Fairmont\Resources\Actions\ModInfo.xml
+E:\Dropbox\Programming\HLife\Release\Cities\Fairmont\Resources\Actions\HLife Default Actions.dll
+E:\Dropbox\Programming\HLife\Release\Cities\Fairmont\Resources\Actions\HLife Default Actions.pdb
+E:\Dropbox\Programming\HLife\HLife Default Actions\obj\Release\HLife Default Actions.csprojResolveAssemblyReference.cache
+E:\Dropbox\Programming\HLife\HLife Default Actions\obj\Release\HLife Default Actions.dll
+E:\Dropbox\Programming\HLife\HLife Default Actions\obj\Release\HLife Default Actions.pdb

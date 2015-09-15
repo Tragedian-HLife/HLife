@@ -25,7 +25,15 @@ namespace HLife
 
         public override void Initialize()
         {
-            this.PropTemplates = XmlUtilities.CreateInstances<PropTemplate>(@"Cities\" + Game.Instance.City.DisplayName + @"\Resources\PropTemplates.xml");
+            List<Mod> actionMods = ModController.ModsEnabled.Where(e => e.Type == "Props").ToList();
+
+            foreach (Mod mod in actionMods)
+            {
+                List<PropTemplate> newProps = XmlUtilities.CreateInstances<PropTemplate>(mod.Directory + @"\Props\PropTemplates.xml");
+                newProps.ForEach(e => e.Source = mod);
+                
+                this.PropTemplates.AddRange(newProps);
+            }
         }
 
         public override void Update()
