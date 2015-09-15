@@ -25,7 +25,7 @@ namespace HLife
         public MainWindow()
         {
             InitializeComponent();
-
+            
             HLife.MainWindow.Instance = this;
             Game.Run();
         }

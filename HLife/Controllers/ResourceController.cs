@@ -34,9 +34,14 @@ namespace HLife
         public override void Update()
         { }
 
+        public string BuildRootPath(string path = "")
+        {
+            return Path.Combine(Environment.CurrentDirectory, path);
+        }
+
         public string BuildPath(string path = "")
         {
-            return Path.Combine(Environment.CurrentDirectory, @"Cities\" + Game.Instance.City.DisplayName + @"\" + path);
+            return this.BuildRootPath(@"Cities\" + Game.Instance.City.DisplayName + @"\" + path);
         }
 
         public string BuildPath(string pathName, string file)

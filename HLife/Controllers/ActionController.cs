@@ -22,32 +22,35 @@ namespace HLife
 
         public override void Initialize()
         {
-            // Get the external actions.
-            // Loop over each file in the Resources\Actions\ directory...
-            foreach(string file in Directory.EnumerateFiles(Game.Instance.ResourceController.BuildPath(@"\Resources\Actions\"), "*.dll"))
+            List<Mod> actionMods = ModController.ModsEnabled.Where(e => e.Type == "Actions").ToList();
+
+            foreach (Mod mod in actionMods)
             {
-                // Load the assembly using this file.
-                Assembly assembly = Assembly.LoadFrom(file);
-
-                // Add the new assembly to this domain.
-                AppDomain.CurrentDomain.Load(assembly.GetName());
-
-                // Get each of the namespaces and classes within this assembly.
-                IEnumerable groups = ReflectiveUtilities.GetNamespacesInNamespace(assembly, "HLife.Actions");
-
-                // For each namespace within this assembly...
-                foreach (IGrouping<string, Type> group in groups)
+                // Get the external actions.
+                // Loop over each file in the Resources\Actions\ directory...
+                foreach (string file in Directory.EnumerateFiles(mod.Directory + @"\Actions\", "*.dll"))
                 {
-                    // For each class in this namespace...
-                    foreach (Type type in group)
+                    // Load the assembly using this file.
+                    Assembly assembly = Assembly.LoadFrom(file);
+
+                    // Add the new assembly to this domain.
+                    AppDomain.CurrentDomain.Load(assembly.GetName());
+
+                    // Get each of the namespaces and classes within this assembly.
+                    IEnumerable groups = ReflectiveUtilities.GetNamespacesInNamespace(assembly, "HLife.Actions");
+
+                    // For each namespace within this assembly...
+                    foreach (IGrouping<string, Type> group in groups)
                     {
-                        // Create an instance of that class.
-                        Activator.CreateInstance(type);
+                        // For each class in this namespace...
+                        foreach (Type type in group)
+                        {
+                            // Create an instance of that class.
+                            Activator.CreateInstance(type);
+                        }
                     }
                 }
             }
-
-            //PopulateActionList();
         }
 
         public override void Update()
