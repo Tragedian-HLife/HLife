@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace HLife
 {
-    public class PersonController
+    public class PopulationController
         : Controller
     {
         public List<Person> People { get; set; }
@@ -21,16 +21,25 @@ namespace HLife
 
         public List<string> LastNames { get; set; }
 
-        public PersonController()
+        public PopulationController()
         {
             People = new List<Person>();
+
+            this.MaleNames = new List<string>();
+            this.FemaleNames = new List<string>();
+            this.LastNames = new List<string>();
         }
 
         public override void Initialize()
         {
-            this.MaleNames = FileUtilities.ReadFile(Game.Instance.ResourceController.BuildPath(@"\Resources\Names\Male.csv"));
-            this.FemaleNames = FileUtilities.ReadFile(Game.Instance.ResourceController.BuildPath(@"\Resources\Names\Female.csv"));
-            this.LastNames = FileUtilities.ReadFile(Game.Instance.ResourceController.BuildPath(@"\Resources\Names\Surname.csv"));
+            List<Mod> nameMods = ModController.ModsEnabled.Where(e => e.Type == "Names").ToList();
+
+            foreach (Mod mod in nameMods)
+            {
+                this.MaleNames.AddRange(FileUtilities.ReadFile(mod.Directory + @"\Names\Male.csv"));
+                this.FemaleNames.AddRange(FileUtilities.ReadFile(mod.Directory + @"\Names\Female.csv"));
+                this.LastNames.AddRange(FileUtilities.ReadFile(mod.Directory + @"\Names\Surname.csv"));
+            }
         }
 
         public override void Update()
@@ -77,9 +86,9 @@ namespace HLife
             return atLoc;
         }
 
-        public string GenerateFirstName(Sex sex)
+        public string GenerateFirstName(Sexes sex)
         {
-            if (sex == Sex.Male)
+            if (sex == Sexes.Male)
             {
                 return this.MaleNames[MiscUtilities.Rand.Next(this.MaleNames.Count)];
             }
@@ -94,12 +103,12 @@ namespace HLife
             return this.LastNames[MiscUtilities.Rand.Next(this.LastNames.Count)];
         }
 
-        public string GenerateFullName(Sex sex)
+        public string GenerateFullName(Sexes sex)
         {
             return this.GenerateFirstName(sex) + " " + this.GenerateLastName();
         }
 
-        public Person GeneratePerson(Sex sex)
+        public Person GeneratePerson(Sexes sex)
         {
             Person newPerson = new Person();
             newPerson.FirstName = this.GenerateFirstName(sex);
@@ -116,16 +125,81 @@ namespace HLife
 
         public Person GeneratePerson()
         {
-            return this.GeneratePerson(MiscUtilities.GetRandomEnum<Sex>());
+            return this.GeneratePerson(MiscUtilities.GetRandomEnum<Sexes>());
+        }
+
+        public List<Person> GenerateFamily()
+        {
+            List<Person> family = new List<Person>();
+
+            // Get a family surname.
+            string familyName = this.GenerateLastName();
+
+            // Retrieve the family size settings.
+            int minFamilySize = 1;
+            int maxFamilySize = 4;
+
+            // Get a random family size between our bounds.
+            int familySize = MiscUtilities.Rand.Next(minFamilySize, maxFamilySize + 1);
+
+            // If it's a family of one, it should be an adult; a child can't live by itself.
+            if (familySize == 1)
+            {
+                // Create a randomly-sexed person.
+                Person adult = this.GeneratePerson();
+
+                // Make them an adult.
+                adult.Physique.Age = MiscUtilities.Rand.Next(18, 100);
+
+                family.Add(adult);
+            }
+            else
+            {
+                // Get the number of adults in this family.
+                // We need at least one adult since a family of minors can't exist.
+                // We can also have a family of just adults, no problem.
+                int numAdults = MiscUtilities.Rand.Next(1, familySize + 1);
+
+                // Naturally, the remaining family size is reserved for children.
+                int numChildren = familySize - numAdults;
+
+                // Create the adults...
+                for (int i = 0; i < numAdults; i++)
+                {
+                    // Create a randomly-sexed person.
+                    Person adult = this.GeneratePerson();
+
+                    // Make them an adult.
+                    adult.Physique.Age = MiscUtilities.Rand.Next(18, 100);
+
+                    family.Add(adult);
+                }
+
+                // Create the children...
+                for (int i = 0; i < numChildren; i++)
+                {
+                    // Create a randomly-sexed person.
+                    Person child = this.GeneratePerson();
+
+                    // Make them a minor.
+                    child.Physique.Age = MiscUtilities.Rand.Next(0, 18);
+
+                    family.Add(child);
+                }
+            }
+
+            family.ForEach(e => e.LastName = familyName);
+
+            return family;
         }
 
         public List<Person> GeneratePopulation()
         {
             List<Person> population = new List<Person>();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 3; i++)
             {
-                population.Add(this.GeneratePerson());
+                population.AddRange(this.GenerateFamily());
             }
 
             return population;
@@ -161,7 +235,7 @@ namespace HLife
                 pb.Stretch = System.Windows.Media.Stretch.Uniform;
                 pb.Source = new BitmapImage(new Uri(
                     Game.Instance.ResourceController.BuildPath(@"\Assets\Images\Characters\BodyParts\" + 
-                    (occupant.Physique.Sex == Sex.Futanari ? "Female" : occupant.Physique.Sex.ToString()) + 
+                    (occupant.Physique.Sex == Sexes.Futanari ? "Female" : occupant.Physique.Sex.ToString()) + 
                     @"Heads_Cropped\" + occupant.Physique.Sex.ToString()[0] + "_Head" + MiscUtilities.Rand.Next(100) + ".png")));
                 pb.Margin = new Thickness(10, 20, 0, 0);
                 pb.VerticalAlignment = VerticalAlignment.Top;
@@ -184,7 +258,7 @@ namespace HLife
                 stack_Parent.Children.Add(stack_Info);
 
                 Label lbl_Sex = new Label();
-                lbl_Sex.Content = "Apparent sex: " + (occupant.Physique.Sex == Sex.Futanari ? Sex.Female.ToString() : occupant.Physique.Sex.ToString());
+                lbl_Sex.Content = "Apparent sex: " + (occupant.Physique.Sex == Sexes.Futanari ? Sexes.Female.ToString() : occupant.Physique.Sex.ToString());
                 stack_Info.Children.Add(lbl_Sex);
 
                 Label lbl_Age = new Label();

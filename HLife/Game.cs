@@ -48,7 +48,7 @@ namespace HLife
         /// </summary>
         public DateTime Date { get; set; }
 
-        public PersonController PersonController { get; set; }
+        public PopulationController PersonController { get; set; }
 
         public ActionController ActionController { get; set; }
 
@@ -77,7 +77,7 @@ namespace HLife
         /// </summary>
         private Game()
         {
-            this.PersonController = new PersonController();
+            this.PersonController = new PopulationController();
             this.ActionController = new ActionController();
             this.PropController = new PropController();
             this.WindowController = new WindowController();
@@ -112,7 +112,7 @@ namespace HLife
             // Create the Player.
             // Requires the PersonController.
             this.Player = new Player();
-            this.Player.Physique.Sex = Sex.Male;
+            this.Player.Physique.Sex = Sexes.Male;
             this.Player.FirstName = "Player";
             this.Player.LastName = "Character";
             this.Player.Image = @"Male\Male_0.png";

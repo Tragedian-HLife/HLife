@@ -39,7 +39,7 @@ namespace HLife.GUI.Windows
         {
             // TODO: Remove this, once game loading is implimented.
             // Load in the default mods.
-            foreach (string dir in Directory.EnumerateDirectories(Game.Instance.ResourceController.BuildRootPath(@"Mods\")))
+            foreach (string dir in Directory.EnumerateDirectories(ResourceController.BuildRootPath(@"Mods\")))
             {
                 Mod mod = XmlUtilities.CreateInstance<Mod>(dir + @"\ModInfo.xml");
                 mod.Directory = dir;
@@ -49,6 +49,10 @@ namespace HLife.GUI.Windows
                     mod.Enabled = true;
                 }
                 else if(mod.Name == "Default Props")
+                {
+                    mod.Enabled = true;
+                }
+                else if (mod.Name == "Default Name Pack")
                 {
                     mod.Enabled = true;
                 }

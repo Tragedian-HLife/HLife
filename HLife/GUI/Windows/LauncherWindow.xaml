@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:HLife.GUI.Windows"
         mc:Ignorable="d"
-        Title="HLife Launcher" Height="154.533" Width="336.727" ResizeMode="NoResize">
+        Title="HLife Launcher" Height="154.533" Width="336.727" ResizeMode="NoResize" Icon="/HLife;component/Misc/logo.ico" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="button" Content="New Game" Margin="10,10,10,0" Height="50" VerticalAlignment="Top" Click="button_Click"/>
         <Button x:Name="button1" Content="Load Game" Margin="10,0,10,10" Height="50" VerticalAlignment="Bottom" Click="button1_Click"/>

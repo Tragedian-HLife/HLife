@@ -16,7 +16,7 @@ namespace HLife
         /// <summary>
         /// Biological sex.
         /// </summary>
-        public Sex Sex { get; set; }
+        public Sexes Sex { get; set; }
 
         /// <summary>
         /// Relative height.

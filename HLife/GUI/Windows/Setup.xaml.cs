@@ -27,18 +27,53 @@ namespace HLife.GUI.Windows
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void OpenModsFolder(object sender, RoutedEventArgs e)
         {
-            Process.Start(Game.Instance.ResourceController.BuildRootPath(@"Mods\"));
+            Process.Start(ResourceController.BuildRootPath(@"Mods\"));
         }
 
         private void Window_Initialized(object sender, EventArgs e)
         {
-            foreach (string dir in Directory.EnumerateDirectories(Game.Instance.ResourceController.BuildRootPath(@"Mods\")))
+            this.RetrieveModList(true);
+            this.PopulateModList();
+        }
+
+        private void RetrieveModList(bool AutoDefault = true)
+        {
+            ModController.ModsAvailable.Clear();
+            ModController.ModsEnabled.Clear();
+
+            foreach (string dir in Directory.EnumerateDirectories(ResourceController.BuildRootPath(@"Mods\")))
             {
                 Mod mod = XmlUtilities.CreateInstance<Mod>(dir + @"\ModInfo.xml");
                 mod.Directory = dir;
 
+                if (    AutoDefault
+                        && (
+                               mod.Name == "Default Actions"
+                            || mod.Name == "Default Props"
+                            || mod.Name == "Default Name Pack"
+                            || mod.Name == "Default Perks"
+                        )
+                    )
+                {
+                    mod.Enabled = true;
+                }
+            }
+
+            this.PopulateModList();
+        }
+
+        private void PopulateModList()
+        {
+            this.stack_ModsEnabled.Children.Clear();
+            this.stack_ModsAvailable.Children.Clear();
+            
+            this.gb_ModsEnabled.Header = "Mods Enabled (" + ModController.ModsEnabled.Count + ")";
+            this.gb_ModsAvailable.Header = "Mods Available (" + (ModController.ModsAvailable.Count - ModController.ModsEnabled.Count) + ")";
+
+            foreach(Mod mod in ModController.ModsAvailable)
+            {
                 Label lbl = new Label();
                 lbl.Content = mod.Name;
                 lbl.MouseLeftButtonDown += (leftSender, leftArgs) =>
@@ -52,16 +87,100 @@ namespace HLife.GUI.Windows
                     ((StackPanel)((Label)leftSender).Parent).Children.Remove((Label)leftSender);
                 };
 
-                if (mod.Name == "Default Actions")
-                {
-                    mod.Enabled = true;
+                ToolTip tt = new System.Windows.Controls.ToolTip();
+                tt.Content = mod.Description;
 
+                lbl.ToolTip = tt;
+
+                if(mod.Enabled)
+                {
                     this.stack_ModsEnabled.Children.Add(lbl);
                 }
                 else
                 {
                     this.stack_ModsAvailable.Children.Add(lbl);
                 }
+            }
+
+            this.PopulatePerkList();
+        }
+
+        private void PopulatePerkList()
+        {
+            List<Perk> perks = new List<Perk>();
+
+            List<Mod> perkMods = ModController.ModsEnabled.Where(mod => mod.Type == "Perks").ToList();
+
+            foreach (Mod mod in perkMods)
+            {
+                perks.AddRange(XmlUtilities.CreateInstances<Perk>(mod.Directory + @"\Perks\Perks.xml"));
+            }
+
+            this.stack_PerksAvailable.Children.Clear();
+            this.stack_PerksEnabled.Children.Clear();
+
+            foreach (Perk perk in perks)
+            {
+                Label item = new Label();
+                item.Content = perk.Name;
+                item.Tag = perk;
+                item.MouseLeftButtonDown += (leftSender, leftArgs) =>
+                {
+                    var dragData = new DataObject(typeof(Perk), perk);
+
+                    DragDrop.DoDragDrop(item,
+                                        dragData,
+                                        DragDropEffects.Move);
+
+                    ((StackPanel)((Label)leftSender).Parent).Children.Remove((Label)leftSender);
+                };
+
+                ToolTip tt = new System.Windows.Controls.ToolTip();
+                tt.Content = perk.Description;
+
+                item.ToolTip = tt;
+
+                this.stack_PerksAvailable.Children.Add(item);
+            }
+        }
+
+        private void PopulateSexualitiesList()
+        {
+            List<string> sexualities = new List<string>()
+            {
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+            };
+
+            foreach (string perk in sexualities)
+            {
+                Label item = new Label();
+                item.Content = perk;
+                item.MouseLeftButtonDown += (leftSender, leftArgs) =>
+                {
+                    var dragData = new DataObject(typeof(string), item.Content);
+
+                    DragDrop.DoDragDrop(item,
+                                        dragData,
+                                        DragDropEffects.Move);
+
+                    ((StackPanel)((Label)leftSender).Parent).Children.Remove((Label)leftSender);
+                };
+
+                this.stack_SexualitiesAvailable.Children.Add(item);
             }
         }
 
@@ -94,7 +213,64 @@ namespace HLife.GUI.Windows
                 ((StackPanel)((Label)leftSender).Parent).Children.Remove((Label)leftSender);
             };
 
+            ToolTip tt = new System.Windows.Controls.ToolTip();
+            tt.Content = mod.Description;
+
+            lbl.ToolTip = tt;
+
             panel.Children.Add(lbl);
+
+
+            this.PopulateModList();
+        }
+
+        private void DropPerk(object sender, DragEventArgs e)
+        {
+            StackPanel panel = sender as StackPanel;
+
+            var dataObj = e.Data as DataObject;
+            var perk = (Perk)dataObj.GetData(typeof(Perk));
+
+
+            Label lbl = new Label();
+            lbl.Content = perk.Name;
+            lbl.Tag = perk;
+            lbl.MouseLeftButtonDown += (leftSender, leftArgs) =>
+            {
+                var dragData = new DataObject(typeof(Perk), perk);
+
+                DragDrop.DoDragDrop(lbl,
+                                    perk,
+                                    DragDropEffects.Move);
+
+                ((StackPanel)((Label)leftSender).Parent).Children.Remove((Label)leftSender);
+            };
+
+            ToolTip tt = new System.Windows.Controls.ToolTip();
+            tt.Content = perk.Description;
+
+            lbl.ToolTip = tt;
+
+            panel.Children.Add(lbl);
+        }
+
+        private void RefreshModList(object sender, RoutedEventArgs e)
+        {
+            this.RetrieveModList(true);
+        }
+
+        private void UnloadAllMods(object sender, RoutedEventArgs e)
+        {
+            ModController.DisabledAllMods();
+
+            this.PopulateModList();
+        }
+
+        private void LoadAllMods(object sender, RoutedEventArgs e)
+        {
+            ModController.EnableAllMods();
+
+            this.PopulateModList();
         }
     }
 }

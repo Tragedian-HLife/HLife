@@ -133,15 +133,15 @@ namespace HLife
             {
                 pronoun = "you";
             }
-            else if (this.Physique.Sex == Sex.Female)
+            else if (this.Physique.Sex == Sexes.Female)
             {
                 pronoun = "she";
             }
-            else if (this.Physique.Sex == Sex.Male)
+            else if (this.Physique.Sex == Sexes.Male)
             {
                 pronoun = "he";
             }
-            else if (this.Physique.Sex == Sex.Futanari)
+            else if (this.Physique.Sex == Sexes.Futanari)
             {
                 pronoun = "she";
             }
@@ -161,15 +161,15 @@ namespace HLife
             {
                 pronoun = "your";
             }
-            else if (this.Physique.Sex == Sex.Female)
+            else if (this.Physique.Sex == Sexes.Female)
             {
                 pronoun = "her";
             }
-            else if (this.Physique.Sex == Sex.Male)
+            else if (this.Physique.Sex == Sexes.Male)
             {
                 pronoun = "his";
             }
-            else if (this.Physique.Sex == Sex.Futanari)
+            else if (this.Physique.Sex == Sexes.Futanari)
             {
                 pronoun = "her";
             }

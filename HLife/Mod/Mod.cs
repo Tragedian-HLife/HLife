@@ -41,6 +41,8 @@ namespace HLife
                 {
                     ModController.DisableMod(this);
                 }
+
+                this._Enabled = value;
             }
         }
 

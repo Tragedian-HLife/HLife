@@ -19,7 +19,7 @@ namespace HLife
     /// <summary>
     /// Biological sex.
     /// </summary>
-    public enum Sex
+    public enum Sexes
     {
         Male,
         Female,

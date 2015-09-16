@@ -27,5 +27,21 @@ namespace HLife
         {
             ModController.ModsEnabled.Remove(mod);
         }
+
+        public static void DisabledAllMods()
+        {
+            foreach (Mod mod in ModController.ModsAvailable)
+            {
+                mod.Enabled = false;
+            }
+        }
+
+        public static void EnableAllMods()
+        {
+            foreach(Mod mod in ModController.ModsAvailable)
+            {
+                mod.Enabled = true;
+            }
+        }
     }
 }

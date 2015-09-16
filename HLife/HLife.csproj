@@ -108,7 +108,7 @@
     <Compile Include="Controllers\ActionController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\DialogController.cs" />
-    <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\PopulationController.cs" />
     <Compile Include="Controllers\PropController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\WindowController.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="GameEntity\Person\AI\Pathfinding\Map\PathNode.cs" />
     <Compile Include="GameEntity\Person\AI\Pathfinding\NavAgent.cs" />
     <Compile Include="GameEntity\Person\AI\RelationalAgent.cs" />
+    <Compile Include="GameEntity\Person\Perk.cs" />
     <Compile Include="GameEntity\Person\Person.cs" />
     <Compile Include="GameEntity\Person\PersonAttributes.cs" />
     <Compile Include="GameEntity\Person\PersonPhysique.cs" />

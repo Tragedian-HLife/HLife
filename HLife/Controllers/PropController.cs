@@ -43,6 +43,7 @@ namespace HLife
         {
             Prop newProp = new Prop();
             newProp.Template = this.GetPropTemplate(name);
+            newProp.Image = newProp.Template.Image;
             return newProp;
         }
 

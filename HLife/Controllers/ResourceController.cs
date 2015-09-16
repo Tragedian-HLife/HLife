@@ -34,14 +34,14 @@ namespace HLife
         public override void Update()
         { }
 
-        public string BuildRootPath(string path = "")
+        public static string BuildRootPath(string path = "")
         {
             return Path.Combine(Environment.CurrentDirectory, path);
         }
 
         public string BuildPath(string path = "")
         {
-            return this.BuildRootPath(@"Cities\" + Game.Instance.City.DisplayName + @"\" + path);
+            return ResourceController.BuildRootPath(@"Cities\" + Game.Instance.City.DisplayName + @"\" + path);
         }
 
         public string BuildPath(string pathName, string file)
@@ -70,7 +70,7 @@ namespace HLife
 
         public Uri GetPropImage(Prop prop)
         {
-            return new Uri(prop.Template.Source.Directory + @"\Props\Images\" + prop.Template.Image);
+            return new Uri(prop.Template.Source.Directory + @"\Props\Images\" + prop.Image);
         }
 
         public Uri GetActionImage(Action action, string path, bool randomize)

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Perks>
+
+	<Perk>
+	
+		<Name>Social Butterfly</Name>
+		<Description>Increase to charisma</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Strongarm</Name>
+		<Description>Increase to strength.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Brightest Bulb</Name>
+		<Description>Increase to intelligence.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Early Bird</Name>
+		<Description>Decreased sleep time (less sleep required per day).</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Workaholic</Name>
+		<Description>Increased wage.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Bargain Master</Name>
+		<Description>Decreased purchase prices.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Womanizer</Name>
+		<Description>Bonus to interactions with females and apparent females.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>One of the Boys</Name>
+		<Description>Bonus to interactions with males and apparent males.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Why not Both?</Name>
+		<Description>Bonus to interactions with futas and apparent futas.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Child at Heart</Name>
+		<Description>Bonus to interactions with children.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>One of the Cool Kids</Name>
+		<Description>Bonus to interactions with teenagers.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>How Responsible</Name>
+		<Description>Bonus to interactions with adults.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>What Midlife Crisis?</Name>
+		<Description>Bonus to interactions with middle-agers.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Get Off My Lawn</Name>
+		<Description>Bonus to interactions with seniors.</Description>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>When's Bingo Night?</Name>
+		<Description>Bonus to interactions with elders.</Description>
+		
+	</Perk>
+	
+</Perks>
