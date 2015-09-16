@@ -5,6 +5,15 @@
 	
 		<Name>Social Butterfly</Name>
 		<Description>Increase to charisma</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Wall Flower</Name>
+		<Description>Decrease to charisma</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -12,6 +21,15 @@
 	
 		<Name>Strongarm</Name>
 		<Description>Increase to strength.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Leg Day Never</Name>
+		<Description>Decrease to strength.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -19,6 +37,15 @@
 	
 		<Name>Brightest Bulb</Name>
 		<Description>Increase to intelligence.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Mouth Breather</Name>
+		<Description>Decrease to intelligence.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -26,6 +53,15 @@
 	
 		<Name>Early Bird</Name>
 		<Description>Decreased sleep time (less sleep required per day).</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Deep Sleep</Name>
+		<Description>Increase sleep time (more sleep required per day).</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -33,6 +69,15 @@
 	
 		<Name>Workaholic</Name>
 		<Description>Increased wage.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Laziest Bee</Name>
+		<Description>Decreased wage.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -40,6 +85,15 @@
 	
 		<Name>Bargain Master</Name>
 		<Description>Decreased purchase prices.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Nothing But the Best</Name>
+		<Description>Increased purchase prices.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -47,6 +101,15 @@
 	
 		<Name>Womanizer</Name>
 		<Description>Bonus to interactions with females and apparent females.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>What a Creep</Name>
+		<Description>Detriment to interactions with females and apparent females.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -54,6 +117,15 @@
 	
 		<Name>One of the Boys</Name>
 		<Description>Bonus to interactions with males and apparent males.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Odd Man Out</Name>
+		<Description>Detriment to interactions with males and apparent males.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -61,6 +133,15 @@
 	
 		<Name>Why not Both?</Name>
 		<Description>Bonus to interactions with futas and apparent futas.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>What is that Thing?</Name>
+		<Description>Detriment to interactions with futas and apparent futas.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -68,6 +149,15 @@
 	
 		<Name>Child at Heart</Name>
 		<Description>Bonus to interactions with children.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Too Old for this Shit</Name>
+		<Description>Detriment to interactions with children.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -75,6 +165,15 @@
 	
 		<Name>One of the Cool Kids</Name>
 		<Description>Bonus to interactions with teenagers.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>3edgy5me</Name>
+		<Description>Detriment to interactions with teenagers.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -82,13 +181,15 @@
 	
 		<Name>How Responsible</Name>
 		<Description>Bonus to interactions with adults.</Description>
+		<Points>-10</Points>
 		
 	</Perk>
 
 	<Perk>
 	
-		<Name>What Midlife Crisis?</Name>
-		<Description>Bonus to interactions with middle-agers.</Description>
+		<Name>Grown Child</Name>
+		<Description>Detriment to interactions with adults.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -96,6 +197,15 @@
 	
 		<Name>Get Off My Lawn</Name>
 		<Description>Bonus to interactions with seniors.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>Whippersnapper</Name>
+		<Description>Detriment to interactions with seniors.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 
@@ -103,6 +213,15 @@
 	
 		<Name>When's Bingo Night?</Name>
 		<Description>Bonus to interactions with elders.</Description>
+		<Points>-10</Points>
+		
+	</Perk>
+
+	<Perk>
+	
+		<Name>What's a Typewriter?</Name>
+		<Description>Detriment to interactions with elders.</Description>
+		<Points>10</Points>
 		
 	</Perk>
 	

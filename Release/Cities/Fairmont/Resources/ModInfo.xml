@@ -1,0 +1,9 @@
+<Mod>
+  <Type>Actions</Type>
+	<Name>Default Actions</Name>
+	<Author>HLife - Tragedian</Author>
+	<Date>2015.09.14</Date>
+	<Version>1.0</Version>
+	<HLifeVersion>1.0</HLifeVersion>
+	<Description>Collection of actions that ship with the base game. Include default actions for every default prop, event, and agent.</Description>
+</Mod>

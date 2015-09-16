@@ -36,6 +36,10 @@ namespace HLife.GUI.Windows
         {
             this.RetrieveModList(true);
             this.PopulateModList();
+
+
+            this.img_Avatar.Source = Game.Instance.ResourceController.GetImage(
+                ResourceController.BuildRootPath(@"Cities\Fairmont\Assets\Images\Characters\" + combo_Sex.Text + @"\" + combo_Sex.Text + "_0.png"));
         }
 
         private void RetrieveModList(bool AutoDefault = true)
@@ -271,6 +275,14 @@ namespace HLife.GUI.Windows
             ModController.EnableAllMods();
 
             this.PopulateModList();
+        }
+
+        private void combo_Sex_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string text = (e.AddedItems[0] as ComboBoxItem).Content as string;
+
+            this.img_Avatar.Source = Game.Instance.ResourceController.GetImage(
+                ResourceController.BuildRootPath(@"Cities\Fairmont\Assets\Images\Characters\" + text + @"\" + text + "_0.png"));
         }
     }
 }

@@ -6,16 +6,16 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:HLife.GUI.Windows"
         mc:Ignorable="d"
-        Title="Setup" Height="462.033" Width="621.727" ResizeMode="NoResize" Initialized="Window_Initialized" Icon="/HLife;component/Misc/logo.ico" WindowStartupLocation="CenterScreen">
+        Title="Setup" Height="471.2" Width="621.727" ResizeMode="NoResize" Initialized="Window_Initialized" Icon="/HLife;component/Misc/logo.ico" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TabControl x:Name="tabControl" Margin="0,10,0,0">
+        <TabControl x:Name="tabControl">
             <TabItem Header="Player">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="White">
                     <Image x:Name="img_Avatar" HorizontalAlignment="Left" Margin="10,10,0,10" Width="162"/>
                     <TextBox x:Name="text_Name" Height="26" Margin="305,10,10,0" TextWrapping="Wrap" Text="Player Character" VerticalAlignment="Top"/>
                     <Label x:Name="label7" Content="Name:" HorizontalAlignment="Left" Margin="177,10,0,0" VerticalAlignment="Top" Width="123"/>
                     <Label x:Name="label8" Content="Sex:" HorizontalAlignment="Left" Margin="177,41,0,0" VerticalAlignment="Top" Width="123"/>
-                    <ComboBox x:Name="combo_Sex" Margin="305,41,10,0" VerticalAlignment="Top" Height="26" SelectedIndex="0">
+                    <ComboBox x:Name="combo_Sex" Margin="305,41,10,0" VerticalAlignment="Top" Height="26" SelectedIndex="0" SelectionChanged="combo_Sex_SelectionChanged">
                         <ComboBoxItem Content="Male"/>
                         <ComboBoxItem Content="Female"/>
                         <ComboBoxItem Content="Futanari"/>
@@ -28,9 +28,9 @@
                     <Label x:Name="label8_Copy1" Content="Starting Profession:" HorizontalAlignment="Left" Margin="177,103,0,0" VerticalAlignment="Top" Width="123"/>
                     <Label x:Name="label8_Copy2" Content="Starting Money:" HorizontalAlignment="Left" Margin="177,134,0,0" VerticalAlignment="Top" Width="123"/>
                     <xctk:IntegerUpDown x:Name="nup_StartingMoney" Margin="305,134,10,0" VerticalAlignment="Top" Height="26" Minimum="-100000" Value="500"/>
-                    <TabControl x:Name="tabControl3" HorizontalAlignment="Left" Height="220" Margin="177,165,0,0" VerticalAlignment="Top" Width="423">
+                    <TabControl x:Name="tabControl3" HorizontalAlignment="Left" Height="239" Margin="177,165,0,0" VerticalAlignment="Top" Width="423">
                         <TabItem Header="Perks">
-                            <Grid Background="#FFE5E5E5">
+                            <Grid Background="#FFF7F7F7">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="208*"/>
                                     <ColumnDefinition Width="209*"/>
@@ -46,7 +46,13 @@
                             </Grid>
                         </TabItem>
                         <TabItem Header="Sexuality">
-                            <Grid Background="#FFE5E5E5">
+                            <TabItem.Background>
+                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                    <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                                    <GradientStop Color="#FFE5E5E5" Offset="1"/>
+                                </LinearGradientBrush>
+                            </TabItem.Background>
+                            <Grid Background="#FFF7F7F7" Height="211" VerticalAlignment="Bottom">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="208*"/>
                                     <ColumnDefinition Width="209*"/>
@@ -80,18 +86,18 @@
                             <StackPanel x:Name="stack_ModsAvailable" Margin="10" AllowDrop="True" Background="WhiteSmoke" Drop="DropOnPanel"/>
                         </Grid>
                     </GroupBox>
-                    <Button x:Name="button1" Content="Open Mods Folder" Margin="10,340,10,0" VerticalAlignment="Top" Click="OpenModsFolder" Grid.Column="1" Height="20"/>
-                    <Button x:Name="button1_Copy" Content="Unload All" Margin="10,365,10,0" VerticalAlignment="Top" Height="20" Click="UnloadAllMods"/>
-                    <Button x:Name="button1_Copy1" Content="Load All" Margin="10,365,10,0" VerticalAlignment="Top" Grid.Column="1" Height="20" Click="LoadAllMods"/>
-                    <Button x:Name="button1_Copy2" Content="Refresh Mod List" Margin="10,315,10,0" VerticalAlignment="Top" Grid.Column="1" Height="20" Click="RefreshModList"/>
+                    <Button x:Name="btn_OpenModsFolder" Content="Open Mods Folder" Margin="10,0,10,35" VerticalAlignment="Bottom" Click="OpenModsFolder" Grid.Column="1" Height="20"/>
+                    <Button x:Name="btn_UnloadAllMods" Content="Unload All" Margin="10,0,10,10" VerticalAlignment="Bottom" Height="20" Click="UnloadAllMods"/>
+                    <Button x:Name="btn_LoadAllMods" Content="Load All" Margin="10,0,10,10" VerticalAlignment="Bottom" Grid.Column="1" Height="20" Click="LoadAllMods"/>
+                    <Button x:Name="btn_RefreshMods" Content="Refresh Mod List" Margin="10,0,10,60" VerticalAlignment="Bottom" Grid.Column="1" Height="20" Click="RefreshModList"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings">
                 <Grid Margin="0,0,0,1">
-                    <TabControl x:Name="tabControl1" Margin="0,10,0,0">
+                    <TabControl x:Name="tabControl1">
                         <TabItem Header="Game">
                             <Grid Background="White">
-                                <TabControl x:Name="tabControl2" Margin="0,10,0,0">
+                                <TabControl x:Name="tabControl2">
                                     <TabItem Header="Population">
                                         <Grid Background="White">
                                             <GroupBox x:Name="groupBox1" Header="Sexes" Margin="10,10,0,0" VerticalAlignment="Top" Height="139" HorizontalAlignment="Left" Width="578">
@@ -179,7 +185,7 @@
                                                     </GroupBox>
                                                 </Grid>
                                             </GroupBox>
-                                            <GroupBox x:Name="groupBox3" Header="Global" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Height="154" Width="578">
+                                            <GroupBox x:Name="groupBox3" Header="Global" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Height="194" Width="578">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition/>
@@ -192,16 +198,16 @@
                                                     <xctk:IntegerUpDown x:Name="nup_MinAge" Margin="127,66,0,0" Maximum="100" Minimum="0" Value="0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Minimum age for agents to start as. Only affects the min age when the popluation is first generated."/>
                                                     <Label x:Name="label_Copy2" Content="Maximum Age" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
                                                     <xctk:IntegerUpDown x:Name="nup_MaxAge" Margin="127,93,0,0" Maximum="100" Minimum="0" Value="100" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Maximum age for agents to start as. Only affects the max age when the popluation is first generated."/>
-                                                    <Label x:Name="label_Copy3" Content="Min Death Age" HorizontalAlignment="Left" Margin="196,10,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
-                                                    <xctk:IntegerUpDown x:Name="nup_MinDeathAge" Margin="313,12,0,0" Maximum="99999" Minimum="-1" Value="78" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Minimum age at which agents can die from old age. -1 to disable age-based death."/>
+                                                    <Label x:Name="label_Copy3" Content="Min Death Age" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
+                                                    <xctk:IntegerUpDown x:Name="nup_MinDeathAge" Margin="127,120,0,0" Maximum="99999" Minimum="-1" Value="80" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Minimum age at which agents can die from old age. -1 to disable age-based death."/>
                                                     <Label x:Name="label_Copy4" Content="Pregnancy Length" HorizontalAlignment="Left" Margin="384,10,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
                                                     <xctk:IntegerUpDown x:Name="nup_PregnancyLength" Margin="501,12,0,0" Maximum="9999" Minimum="-2" Value="9" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Duration, in months, for pregnancies to last. -1 to disable pregnancy. -2 for infite pregnancy."/>
-                                                    <Label x:Name="label_Copy5" Content="Min Family Size" HorizontalAlignment="Left" Margin="196,64,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
-                                                    <xctk:IntegerUpDown x:Name="nup_MinFamilySize" Margin="313,66,0,0" Maximum="10" Minimum="0" Value="1" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Minimum size of families generated at the start. 0 to disable families."/>
-                                                    <Label x:Name="label_Copy6" Content="Max Family Size" HorizontalAlignment="Left" Margin="196,91,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
-                                                    <xctk:IntegerUpDown x:Name="nup_MaxFamilySize" Margin="313,93,0,0" Maximum="10" Minimum="1" Value="5" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Maximum size of families generated at the start."/>
-                                                    <Label x:Name="label_Copy7" Content="Max Death Age" HorizontalAlignment="Left" Margin="196,37,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
-                                                    <xctk:IntegerUpDown x:Name="nup_MaxDeathAge" Margin="313,39,0,0" Maximum="99999" Minimum="1" Value="120" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Maximum age at which agents can die from old age. Once an agent reaches this age, they are guaranteed to die."/>
+                                                    <Label x:Name="label_Copy5" Content="Min Family Size" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
+                                                    <xctk:IntegerUpDown x:Name="nup_MinFamilySize" Margin="317,12,0,0" Maximum="10" Minimum="0" Value="1" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Minimum size of families generated at the start. 0 to disable families."/>
+                                                    <Label x:Name="label_Copy6" Content="Max Family Size" HorizontalAlignment="Left" Margin="200,37,0,0" VerticalAlignment="Top" Height="26" Width="112"/>
+                                                    <xctk:IntegerUpDown x:Name="nup_MaxFamilySize" Margin="317,39,0,0" Maximum="10" Minimum="1" Value="5" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Maximum size of families generated at the start."/>
+                                                    <Label x:Name="label_Copy7" Content="Max Death Age" HorizontalAlignment="Left" Margin="10,145,0,-9" VerticalAlignment="Top" Height="26" Width="112"/>
+                                                    <xctk:IntegerUpDown x:Name="nup_MaxDeathAge" Margin="127,147,0,-7" Maximum="99999" Minimum="1" Value="120" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="55" ToolTip="Maximum age at which agents can die from old age. Once an agent reaches this age, they are guaranteed to die."/>
                                                 </Grid>
                                             </GroupBox>
                                         </Grid>

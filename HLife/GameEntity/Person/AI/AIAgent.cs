@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace HLife
 {
+    // TODO: Handle each Location's agents in a new thread.
+    //       foreach location, start thread, handle each location's agents sequentially
     public class AIAgent
     {
         public Person Agent { get; set; }
