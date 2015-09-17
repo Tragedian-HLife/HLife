@@ -91,6 +91,20 @@ namespace HLife
             return loc;
         }
 
+        public static List<Location> GetAll(Location root)
+        {
+            List<Location> locs = new List<Location>();
+
+            locs.Add(root);
+
+            foreach(Location child in root.Children)
+            {
+                locs.AddRange(Location.GetAll(child));
+            }
+
+            return locs;
+        }
+
         /// <summary>
         /// Loads the form layout for this location.
         /// </summary>

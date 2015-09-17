@@ -37,7 +37,7 @@ namespace HLife.Actions.Bed
             }
             else if (this.Witnesses.Contains(Game.Instance.Player))
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl(args.Doer.FirstName + " crawls into the bed and falls asleep.", true));
+                //Game.Instance.DialogController.DrawDialog(new DialogControl(args.Doer.FirstName + " crawls into the bed and falls asleep.", true));
             }
 
             args.Doer.Status.SetValue("Energy", (double)args.Doer.Status.GetValue("Energy") + 20);
@@ -74,7 +74,7 @@ namespace HLife.Actions.Bed
             }
             else if(this.Witnesses.Contains(Game.Instance.Player))
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl(args.Doer.FirstName + " lies back on the bed and takes a short nap.", true));
+                //Game.Instance.DialogController.DrawDialog(new DialogControl(args.Doer.FirstName + " lies back on the bed and takes a short nap.", true));
             }
 
             args.Doer.Status.SetValue("Energy", (double)args.Doer.Status.GetValue("Energy") + 10);

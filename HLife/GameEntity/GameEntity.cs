@@ -77,11 +77,6 @@ namespace HLife
             this._location = newLoc;
         }
 
-        protected void MoveToLocation(Guid id)
-        {
-            //this.MoveToLocation(Game.Instance.LocationController.GetLocation(id));
-        }
-
         protected void MoveToLocation(string displayName)
         {
             this.MoveToLocation(Location.Get(displayName));

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HLife
@@ -32,14 +33,13 @@ namespace HLife
 
         public void Update()
         {
-            this.NavAgent.Update();
-            
+            //this.NavAgent.Update();
 
             if (this.Agent.Status.GetValue<double>("Energy") < 20)
             {
                 Prop bed = this.Agent.Location.Inventory.FindLast(e => e.Template.Categories.Contains("Bed"));
 
-                this.UseProp(bed);
+                //this.UseProp(bed);
             }
         }
 

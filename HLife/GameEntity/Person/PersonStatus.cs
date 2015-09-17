@@ -13,11 +13,18 @@ namespace HLife
 {
     public class PersonStatus
     {
+        public static List<PersonStatusItem> DefaultStatusItems { get; set; }
+
         public List<PersonStatusItem> StatusItems { get; set; }
 
         public PersonStatus()
         {
-            this.StatusItems = XmlUtilities.CreateInstances<PersonStatusItem>(Game.Instance.ResourceController.BuildPath(@"Resources\PersonStatus.xml"));
+            if(PersonStatus.DefaultStatusItems == null)
+            {
+                PersonStatus.DefaultStatusItems = XmlUtilities.CreateInstances<PersonStatusItem>(Game.Instance.ResourceController.BuildPath(@"Resources\PersonStatus.xml"));
+            }
+
+            this.StatusItems = PersonStatus.DefaultStatusItems.Clone();
         }
 
         /// <summary>
@@ -131,6 +138,7 @@ namespace HLife
     }
 
     public class PersonStatusItem
+        : ICloneable
     {
         public object Value { get; set; }
 
@@ -158,6 +166,11 @@ namespace HLife
         public Control GetControlInstance()
         {
             return (Control)Activator.CreateInstance(this.ControlType);
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

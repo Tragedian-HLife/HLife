@@ -119,6 +119,10 @@ namespace HLife
             newPerson.Physique.HairColor = MiscUtilities.GetRandomEnum<HairColors>();
             newPerson.Physique.HairLength = MiscUtilities.GetRandomEnum<HairLengths>();
             newPerson.Image = newPerson.Physique.Sex.ToString() + @"\" + newPerson.Physique.Sex.ToString() + "_0.png";
+            newPerson.HeadImage = new BitmapImage(new Uri(
+                    Game.Instance.ResourceController.BuildPath(@"\Assets\Images\Characters\BodyParts\" +
+                    (newPerson.Physique.Sex == Sexes.Futanari ? "Female" : newPerson.Physique.Sex.ToString()) +
+                    @"Heads_Cropped\" + newPerson.Physique.Sex.ToString()[0] + "_Head" + MiscUtilities.Rand.Next(100) + ".png")));
 
             return newPerson;
         }
@@ -197,7 +201,7 @@ namespace HLife
         {
             List<Person> population = new List<Person>();
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 500; i++)
             {
                 population.AddRange(this.GenerateFamily());
             }
@@ -205,20 +209,26 @@ namespace HLife
             return population;
         }
 
-        public void PopulatePersonList()
+        public void PopulateOccupantList()
+        {
+            PagingControl pagination = (PagingControl)WindowController.Get<MainWindow>().FindName("pagination");
+            pagination.Updated += (sender, e) => this.DrawOccupantList(pagination);
+            pagination.SetData<Person>(Game.Instance.PopulationController.GetPeopleAtLocation(Game.Instance.Player.Location).FindAll(e => e != Game.Instance.Player), 25);
+        }
+
+        private void DrawOccupantList(PagingControl pagination)
         {
             int count = 0;
-
+            
             WrapPanel wrap_Occupants = (WrapPanel)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "wrap_Occupants");
 
             wrap_Occupants.Children.Clear();
             wrap_Occupants.Height = 0;
 
-            foreach (Person occupant in Game.Instance.PersonController.GetPeopleAtLocation(Game.Instance.Player.Location).FindAll(e => e != Game.Instance.Player))
+            foreach (Person occupant in pagination.GetData<Person>())
             {
                 GroupBox panel = new GroupBox();
                 panel.Width = wrap_Occupants.Width - 0;
-                //panel.Margin = new Padding(10);
                 panel.Header = occupant.Name;
                 wrap_Occupants.Children.Add(panel);
 
@@ -233,17 +243,14 @@ namespace HLife
                 pb.Width = panel.Width * .25;
                 pb.Height = 50;
                 pb.Stretch = System.Windows.Media.Stretch.Uniform;
-                pb.Source = new BitmapImage(new Uri(
-                    Game.Instance.ResourceController.BuildPath(@"\Assets\Images\Characters\BodyParts\" + 
-                    (occupant.Physique.Sex == Sexes.Futanari ? "Female" : occupant.Physique.Sex.ToString()) + 
-                    @"Heads_Cropped\" + occupant.Physique.Sex.ToString()[0] + "_Head" + MiscUtilities.Rand.Next(100) + ".png")));
+                pb.Source = occupant.HeadImage;
                 pb.Margin = new Thickness(10, 20, 0, 0);
                 pb.VerticalAlignment = VerticalAlignment.Top;
                 pb.HorizontalAlignment = HorizontalAlignment.Left;
 
-                pb.MouseLeftButtonDown += (sender, e) =>
+                pb.MouseLeftButtonDown += (sender2, e2) =>
                 {
-                    if (e.ClickCount == 2)
+                    if (e2.ClickCount == 2)
                     {
                         Game.Instance.WindowController.Add<PersonInformationWindow>(occupant).Show();
                         WindowController.Get<PersonInformationWindow>(occupant).UpdateWindow();
@@ -274,16 +281,18 @@ namespace HLife
                 actions.Header = "Actions";
 
                 menu.Items.Add(actions);
-
-                foreach (Action action in Action.GetAll("Person"))
+                menu.Opened += (sender2, e2) =>
                 {
-                    MenuItem displayAction = action.GetContextMenuItemPerson(new ActionEventArgs(Game.Instance.Player, occupant, null));
-
-                    if (displayAction != null)
+                    foreach (Action action in Action.GetAll("Person"))
                     {
-                        actions.Items.Add(displayAction);
+                        MenuItem displayAction = action.GetContextMenuItemPerson(new ActionEventArgs(Game.Instance.Player, occupant, null));
+
+                        if (displayAction != null)
+                        {
+                            actions.Items.Add(displayAction);
+                        }
                     }
-                }
+                };
 
                 pb.ContextMenu = menu;
 

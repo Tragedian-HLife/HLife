@@ -92,6 +92,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="GUI\Controls\PagingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Windows\LauncherWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,6 +110,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\ActionController.cs" />
+    <Compile Include="Controllers\AIController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\DialogController.cs" />
     <Compile Include="Controllers\PopulationController.cs" />
@@ -135,6 +140,9 @@
     <Compile Include="GameEntity\Prop\Prop.cs" />
     <Compile Include="GameEntity\Prop\PropTemplate.cs" />
     <Compile Include="GUI\Controls\LocationButton.cs" />
+    <Compile Include="GUI\Controls\PagingControl.xaml.cs">
+      <DependentUpon>PagingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Windows\LauncherWindow.xaml.cs">
       <DependentUpon>LauncherWindow.xaml</DependentUpon>
     </Compile>

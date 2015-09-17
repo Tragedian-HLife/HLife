@@ -99,7 +99,7 @@ namespace HLife
             this.DoerIsPlayer = args.Doer.Id == Game.Instance.Player.Id;
 
             // Get the list of nearby people who aren't the doer or target.
-            this.Witnesses = Game.Instance.PersonController.GetPeopleAtLocation(args.Doer.Location).Where(e => e != args.Doer && e != args.Target && e != Game.Instance.Player).ToList();
+            this.Witnesses = Game.Instance.PopulationController.GetPeopleAtLocation(args.Doer.Location).Where(e => e != args.Doer && e != args.Target && e != Game.Instance.Player).ToList();
 
 
             // Trigger the PreLogic event.
@@ -111,23 +111,9 @@ namespace HLife
             // Trigger the PostLogic event.
             this.PostLogicPerform(args);
 
-            // If the player info window is open...
-            if(WindowController.Get<PersonInformationWindow>(args.Doer) != null)
-            {
-                // Update its state.
-                WindowController.Get<PersonInformationWindow>(args.Doer).UpdateWindow();
-            }
-
             // If there is a target Person...
             if (args.Target != null)
             {
-                // If the target's info window is open...
-                if (WindowController.Get<PersonInformationWindow>(args.Target) != null)
-                {
-                    // Update its state.
-                    WindowController.Get<PersonInformationWindow>(args.Target).UpdateWindow();
-                }
-
                 // If the target doesn't have a Relationship with the doer...
                 if (args.Target.AIAgent.RelationalAgent[args.Doer] == null)
                 {
@@ -151,20 +137,12 @@ namespace HLife
                 args.Doer.AIAgent.RelationalAgent[args.Target].ActionHistoryReceived.Add(this);
             }
 
-
-            // Resynchronize the game instance.
-            Game.Instance.Synchronize();
-
             if (DoerIsPlayer)
             {
                 Game.Instance.MoveTime(this.TimeNeeded);
 
                 // Update the game state.
                 Game.Instance.Update();
-
-                // Repopulate the occupant and inventory panels.
-                Game.Instance.PropController.PopulatePropList();
-                Game.Instance.PersonController.PopulatePersonList();
             }
 
             // Trigger the PostPerform event.

@@ -48,7 +48,7 @@ namespace HLife
         /// </summary>
         public DateTime Date { get; set; }
 
-        public PopulationController PersonController { get; set; }
+        public PopulationController PopulationController { get; set; }
 
         public ActionController ActionController { get; set; }
 
@@ -59,6 +59,8 @@ namespace HLife
         public ResourceController ResourceController { get; set; }
 
         public DialogController DialogController { get; set; }
+
+        public AIController AIController { get; set; }
 
         /// <summary>
         /// General game settings.
@@ -77,12 +79,13 @@ namespace HLife
         /// </summary>
         private Game()
         {
-            this.PersonController = new PopulationController();
+            this.PopulationController = new PopulationController();
             this.ActionController = new ActionController();
             this.PropController = new PropController();
             this.WindowController = new WindowController();
             this.ResourceController = new ResourceController();
             this.DialogController = new DialogController();
+            this.AIController = new AIController();
         }
 
         /// <summary>
@@ -106,7 +109,7 @@ namespace HLife
             this.City.CreateNavMap();
 
             // Initialize what requires the City.
-            this.PersonController.Initialize();
+            this.PopulationController.Initialize();
             this.DialogController.Initialize();
 
             // Create the Player.
@@ -120,7 +123,10 @@ namespace HLife
 
             // Generate the population.
             // Requires the PersonController.
-            this.PersonController.GeneratePopulation().ForEach(e => e.Location = Location.Get("Home.Bedroom"));
+            this.PopulationController.GeneratePopulation().ForEach(e => e.Location = MiscUtilities.GetRandomEntry<Location>(Location.GetAll(this.City)));
+
+            // Initialize the AI.
+            this.AIController.Initialize();
 
             // Display all of the windows.
             // Requires the Player.
@@ -128,9 +134,9 @@ namespace HLife
 
             // Set the player's initial position.
             // Requires the WindowController.
-            Player.Location = Location.Get("Home.Bedroom");
+            Player.MoveToLocation(Location.Get("Home.Bedroom"), false);
 
-            Action.Get("Bed.Sleep").Performed += (sender, e) => Debug.WriteLine(e.Doer.Name + " slept in the bed.");
+            //Action.Get("Bed.Sleep").Performed += (sender, e) => Debug.WriteLine(e.Doer.Name + " slept in the bed.");
 
             // Synchronize everything.
             // Requires the Player and the WindowController.
@@ -165,7 +171,19 @@ namespace HLife
 
         public void Update()
         {
-            this.PersonController.People.Where(e => e != Game.Instance.Player).ToList().ForEach(e => e.Update());
+            this.AIController.UpdateSingleThread();
+
+            this.AIController.Update();
+
+            Debug.WriteLine("Threaded: " + this.AIController.ThreadTime);
+            Debug.WriteLine("Unthreaded: " + this.AIController.Time);
+
+            this.AIController.Time = 0;
+            this.AIController.ThreadTime = 0;
+
+            this.Synchronize();
+
+            this.WindowController.Update();
         }
 
         public void Output(string message, bool skipEndLines = false)
@@ -182,6 +200,10 @@ namespace HLife
         {
             Label lblDate = (Label)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "lbl_Date");
             lblDate.Content = this.Date.ToString("MMMM dd, hh:mm:ss");
+
+            // Repopulate the occupant and inventory panels.
+            Game.Instance.PropController.PopulatePropList();
+            Game.Instance.PopulationController.PopulateOccupantList();
 
             this.Player.LoadPlayerStats();
         }

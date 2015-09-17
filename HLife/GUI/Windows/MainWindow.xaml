@@ -13,9 +13,10 @@
             </TabItem>
             <TabItem x:Name="tab_Occupants" Header="Occupants">
                 <Grid x:Name="grid_Occupants" Background="#FFE5E5E5">
-                    <ScrollViewer>
+                    <ScrollViewer Margin="0,0,0,30">
                         <WrapPanel x:Name="wrap_Occupants" HorizontalAlignment="Center" Height="747" ScrollViewer.HorizontalScrollBarVisibility="Visible" VerticalAlignment="Center" Width="324" />
                     </ScrollViewer>
+                    <local:PagingControl x:Name="pagination" Margin="10,0" Width="Auto" Height="25" VerticalAlignment="Bottom"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tab_Inventory" Header="Inventory">

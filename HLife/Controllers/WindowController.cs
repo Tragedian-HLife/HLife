@@ -55,7 +55,17 @@ namespace HLife
         }
 
         public override void Update()
-        { }
+        {
+            foreach(Person person in Game.Instance.PopulationController.People)
+            {
+                // If the player info window is open...
+                if (WindowController.Get<PersonInformationWindow>(person) != null)
+                {
+                    // Update its state.
+                    WindowController.Get<PersonInformationWindow>(person).UpdateWindow();
+                }
+            }
+        }
 
         /*
         public void HandleMenuToggle(object sender, Window form)

@@ -57,15 +57,32 @@ namespace HLife
         {
             base.MoveToLocation(newLoc);
 
+            newLoc.LoadLayout();
+            newLoc.LoadMap();
+
             Game.Instance.Date = Game.Instance.Date.AddSeconds(300);
+
+            Game.Instance.Synchronize();
+        }
+
+        /// <summary>
+        /// Override for MoveToLocation to handle UI changes that don't
+        /// happen for AI agents.
+        /// </summary>
+        /// <param name="newLoc">The Location target.</param>
+        public void MoveToLocation(Location newLoc, bool doUpdate = true)
+        {
+            base.MoveToLocation(newLoc);
 
             newLoc.LoadLayout();
             newLoc.LoadMap();
 
-            Game.Instance.Synchronize();
-            
-            Game.Instance.PropController.PopulatePropList();
-            Game.Instance.PersonController.PopulatePersonList();
+            if (doUpdate)
+            {
+                Game.Instance.Date = Game.Instance.Date.AddSeconds(300);
+
+                Game.Instance.Synchronize();
+            }
         }
 
         // TODO: Remove this.
@@ -80,7 +97,7 @@ namespace HLife
         {
             Action.Get(action).Perform(new ActionEventArgs(
                 this, 
-                Game.Instance.PersonController.GetPerson(target), 
+                Game.Instance.PopulationController.GetPerson(target), 
                 Game.Instance.PropController.GetProp(prop)));
 
             this.LoadPlayerStats();

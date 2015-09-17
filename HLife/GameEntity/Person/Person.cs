@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 namespace HLife
 {
@@ -62,6 +64,9 @@ namespace HLife
 
         public AIAgent AIAgent { get; set; }
 
+        [XmlIgnore]
+        public BitmapImage HeadImage { get; set; }
+
         /// <summary>
         /// Default constructor.
         /// </summary>
@@ -76,7 +81,7 @@ namespace HLife
 
             this.AIAgent = new AIAgent(this);
 
-            Game.Instance.PersonController.People.Add(this);
+            Game.Instance.PopulationController.People.Add(this);
         }
 
         /// <summary>
