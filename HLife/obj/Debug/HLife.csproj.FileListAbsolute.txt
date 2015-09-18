@@ -34,4 +34,3 @@ E:\Dropbox\Programming\HLife\HLife\obj\Debug\GUI\Windows\Setup.baml
 E:\Dropbox\Programming\HLife\HLife\obj\Debug\GUI\Controls\PagingControl.g.cs
 E:\Dropbox\Programming\HLife\HLife\obj\Debug\GUI\Controls\PagingControl.baml
 E:\Dropbox\Programming\HLife\HLife\obj\Debug\GeneratedInternalTypeHelper.g.cs
-E:\Dropbox\Programming\HLife\HLife\obj\Debug\HLife.csprojResolveAssemblyReference.cache

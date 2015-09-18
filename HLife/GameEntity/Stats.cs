@@ -181,7 +181,6 @@ namespace HLife
 
             if (((XmlNode[])this.Value).Count() >= 4)
             {
-                // Convert the string value to the proper type.
                 this.Maximum = ((XmlNode[])this.Value)[3].Value;
             }
 
