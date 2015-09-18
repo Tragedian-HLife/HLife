@@ -33,14 +33,73 @@ namespace HLife
 
         public void Update()
         {
-            //this.NavAgent.Update();
+            // Rankings:
+            //  1. Needs
+            //  2. Schedule
+            //  3. Desires
+            //
+            // Needs:
+            //  1. Fix any needs that are in dangerous zones.
+            //  2. Else, fix any needs that are in uncomfortable zones.
+            //  Proceedure:
+            //      1. Look for any dangerous needs. If found, skip to 3.
+            //      1. Look for any uncomfortable needs. If found, skip to 3.
+            //      3. Get the most imminent need.
+            //      4. Figure out what should happen to fix it.
+            //      5. Plan the steps to make it happen.
+            //
+            // Schedule:
+            //  1. Pop the next schedule item.
+            //
+            // Desires:
+            //  1. Weigh a desire's preference against the time or resources needed to accomplish it.
+            //  Proceedure:
+            //      1. Loop through each desire, sorted by preference.
+            //      2. Get the estimated cost to execute that desire.
+            //      3. Pick the desire with the smallest cost/benefit ratio.
+            //      4. Plan the steps to make it happen.
 
-            if (this.Agent.Status.GetValue<double>("Energy") < 20)
+
+
+
+            // If the agent has a destination...
+            if (this.NavAgent.Path.Count > 0)
             {
-                Prop bed = this.Agent.Location.Inventory.FindLast(e => e.Template.Categories.Contains("Bed"));
-
-                //this.UseProp(bed);
+                // Keep going there.
+                this.NavAgent.Update();
             }
+            else
+            {
+                if (this.Agent.Stats.GetValue<double>("Energy") < 20)
+                {
+                    Prop bed = this.Agent.Location.Inventory.FindLast(e => e.Template.Categories.Contains("Bed"));
+
+                    //this.UseProp(bed);
+                }
+                else
+                {
+                    // Find a new destination.
+                    this.NavAgent.PathfindTo(this.LookForLocation());
+
+                    // Start moving there.
+                    this.NavAgent.Update();
+                }
+            }
+        }
+
+        protected void SearchForNeeds()
+        {
+
+        }
+
+        protected void SearchForDireNeeds()
+        {
+
+        }
+
+        protected void SearchForComfortNeeds()
+        {
+
         }
 
         protected Prop LookForProp(GameEntity target)
@@ -54,7 +113,7 @@ namespace HLife
         {
             Action action = null;
 
-            if (prop.Template.Actions.Count > 0)
+            if (prop != null && prop.Template.Actions.Count > 0)
             {
                 action = Action.Get(MiscUtilities.GetRandomEntry<string>(prop.Template.Actions));
 
@@ -76,8 +135,10 @@ namespace HLife
             target.Inventory.Add(prop);
         }
 
-        protected void LookForLocation()
-        { }
+        protected Location LookForLocation()
+        {
+            return Location.Get(MiscUtilities.GetRandomEntry<LocationNetworkEdge>(this.Agent.Location.Edges).Node);
+        }
 
         private void FuzzyExample()
         {

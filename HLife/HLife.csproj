@@ -131,10 +131,9 @@
     <Compile Include="GameEntity\Person\AI\RelationalAgent.cs" />
     <Compile Include="GameEntity\Person\Perk.cs" />
     <Compile Include="GameEntity\Person\Person.cs" />
-    <Compile Include="GameEntity\Person\PersonAttributes.cs" />
     <Compile Include="GameEntity\Person\PersonPhysique.cs" />
     <Compile Include="GameEntity\Person\PersonPreferences.cs" />
-    <Compile Include="GameEntity\Person\PersonStatus.cs" />
+    <Compile Include="GameEntity\Stats.cs" />
     <Compile Include="GameEntity\Person\Player.cs" />
     <Compile Include="GameEntity\Person\Relationship.cs" />
     <Compile Include="GameEntity\Prop\Prop.cs" />

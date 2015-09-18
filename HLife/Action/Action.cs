@@ -6,9 +6,119 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml.Serialization;
 
 namespace HLife
 {
+    /// <summary>
+    /// Represents an atomic effect of an action.
+    /// </summary>
+    public class ActionEffect
+    {
+        public string ItemName { get; set; }
+
+        public double Value { get; set; }
+
+        public bool ValueIsRelative { get; set; }
+
+        public Func<object, bool> Condition;
+
+        public ActionEffect()
+        {
+            this.Value = 0;
+            this.ValueIsRelative = true;
+            this.Condition = delegate (object arg)
+            {
+                return true;
+            };
+        }
+
+        public ActionEffect(string name, double value)
+        {
+            this.ItemName = name;
+            this.Value = value;
+            this.ValueIsRelative = true;
+            this.Condition = delegate (object arg)
+            {
+                return true;
+            };
+        }
+
+        public ActionEffect(string name, double value, bool relative, Func<object, bool> condition)
+        {
+            this.ItemName = name;
+            this.Value = value;
+            this.ValueIsRelative = relative;
+            this.Condition = condition;
+        }
+
+        public bool Apply(Person subject)
+        {
+            return subject.Stats.SetValue(this.ItemName, this.Value, this.ValueIsRelative);
+        }
+
+        public object Preview(Person subject)
+        {
+            if (this.ValueIsRelative)
+            {
+                var currentValue = subject.Stats.GetValue(this.ItemName);
+
+                if(currentValue.GetType() == typeof(double))
+                {
+                    return (double)currentValue + this.Value;
+                }
+                else if (currentValue.GetType() == typeof(int))
+                {
+                    return (int)currentValue + this.Value;
+                }
+                else
+                {
+                    return this.Value;
+                }
+            }
+            else
+            {
+                return this.Value;
+            }
+        }
+    }
+
+    public class ActionEffectSet
+    {
+        public List<ActionEffect> Effects { get; set; }
+
+        public ActionEffectSet()
+        {
+            this.Effects = new List<ActionEffect>();
+        }
+
+        public ActionEffectSet(ActionEffect effect)
+            : this()
+        {
+            this.Effects.Add(effect);
+        }
+
+        public List<ActionEffect> CheckCondition(object arg)
+        {
+            if(this.Effects == null || this.Effects.Count == 0)
+            {
+                return null;
+            }
+
+            List<ActionEffect> results = new List<ActionEffect>();
+
+            foreach (ActionEffect effect in this.Effects)
+            {
+                if(effect.Condition(arg))
+                {
+                    results.Add(effect);
+                }
+            }
+
+            return results;
+        }
+    }
+
     public abstract class Action
     {
         public string Name { get; set; }
@@ -16,6 +126,15 @@ namespace HLife
         public string Description { get; set; }
 
         public int TimeNeeded { get; set; }
+
+        [XmlIgnore]
+        public List<ActionEffectSet> DoerActionEffects { get; set; }
+
+        [XmlIgnore]
+        public List<ActionEffectSet> TargetActionEffects { get; set; }
+
+        [XmlIgnore]
+        public List<ActionEffectSet> WitnessActionEffects { get; set; }
 
         public string DisabledDescription { get; set; }
 
@@ -71,6 +190,10 @@ namespace HLife
             this.DoerIsPlayer = false;
             this.Witnesses = new List<Person>();
 
+            this.DoerActionEffects = new List<ActionEffectSet>();
+            this.TargetActionEffects = new List<ActionEffectSet>();
+            this.WitnessActionEffects = new List<ActionEffectSet>();
+
             Game.Instance.ActionController.Add(this);
         }
 
@@ -110,6 +233,12 @@ namespace HLife
 
             // Trigger the PostLogic event.
             this.PostLogicPerform(args);
+
+            foreach(ActionEffectSet set in this.DoerActionEffects)
+            {
+                ActionEffect effect = set.CheckCondition(args.Doer).First();
+                effect.Apply(args.Doer);
+            }
 
             // If there is a target Person...
             if (args.Target != null)

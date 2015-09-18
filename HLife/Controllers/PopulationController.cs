@@ -32,9 +32,7 @@ namespace HLife
 
         public override void Initialize()
         {
-            List<Mod> nameMods = ModController.ModsEnabled.Where(e => e.Type == "Names").ToList();
-
-            foreach (Mod mod in nameMods)
+            foreach (Mod mod in ModController.GetModsByType("Names"))
             {
                 this.MaleNames.AddRange(FileUtilities.ReadFile(mod.Directory + @"\Names\Male.csv"));
                 this.FemaleNames.AddRange(FileUtilities.ReadFile(mod.Directory + @"\Names\Female.csv"));

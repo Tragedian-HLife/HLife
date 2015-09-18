@@ -11,20 +11,44 @@ using System.Xml.Serialization;
 
 namespace HLife
 {
-    public class PersonStatus
+    public class Stats
     {
-        public static List<PersonStatusItem> DefaultStatusItems { get; set; }
+        public static List<Stat> DefaultPersonStatusItems { get; set; }
 
-        public List<PersonStatusItem> StatusItems { get; set; }
+        public static List<Stat> DefaultPropStatusItems { get; set; }
 
-        public PersonStatus()
+        public List<Stat> StatEntries { get; set; }
+
+        public Stats(Type ownerType)
         {
-            if(PersonStatus.DefaultStatusItems == null)
+            if (ownerType == typeof(Person))
             {
-                PersonStatus.DefaultStatusItems = XmlUtilities.CreateInstances<PersonStatusItem>(Game.Instance.ResourceController.BuildPath(@"Resources\PersonStatus.xml"));
-            }
+                if (Stats.DefaultPersonStatusItems == null)
+                {
+                    Stats.DefaultPersonStatusItems = new List<Stat>();
 
-            this.StatusItems = PersonStatus.DefaultStatusItems.Clone();
+                    foreach (Mod mod in ModController.GetModsByType("PersonStats"))
+                    {
+                        Stats.DefaultPersonStatusItems.AddRange(XmlUtilities.CreateInstances<Stat>(mod.Directory + @"\Stats\Stats.xml"));
+                    }
+                }
+
+                this.StatEntries = Stats.DefaultPersonStatusItems.Clone();
+            }
+            else if (ownerType == typeof(Prop))
+            {
+                if (Stats.DefaultPropStatusItems == null)
+                {
+                    Stats.DefaultPropStatusItems = new List<Stat>();
+
+                    foreach (Mod mod in ModController.GetModsByType("PropStats"))
+                    {
+                        Stats.DefaultPropStatusItems.AddRange(XmlUtilities.CreateInstances<Stat>(mod.Directory + @"\Stats\Stats.xml"));
+                    }
+                }
+
+                this.StatEntries = Stats.DefaultPropStatusItems.Clone();
+            }
         }
 
         /// <summary>
@@ -32,9 +56,9 @@ namespace HLife
         /// </summary>
         /// <param name="name">Name of the PersonStatusItem.</param>
         /// <returns>Requested item. Null if not found.</returns>
-        public PersonStatusItem GetItem(string name)
+        public Stat GetItem(string name)
         {
-            foreach(PersonStatusItem item in this.StatusItems)
+            foreach(Stat item in this.StatEntries)
             {
                 if(item.Name == name)
                 {
@@ -68,7 +92,7 @@ namespace HLife
         /// <returns>PersonStatusItem.Value</returns>
         public object GetValue(string name)
         {
-            PersonStatusItem item = this.GetItem(name);
+            Stat item = this.GetItem(name);
 
             if(item != null)
             {
@@ -86,7 +110,7 @@ namespace HLife
         /// <returns>(T)PersonStatusItem.Value</returns>
         public T GetValue<T>(string name)
         {
-            PersonStatusItem item = this.GetItem(name);
+            Stat item = this.GetItem(name);
 
             if (item != null)
             {
@@ -104,7 +128,7 @@ namespace HLife
         /// <returns>True if status item exists.</returns>
         public bool SetValue(string name, object value, bool relative = false)
         {
-            PersonStatusItem item = this.GetItem(name);
+            Stat item = this.GetItem(name);
 
             if (item != null)
             {
@@ -137,7 +161,7 @@ namespace HLife
         }
     }
 
-    public class PersonStatusItem
+    public class Stat
         : ICloneable
     {
         public object Value { get; set; }
@@ -146,16 +170,26 @@ namespace HLife
 
         public Type ControlType { get; set; }
 
+        public string Type { get; set; }
+
+        public string Maximum { get; set; }
+
         public void ConvertFromXml()
         {
             // Set the control type. We assume it's within System.Windows.Forms.
-            this.ControlType = Type.GetType("System.Windows.Controls." + ((XmlNode[])this.Value)[1].Value + "," + typeof(Label).Assembly.FullName);
+            this.ControlType = System.Type.GetType("System.Windows.Controls." + ((XmlNode[])this.Value)[1].Value + "," + typeof(Label).Assembly.FullName);
+
+            if (((XmlNode[])this.Value).Count() >= 4)
+            {
+                // Convert the string value to the proper type.
+                this.Maximum = ((XmlNode[])this.Value)[3].Value;
+            }
 
             // Get the type of the Value from the "type" attribute.
-            Type temp = Type.GetType(((XmlNode[])this.Value)[0].Value);
+            Type temp = System.Type.GetType(((XmlNode[])this.Value)[0].Value);
 
             // Convert the string value to the proper type.
-            this.Value = Convert.ChangeType(((XmlNode[])this.Value)[2].Value, temp);
+            this.Value = Convert.ChangeType(((XmlNode[])this.Value)[((XmlNode[])this.Value).Count() - 1].Value, temp);
         }
 
         /// <summary>

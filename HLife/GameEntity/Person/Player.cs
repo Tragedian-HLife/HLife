@@ -27,25 +27,11 @@ namespace HLife
             : base()
         {
             this.Money = 0;
-
-            this.Physique.CumVolume = 6;
-            this.Status.SetValue("CumVolume", this.Physique.CumVolume);
-
-            this.Attributes.Stamina = 4;
+            
+            this.Stats.SetValue("CumVolume", 6.0);
+            this.Stats.SetValue("Stamina", 4.0);
 
             //this.LoadPlayerStats();
-        }
-
-        /// <summary>
-        /// Updates the PersonInformationWindow.
-        /// </summary>
-        public void LoadPlayerStats()
-        {
-            Window window = WindowController.Get<PersonInformationWindow>(Game.Instance.Player);
-            TabControl tabs = (TabControl)LogicalTreeHelper.FindLogicalNode(window, "tabs_Info");
-
-            //((ProgressBar)tabs.TabPages[0].Controls.Find("pgb_CumVolume", false)[0]).Maximum = (int)this.Physique.CumVolume;
-            //((ProgressBar)tabs.TabPages[0].Controls.Find("pgb_cumVolume", false)[0]).Value = (int)this.Status.CumVolume;
         }
 
         /// <summary>
@@ -99,8 +85,6 @@ namespace HLife
                 this, 
                 Game.Instance.PopulationController.GetPerson(target), 
                 Game.Instance.PropController.GetProp(prop)));
-
-            this.LoadPlayerStats();
 
             return false;
         }

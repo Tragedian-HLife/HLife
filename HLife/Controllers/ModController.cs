@@ -43,5 +43,10 @@ namespace HLife
                 mod.Enabled = true;
             }
         }
+
+        public static List<Mod> GetModsByType(string type)
+        {
+            return ModController.ModsEnabled.Where(e => e.Type == type).ToList();
+        }
     }
 }

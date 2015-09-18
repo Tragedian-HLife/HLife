@@ -44,15 +44,12 @@ namespace HLife.GUI.Windows
                 Mod mod = XmlUtilities.CreateInstance<Mod>(dir + @"\ModInfo.xml");
                 mod.Directory = dir;
 
-                if(mod.Name == "Default Actions")
-                {
-                    mod.Enabled = true;
-                }
-                else if(mod.Name == "Default Props")
-                {
-                    mod.Enabled = true;
-                }
-                else if (mod.Name == "Default Name Pack")
+                if (    mod.Name == "Default Actions"
+                    ||  mod.Name == "Default Props"
+                    ||  mod.Name == "Default Name Pack"
+                    ||  mod.Name == "Default Perks"
+                    ||  mod.Name == "Default Person Stats"
+                    ||  mod.Name == "Default Prop Stats")
                 {
                     mod.Enabled = true;
                 }

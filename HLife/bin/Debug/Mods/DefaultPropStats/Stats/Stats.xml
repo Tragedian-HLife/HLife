@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Stats>
+
+	<Stat>
+		<Name>Broken</Name>
+		<Value type="System.Boolean" displayType="CheckBox">false</Value>
+	</Stat>
+	
+</Stats>

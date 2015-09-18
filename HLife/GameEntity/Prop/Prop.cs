@@ -28,6 +28,8 @@ namespace HLife
         public Prop()
             : base()
         {
+            this.Stats = new Stats(typeof(Prop));
+
             // Add this instance to the PropController.
             Game.Instance.PropController.Props.Add(this);
         }

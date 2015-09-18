@@ -86,9 +86,9 @@ namespace HLife
 
         private void UpdateLocationOccupants(Location loc)
         {
-            foreach(Person occupant in loc.Occupants)
+            for (int i = 0; i < loc.Occupants.Count; i++)
             {
-                if(occupant == Game.Instance.Player)
+                if (loc.Occupants[i] == Game.Instance.Player)
                 {
                     continue;
                 }
@@ -97,7 +97,7 @@ namespace HLife
 
                 DateTime start = DateTime.Now;
 
-                occupant.Update();
+                loc.Occupants[i].Update();
 
                 DateTime end = DateTime.Now;
 

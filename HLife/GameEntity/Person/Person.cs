@@ -38,19 +38,14 @@ namespace HLife
         public PersonPhysique Physique { get; set; }
 
         /// <summary>
-        /// Personal attributes.
-        /// </summary>
-        public PersonAttributes Attributes { get; set; }
-
-        /// <summary>
-        /// Personal status.
-        /// </summary>
-        public PersonStatus Status { get; set; }
-
-        /// <summary>
         /// Personal preferences.
         /// </summary>
         public PersonPreferences Preferences { get; set; }
+
+        /// <summary>
+        /// Affects a person's willingness to engage in sex with another person.
+        /// </summary>
+        public Sexualities Sexuality { get; set; }
 
         /// <summary>
         /// Personal house.
@@ -74,10 +69,10 @@ namespace HLife
             : base()
         {
             this.Physique = new PersonPhysique();
-            this.Attributes = new PersonAttributes();
-            this.Status = new PersonStatus();
+            this.Stats = new Stats(typeof(Person));
             this.Preferences = new PersonPreferences();
             this.Relationships = new List<Relationship>();
+            this.Sexuality = Sexualities.Heterosexual;
 
             this.AIAgent = new AIAgent(this);
 
@@ -187,33 +182,33 @@ namespace HLife
             string pronoun = this.GetPossessivePronoun();
             string capPronoun = StringUtilities.CaptializeWords(pronoun);
 
-            if ((double)this.Status.GetValue("EjaculationsToday") < this.Attributes.Stamina)
+            if ((double)this.Stats.GetValue("EjaculationsToday") < this.Stats.GetValue<double>("Stamina"))
             {
-                if ((double)this.Status.GetValue("CumVolume") <= 0)
+                if ((double)this.Stats.GetValue("CumVolume") <= 0)
                 {
                     Game.Instance.Output("Not even a drop of cum is left to escape " + pronoun + " cock.");
                 }
-                else if ((double)this.Status.GetValue("CumVolume") < 0.5)
+                else if ((double)this.Stats.GetValue("CumVolume") < 0.5)
                 {
                     Game.Instance.Output("A dribble of cum escapes from the tip of " + pronoun + " cock.");
                 }
-                else if ((double)this.Status.GetValue("CumVolume") <= 1)
+                else if ((double)this.Stats.GetValue("CumVolume") <= 1)
                 {
                     Game.Instance.Output("A few weak spurts of cum leak from the tip of " + pronoun + " cock.");
                 }
-                else if ((double)this.Status.GetValue("CumVolume") <= 5)
+                else if ((double)this.Stats.GetValue("CumVolume") <= 5)
                 {
                     Game.Instance.Output("A few strong jets of cum erupt from " + pronoun + " cock.");
                 }
-                else if ((double)this.Status.GetValue("CumVolume") <= 10)
+                else if ((double)this.Stats.GetValue("CumVolume") <= 10)
                 {
                     Game.Instance.Output(capPronoun + " body tenses as several large jets of thick cum fire from " + pronoun + " cock.");
                 }
-                else if ((double)this.Status.GetValue("CumVolume") <= 20)
+                else if ((double)this.Stats.GetValue("CumVolume") <= 20)
                 {
                     Game.Instance.Output(capPronoun + " cock throbs hard as it keeps ejecting numerous thick ropes of cum.");
                 }
-                else if ((double)this.Status.GetValue("CumVolume") <= 50)
+                else if ((double)this.Stats.GetValue("CumVolume") <= 50)
                 {
                     Game.Instance.Output(capPronoun + " aching cock sends hot streams of cum flying for what feels like ages.");
                 }
@@ -222,8 +217,8 @@ namespace HLife
                     Game.Instance.Output(capPronoun + " cock erupts over and over, sending a torrent of hot cum from " + pronoun + " throbing shaft.");
                 }
 
-                this.Status.SetValue("CumVolume", Math.Floor((double)this.Status.GetValue("CumVolume") / 2));
-                this.Status.SetValue("EjaculationsToday", (double)this.Status.GetValue("EjaculationsToday") + 1);
+                this.Stats.SetValue("CumVolume", Math.Floor((double)this.Stats.GetValue("CumVolume") / 2));
+                this.Stats.SetValue("EjaculationsToday", (double)this.Stats.GetValue("EjaculationsToday") + 1);
             }
         }
 

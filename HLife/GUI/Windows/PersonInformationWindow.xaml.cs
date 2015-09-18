@@ -35,7 +35,7 @@ namespace HLife
         {
             this.wrap_Status.Height = 0;
 
-            foreach (PersonStatusItem item in XmlUtilities.CreateInstances<PersonStatusItem>(Game.Instance.ResourceController.BuildPath(@"Resources\PersonStatus.xml")))
+            foreach (Stat item in Stats.DefaultPersonStatusItems.Where(e => e.Type == "status"))
             {
                 GroupBox box = new GroupBox();
                 box.Width = this.wrap_Status.Width - 20;
@@ -75,10 +75,10 @@ namespace HLife
         {
             this.stack_Attributes.Height = 0;
 
-            foreach (System.Reflection.PropertyInfo item in typeof(PersonAttributes).GetProperties())
+            foreach (Stat item in Stats.DefaultPersonStatusItems.Where(e => e.Type == "attribute"))
             {
                 GroupBox box = new GroupBox();
-                box.Width = this.stack_Attributes.Width - 20;
+                box.Width = this.wrap_Status.Width - 20;
                 box.VerticalAlignment = VerticalAlignment.Top;
                 box.Header = item.Name;
                 this.stack_Attributes.Children.Add(box);
@@ -89,11 +89,24 @@ namespace HLife
                 box.Content = grid;
 
 
-                Label lbl = new Label();
-                lbl.Name = "lbl_" + item.Name;
-                lbl.Content = "-";
-                grid.Children.Add(lbl);
-                
+                if (item.ControlType == typeof(ProgressBar))
+                {
+                    ProgressBar value = (ProgressBar)item.GetControlInstance();
+                    value.Margin = new Thickness(0, 2, 0, 0);
+                    value.Name = "pgb_" + item.Name;
+                    value.Height = 14;
+                    grid.Children.Add(value);
+                }
+                else if (item.ControlType == typeof(CheckBox))
+                {
+                    CheckBox value = (CheckBox)item.GetControlInstance();
+                    value.Margin = new Thickness(0, 2, 0, 0);
+                    value.Name = "chk_" + item.Name;
+                    value.Height = 14;
+                    value.IsEnabled = false;
+                    grid.Children.Add(value);
+                }
+
                 this.stack_Attributes.Height += box.Height;
             }
         }
@@ -116,10 +129,22 @@ namespace HLife
 
         protected void UpdateAttributes(Person myPerson)
         {
-            foreach (System.Reflection.PropertyInfo item in typeof(PersonAttributes).GetProperties())
+            int count = 0;
+
+            foreach (Stat item in myPerson.Stats.StatEntries.Where(e => e.Type == "attribute"))
             {
-                Label lbl = (Label)LogicalTreeHelper.FindLogicalNode(this.tab_Attributes, "lbl_" + item.Name);
-                lbl.Content = item.GetValue(myPerson.Attributes, null);
+                if (item.ControlType == typeof(ProgressBar))
+                {
+                    ProgressBar value = (ProgressBar)LogicalTreeHelper.FindLogicalNode(this.tab_Attributes, "pgb_" + item.Name);
+                    value.Value = Math.Max(Math.Min((int)(double)item.Value, value.Maximum), value.Minimum);
+                }
+                else if (item.ControlType == typeof(CheckBox))
+                {
+                    CheckBox value = (CheckBox)LogicalTreeHelper.FindLogicalNode(this.tab_Attributes, "chk_" + item.Name);
+                    value.IsChecked = (bool)item.Value;
+                }
+
+                count++;
             }
         }
 
@@ -127,11 +152,17 @@ namespace HLife
         {
             int count = 0;
 
-            foreach (PersonStatusItem item in myPerson.Status.StatusItems)
+            foreach (Stat item in myPerson.Stats.StatEntries.Where(e => e.Type == "status"))
             {
                 if (item.ControlType == typeof(ProgressBar))
                 {
                     ProgressBar value = (ProgressBar)LogicalTreeHelper.FindLogicalNode(this.tab_Status, "pgb_" + item.Name);
+
+                    if(item.Maximum != null)
+                    {
+                        value.Maximum = myPerson.Stats.GetValue<double>(item.Maximum);
+                    }
+
                     value.Value = Math.Max(Math.Min((int)(double)item.Value, value.Maximum), value.Minimum);
                 }
                 else if (item.ControlType == typeof(CheckBox))

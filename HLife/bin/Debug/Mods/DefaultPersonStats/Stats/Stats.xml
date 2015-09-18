@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Stats>
+
+	<!--STATUS-->
+
+	<Stat>
+		<Name>Awake</Name>
+		<Value type="System.Boolean" displayType="CheckBox">true</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Alive</Name>
+		<Value type="System.Boolean" displayType="CheckBox">true</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Sober</Name>
+		<Value type="System.Boolean" displayType="CheckBox">true</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Happiness</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Energy</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Arousal</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Hunger</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Thirst</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Warmth</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>CumVolume</Name>
+		<Value type="System.Double" displayType="ProgressBar" maximum="Stamina">0</Value>
+		<Type>status</Type>
+	</Stat>
+
+	<Stat>
+		<Name>EjaculationsToday</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>status</Type>
+	</Stat>
+	
+	
+	<!--ATTRIBUTES-->
+
+	<Stat>
+		<Name>Charisma</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>attribute</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Intelligence</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>attribute</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Strength</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>attribute</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Stamina</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>attribute</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Willpower</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>attribute</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Labido</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>attribute</Type>
+	</Stat>
+
+	<Stat>
+		<Name>Inhibition</Name>
+		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Type>attribute</Type>
+	</Stat>
+	
+</Stats>

@@ -204,8 +204,6 @@ namespace HLife
             // Repopulate the occupant and inventory panels.
             Game.Instance.PropController.PopulatePropList();
             Game.Instance.PopulationController.PopulateOccupantList();
-
-            this.Player.LoadPlayerStats();
         }
 
         public void MoveTime(int seconds)

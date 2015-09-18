@@ -25,8 +25,8 @@ namespace HLife.Actions.Person
                 Game.Instance.DialogController.DrawDialog(new DialogControl("You give " + args.Target.FirstName + " a warm hug.", this, @"person\hug\",  true));
             }
 
-            args.Doer.Status.SetValue("Happiness", 10, true);
-            args.Target.Status.SetValue("Happiness", 10, true);
+            args.Doer.Stats.SetValue("Happiness", 10, true);
+            args.Target.Stats.SetValue("Happiness", 10, true);
         }
     }
 
@@ -47,8 +47,8 @@ namespace HLife.Actions.Person
                 Game.Instance.DialogController.DrawDialog(new DialogControl("You talk to " + args.Target.FirstName + ".", true));
             }
 
-            args.Doer.Status.SetValue("Happiness", 10, true);
-            args.Target.Status.SetValue("Happiness", 10, true);
+            args.Doer.Stats.SetValue("Happiness", 10, true);
+            args.Target.Stats.SetValue("Happiness", 10, true);
         }
     }
 }

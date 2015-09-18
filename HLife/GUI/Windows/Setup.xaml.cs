@@ -58,6 +58,8 @@ namespace HLife.GUI.Windows
                             || mod.Name == "Default Props"
                             || mod.Name == "Default Name Pack"
                             || mod.Name == "Default Perks"
+                            || mod.Name == "Default Person Stats"
+                            || mod.Name == "Default Prop Stats"
                         )
                     )
                 {
@@ -113,9 +115,7 @@ namespace HLife.GUI.Windows
         {
             List<Perk> perks = new List<Perk>();
 
-            List<Mod> perkMods = ModController.ModsEnabled.Where(mod => mod.Type == "Perks").ToList();
-
-            foreach (Mod mod in perkMods)
+            foreach (Mod mod in ModController.GetModsByType("Perks"))
             {
                 perks.AddRange(XmlUtilities.CreateInstances<Perk>(mod.Directory + @"\Perks\Perks.xml"));
             }

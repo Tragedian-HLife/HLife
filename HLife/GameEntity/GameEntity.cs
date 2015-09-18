@@ -39,6 +39,12 @@ namespace HLife
             }
         }
 
+        /// <summary>
+        /// Personal status.
+        /// </summary>
+        [XmlIgnore]
+        public Stats Stats { get; set; }
+
         public GameEntity()
         {
             this.Id = Guid.NewGuid();

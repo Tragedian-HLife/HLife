@@ -22,9 +22,7 @@ namespace HLife
 
         public override void Initialize()
         {
-            List<Mod> actionMods = ModController.ModsEnabled.Where(e => e.Type == "Actions").ToList();
-
-            foreach (Mod mod in actionMods)
+            foreach (Mod mod in ModController.GetModsByType("Actions"))
             {
                 // Get the external actions.
                 // Loop over each file in the Resources\Actions\ directory...
@@ -43,7 +41,7 @@ namespace HLife
                     foreach (IGrouping<string, Type> group in groups)
                     {
                         // For each class in this namespace...
-                        foreach (Type type in group)
+                        foreach (Type type in group.Where(e => e.BaseType == typeof(Action)))
                         {
                             // Create an instance of that class.
                             Action action = (Action)Activator.CreateInstance(type);

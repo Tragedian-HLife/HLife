@@ -30,6 +30,7 @@ namespace HLife
         public void PathfindTo(Location destination)
         {
             this.Path = this.AIAgent.Agent.Location.PathfindTo(destination);
+            this.Path.RemoveAt(0);
         }
 
         public void PathfindTo(string destination)

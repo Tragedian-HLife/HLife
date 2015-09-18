@@ -25,9 +25,7 @@ namespace HLife
 
         public override void Initialize()
         {
-            List<Mod> actionMods = ModController.ModsEnabled.Where(e => e.Type == "Props").ToList();
-
-            foreach (Mod mod in actionMods)
+            foreach (Mod mod in ModController.GetModsByType("Props"))
             {
                 List<PropTemplate> newProps = XmlUtilities.CreateInstances<PropTemplate>(mod.Directory + @"\Props\PropTemplates.xml");
                 newProps.ForEach(e => e.Source = mod);
