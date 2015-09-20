@@ -21,65 +21,61 @@ namespace HLife
 
         public bool ValueIsRelative { get; set; }
 
-        public Func<object, bool> Condition;
+        public bool RelativeOperationIsMultiplication { get; set; }
+
+        [XmlIgnore]
+        public Func<object, bool> Condition { get; set; }
 
         public ActionEffect()
         {
             this.Value = 0;
             this.ValueIsRelative = true;
-            this.Condition = delegate (object arg)
-            {
-                return true;
-            };
+            this.RelativeOperationIsMultiplication = false;
+            this.Condition = delegate (object arg){ return true; };
         }
 
         public ActionEffect(string name, double value)
+            : this()
         {
             this.ItemName = name;
             this.Value = value;
-            this.ValueIsRelative = true;
-            this.Condition = delegate (object arg)
-            {
-                return true;
-            };
+            this.Condition = delegate (object arg){ return true; };
         }
 
-        public ActionEffect(string name, double value, bool relative, Func<object, bool> condition)
+        public ActionEffect(string name, double value, bool relative, bool isMultiplication)
+            : this()
         {
             this.ItemName = name;
             this.Value = value;
             this.ValueIsRelative = relative;
+            this.RelativeOperationIsMultiplication = isMultiplication;
+        }
+
+        public ActionEffect(string name, double value, bool relative, bool isMultiplication, Func<object, bool> condition)
+            : this()
+        {
+            this.ItemName = name;
+            this.Value = value;
+            this.ValueIsRelative = relative;
+            this.RelativeOperationIsMultiplication = isMultiplication;
             this.Condition = condition;
         }
 
         public bool Apply(Person subject)
         {
-            return subject.Stats.SetValue(this.ItemName, this.Value, this.ValueIsRelative);
-        }
-
-        public object Preview(Person subject)
-        {
-            if (this.ValueIsRelative)
+            if (subject != null)
             {
-                var currentValue = subject.Stats.GetValue(this.ItemName);
-
-                if(currentValue.GetType() == typeof(double))
+                if (!this.RelativeOperationIsMultiplication)
                 {
-                    return (double)currentValue + this.Value;
-                }
-                else if (currentValue.GetType() == typeof(int))
-                {
-                    return (int)currentValue + this.Value;
+                    return subject.Stats.SetValue(this.ItemName, this.Value, this.ValueIsRelative);
                 }
                 else
                 {
-                    return this.Value;
+                    return subject.Stats.SetValue(this.ItemName, subject.Stats.GetValue<double>(this.ItemName) * this.Value, false);
                 }
             }
-            else
-            {
-                return this.Value;
-            }
+
+            return false;
         }
     }
 
@@ -119,21 +115,18 @@ namespace HLife
         }
     }
 
-    public abstract class Action
+    public class Action
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
 
         public int TimeNeeded { get; set; }
-
-        [XmlIgnore]
+        
         public List<ActionEffectSet> DoerActionEffects { get; set; }
-
-        [XmlIgnore]
+        
         public List<ActionEffectSet> TargetActionEffects { get; set; }
-
-        [XmlIgnore]
+        
         public List<ActionEffectSet> WitnessActionEffects { get; set; }
 
         public string DisabledDescription { get; set; }
@@ -159,6 +152,9 @@ namespace HLife
         /// People at the location of the action, minus the doer and target.
         /// </summary>
         public List<Person> Witnesses { get; protected set; }
+
+        [XmlIgnore]
+        public System.Action<ActionEventArgs> PerformLogic;
 
         /// <summary>
         /// Fired when the Perform method has completed execution.
@@ -211,8 +207,7 @@ namespace HLife
         {
             return true;
         }
-
-        // TODO: Record the outcome/delta of the action.
+        
         public void Perform(ActionEventArgs args)
         {
             // Tigger PrePerform event.
@@ -234,11 +229,11 @@ namespace HLife
             // Trigger the PostLogic event.
             this.PostLogicPerform(args);
 
-            foreach(ActionEffectSet set in this.DoerActionEffects)
-            {
-                ActionEffect effect = set.CheckCondition(args.Doer).First();
-                effect.Apply(args.Doer);
-            }
+
+            this.DoerActionEffects.ForEach(e => e.CheckCondition(args.Doer).First().Apply(args.Doer));
+            this.TargetActionEffects.ForEach(e => e.CheckCondition(args.Target).First().Apply(args.Target));
+            this.Witnesses.ForEach(w => this.WitnessActionEffects.ForEach(e => e.CheckCondition(w).First().Apply(w)));
+
 
             // If there is a target Person...
             if (args.Target != null)
@@ -278,7 +273,19 @@ namespace HLife
             this.PostPerform(args);
         }
 
-        public abstract void PerformLogic(ActionEventArgs argss);
+        public ActionEventArgs Preview(ActionEventArgs args)
+        {
+            ActionEventArgs previewArgs = new ActionEventArgs(
+                MiscUtilities.CloneJson<Person>(args.Doer), 
+                MiscUtilities.CloneJson<Person>(args.Target),
+                MiscUtilities.CloneJson<Prop>(args.Prop));
+
+            this.DoerActionEffects.ForEach(e => e.CheckCondition(previewArgs.Doer).First().Apply(previewArgs.Doer));
+            this.TargetActionEffects.ForEach(e => e.CheckCondition(previewArgs.Target).First().Apply(previewArgs.Target));
+            //this.Witnesses.ForEach(w => this.WitnessActionEffects.ForEach(e => e.CheckCondition(w).First().Apply(w)));
+            
+            return previewArgs;
+        }
 
         protected virtual void PrePerform(ActionEventArgs e)
         {
@@ -334,7 +341,7 @@ namespace HLife
             MenuItem displayAction = new MenuItem();
             displayAction.Header = this.DisplayName;
 
-            displayAction.Click += (sender, e) => Game.Instance.PropController.HandlePropAction(args.Doer, args.Prop, this, args.Target);
+            displayAction.Click += (sender, e) => this.Perform(args);
 
             if (this.CanPerform(args))
             {
@@ -359,7 +366,7 @@ namespace HLife
             MenuItem displayAction = new MenuItem();
             displayAction.Header = this.DisplayName;
             
-            displayAction.Click += (sender, e) => Game.Instance.Player.HandlePropAction(Game.Instance.Player, args.Prop, this, args.Target);
+            displayAction.Click += (sender, e) => this.Perform(args);
 
             if (this.CanPerform(args))
             {
@@ -377,6 +384,34 @@ namespace HLife
             }
 
             return displayAction;
+        }
+
+        public List<ActionEffect> GetEffectsByStat(string stat, ActionEventArgs args = null)
+        {
+            List<ActionEffect> effects = new List<ActionEffect>();
+
+            foreach(ActionEffectSet effectSet in this.DoerActionEffects)
+            {
+                foreach (ActionEffect effect in effectSet.Effects)
+                {
+                    if(effect.ItemName == stat)
+                    {
+                        if(args != null)
+                        {
+                            if(effect.Condition(args))
+                            {
+                                effects.Add(effect);
+                            }
+                        }
+                        else
+                        {
+                            effects.Add(effect);
+                        }
+                    }
+                }
+            }
+
+            return effects;
         }
     }
 }

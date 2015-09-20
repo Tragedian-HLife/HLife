@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Threading;
+using Newtonsoft.Json;
+using static HLife.MiscUtilities;
 
 namespace HLife
 {
@@ -35,6 +37,7 @@ namespace HLife
         public string BackgroundImage { get; set; }
 
         [XmlIgnore]
+        [JsonIgnore]
         public BitmapImage BackgroundImageBlurred { get; set; }
 
         public string MapImage { get; set; }

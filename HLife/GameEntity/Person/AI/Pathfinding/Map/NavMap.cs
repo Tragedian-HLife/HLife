@@ -12,7 +12,7 @@ namespace HLife
     /// </summary>
     public class NavMap
     {
-        public Dictionary<Location, PathNode> Nodes { get; set; }
+        public SerializableDictionary<Location, PathNode> Nodes { get; set; }
 
         /// <summary>
         /// Default constructor
@@ -20,9 +20,9 @@ namespace HLife
         public NavMap()
         { }
 
-        public void GenerateArbitraryMap(Dictionary<PathNode, List<PathNode>> edges)
+        public void GenerateArbitraryMap(SerializableDictionary<PathNode, List<PathNode>> edges)
         {
-            this.Nodes = new Dictionary<Location, PathNode>();
+            this.Nodes = new SerializableDictionary<Location, PathNode>();
 
             foreach(PathNode node in edges.Keys)
             {

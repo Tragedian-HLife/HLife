@@ -42,6 +42,8 @@ namespace HLife
         public List<string> Categories { get; set; }
 
         public Mod Source { get; set; }
+        
+        public int MaxOccupancy { get; set; }
 
         /// <summary>
         /// Default constructor.

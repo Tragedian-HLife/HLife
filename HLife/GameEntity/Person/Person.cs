@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,9 +59,8 @@ namespace HLife
         public List<Relationship> Relationships { get; set; }
 
         public AIAgent AIAgent { get; set; }
-
-        [XmlIgnore]
-        public BitmapImage HeadImage { get; set; }
+        
+        public string HeadImage { get; set; }
 
         /// <summary>
         /// Default constructor.
@@ -77,6 +77,11 @@ namespace HLife
             this.AIAgent = new AIAgent(this);
 
             Game.Instance.PopulationController.People.Add(this);
+        }
+
+        ~Person()
+        {
+            Game.Instance.PopulationController.People.Remove(this);
         }
 
         /// <summary>
@@ -182,7 +187,7 @@ namespace HLife
             string pronoun = this.GetPossessivePronoun();
             string capPronoun = StringUtilities.CaptializeWords(pronoun);
 
-            if ((double)this.Stats.GetValue("EjaculationsToday") < this.Stats.GetValue<double>("Stamina"))
+            if ((double)this.Stats.GetValue("EjaculationsToday") < this.Stats.GetValue<double>("Stamina") / 25.0)
             {
                 if ((double)this.Stats.GetValue("CumVolume") <= 0)
                 {

@@ -7,6 +7,7 @@
 		<DisplayName>Bed</DisplayName>
 		<Description>A basic bed. It looks comfortable enough for a night's sleep.</Description>
 		<Image>Furniture\Bed\bed.png</Image>
+		<MaxOccupancy>2</MaxOccupancy>
 		
 		<Categories>
 			<string>Furniture</string>
@@ -29,6 +30,7 @@
 		<DisplayName>Couch</DisplayName>
 		<Description>A basic couch. The cushions don't provide much support and the fabric is rough.</Description>
 		<Image>Furniture\Couch\couch.png</Image>
+		<MaxOccupancy>2</MaxOccupancy>
 		
 		<Categories>
 			<string>Furniture</string>

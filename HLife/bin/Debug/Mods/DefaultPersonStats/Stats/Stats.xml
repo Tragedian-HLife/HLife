@@ -23,50 +23,74 @@
 
 	<Stat>
 		<Name>Happiness</Name>
-		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Value type="System.Double" displayType="ProgressBar">100</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Asymmetric</StatShape>
 	</Stat>
 
 	<Stat>
 		<Name>Energy</Name>
-		<Value type="System.Double" displayType="ProgressBar">0</Value>
+		<Value type="System.Double" displayType="ProgressBar" maximum="Stamina">0</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Asymmetric</StatShape>
 	</Stat>
 
 	<Stat>
 		<Name>Arousal</Name>
 		<Value type="System.Double" displayType="ProgressBar">0</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Asymmetric</StatShape>
 	</Stat>
 
 	<Stat>
 		<Name>Hunger</Name>
 		<Value type="System.Double" displayType="ProgressBar">0</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Symmetric</StatShape>
 	</Stat>
 
 	<Stat>
 		<Name>Thirst</Name>
 		<Value type="System.Double" displayType="ProgressBar">0</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Symmetric</StatShape>
 	</Stat>
 
 	<Stat>
 		<Name>Warmth</Name>
 		<Value type="System.Double" displayType="ProgressBar">0</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Symmetric</StatShape>
 	</Stat>
 
 	<Stat>
 		<Name>CumVolume</Name>
-		<Value type="System.Double" displayType="ProgressBar" maximum="Stamina">0</Value>
+		<Value type="System.Double" displayType="ProgressBar" maximum="Physique.CumVolume">0</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Asymmetric</StatShape>
 	</Stat>
 
 	<Stat>
 		<Name>EjaculationsToday</Name>
 		<Value type="System.Double" displayType="ProgressBar">0</Value>
 		<Type>status</Type>
+		<LowestValue>0</LowestValue>
+		<HighestValue>100</HighestValue>
+		<StatShape>Asymmetric</StatShape>
 	</Stat>
 	
 	

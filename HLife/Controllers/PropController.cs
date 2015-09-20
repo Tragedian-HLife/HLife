@@ -42,6 +42,7 @@ namespace HLife
             Prop newProp = new Prop();
             newProp.Template = this.GetPropTemplate(name);
             newProp.Image = newProp.Template.Image;
+            newProp.MaxOccupancy = newProp.Template.MaxOccupancy;
             return newProp;
         }
 
@@ -65,12 +66,6 @@ namespace HLife
             {
                 wrap_Inventory.Children.Add(prop.GetContextMenuItem());
             }
-        }
-
-        // TODO: Remove this.
-        public virtual void HandlePropAction(Person doer, Prop prop, Action action, Person target)
-        {
-            Game.Instance.Player.TryAction(action.Name, Guid.Empty, prop.Template.DisplayName);
         }
 
         public Prop GetProp(string displayName)
@@ -97,6 +92,55 @@ namespace HLife
             }
 
             return null;
+        }
+
+        public List<PropTemplate> GetPropTemplatesByAction(Action action)
+        {
+            List<PropTemplate> props = new List<PropTemplate>();
+
+            foreach(PropTemplate prop in this.PropTemplates)
+            {
+                if(prop.Actions.Contains(action.Name))
+                {
+                    props.Add(prop);
+                }
+            }
+
+            return props;
+        }
+
+        public List<Prop> GetPropsByTemplate(PropTemplate template, Location zone = null)
+        {
+            List<Prop> props = new List<Prop>();
+
+            List<Prop> haystack = this.Props;
+
+            if (zone != null)
+            {
+                haystack = zone.Inventory;
+            }
+
+            foreach (Prop prop in haystack)
+            {
+                if (prop.Template == template)
+                {
+                    props.Add(prop);
+                }
+            }
+
+            return props;
+        }
+
+        public List<Prop> GetPropsByAction(Action action, Location zone = null)
+        {
+            List<Prop> props = new List<Prop>();
+
+            foreach (PropTemplate template in this.GetPropTemplatesByAction(action))
+            {
+                props.AddRange(this.GetPropsByTemplate(template, zone));
+            }
+
+            return props;
         }
     }
 }

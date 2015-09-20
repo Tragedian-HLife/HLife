@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace HLife
 {
@@ -40,6 +46,30 @@ namespace HLife
 
             return list[MiscUtilities.Rand.Next(list.Count)];
         }
+
+        /// <summary>
+        /// Perform a deep Copy of the object, using Json as a serialisation method.
+        /// </summary>
+        /// <typeparam name="T">The type of object being copied.</typeparam>
+        /// <param name="source">The object instance to copy.</param>
+        /// <returns>The copied object.</returns>
+        public static T CloneJson<T>(this T source)
+        {
+            // Don't serialize a null object, simply return the default for that object
+            if (Object.ReferenceEquals(source, null))
+            {
+                return default(T);
+            }
+
+            // TODO: Make threadsafe.
+
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(source, new JsonSerializerSettings {
+                PreserveReferencesHandling = PreserveReferencesHandling.All,
+                TypeNameHandling = TypeNameHandling.All,
+                ObjectCreationHandling = ObjectCreationHandling.Replace,
+                //ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            }));
+        }
     }
 
     public static class IconHelper
@@ -56,21 +86,23 @@ namespace HLife
         [DllImport("user32.dll")]
         static extern IntPtr SendMessage(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
 
-        const int GWL_EXSTYLE = -20;
-        const int WS_EX_DLGMODALFRAME = 0x0001;
-        const int SWP_NOSIZE = 0x0001;
-        const int SWP_NOMOVE = 0x0002;
-        const int SWP_NOZORDER = 0x0004;
-        const int SWP_FRAMECHANGED = 0x0020;
-        const uint WM_SETICON = 0x0080;
+        const int GWL_EXSTYLE           = -20;
+        const int WS_EX_DLGMODALFRAME   = 0x0001;
+        const int SWP_NOSIZE            = 0x0001;
+        const int SWP_NOMOVE            = 0x0002;
+        const int SWP_NOZORDER          = 0x0004;
+        const int SWP_FRAMECHANGED      = 0x0020;
+        const uint WM_SETICON           = 0x0080;
 
         public static void RemoveIcon(Window window)
         {
             // Get this window's handle
             IntPtr hwnd = new WindowInteropHelper(window).Handle;
+
             // Change the extended window style to not show a window icon
             int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
             SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
+
             // Update the window's non-client area to reflect the changes
             SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
         }

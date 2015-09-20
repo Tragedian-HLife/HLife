@@ -35,7 +35,7 @@ namespace HLife
                     AppDomain.CurrentDomain.Load(assembly.GetName());
 
                     // Get each of the namespaces and classes within this assembly.
-                    IEnumerable groups = ReflectiveUtilities.GetNamespacesInNamespace(assembly, "HLife.Actions");
+                    IEnumerable groups = ReflectionUtilities.GetNamespacesInNamespace(assembly, "HLife.Actions");
 
                     // For each namespace within this assembly...
                     foreach (IGrouping<string, Type> group in groups)
@@ -75,15 +75,56 @@ namespace HLife
             return this.Actions.Where(function);
         }
 
-        public void PopulateActionList()
+        public List<Action> GetActionsByStat(string stat, ActionEventArgs args)
         {
-            /*
-            GameController.game.windowController.GetWindow<ActionWindow>().actions.Items.Clear();
+            List<Action> actions = new List<Action>();
 
-            GameController.game.windowController.GetWindow<ActionWindow>().actions.Items.Add("");
+            foreach (Action action in Game.Instance.ActionController.Actions)
+            {
+                if(action.GetEffectsByStat(stat, args).Count > 0)
+                {
+                    actions.Add(action);
+                }
+            }
 
-            GameController.game.windowController.GetWindow<ActionWindow>().actions.Items.AddRange(this.actions.Select(e => e.DisplayName).ToArray());
-            */
+            return actions;
+        }
+
+        public Action GetMostEffectiveActionByStat(string stat, ActionEventArgs args, List<Action> actionPool = null)
+        {
+            List<Action> actions;
+
+            if (actionPool == null)
+            {
+                actions = this.GetActionsByStat(stat, args);
+            }
+            else
+            {
+                actions = actionPool;
+            }
+
+            if(actions.Count == 0)
+            {
+                return null;
+            }
+
+            Action minAction = null;
+            double minDiff = args.Doer.Stats.GetItem(stat).GetAbsoluteDifference(StatBasicStatuses.Fatal);
+
+            foreach (Action action in actions)
+            {
+                ActionEventArgs previewArgs = action.Preview(args);
+
+                double diff = previewArgs.Doer.Stats.GetItem(stat).GetAbsoluteDifference(StatBasicStatuses.Fatal);
+
+                if(Math.Abs(diff) < Math.Abs(minDiff))
+                {
+                    minDiff = diff;
+                    minAction = action;
+                }
+            }
+
+            return minAction;
         }
     }
 }

@@ -49,19 +49,19 @@ namespace HLife
     public class DialogController
         : Controller
     {
-        public Dictionary<string, DialogGroup> DialogGroups { get; set; }
+        public SerializableDictionary<string, DialogGroup> DialogGroups { get; set; }
 
         private DialogControl CurrentDialog { get; set; }
 
         public DialogController()
         {
-            this.DialogGroups = new Dictionary<string, DialogGroup>();
+            this.DialogGroups = new SerializableDictionary<string, DialogGroup>();
         }
 
         public override void Initialize()
         {
-            List<DialogGroup> groups = XmlUtilities.CreateInstances<DialogGroup>(Game.Instance.ResourceController.BuildPath(@"Resources\Language\en-us\Actions.xml"));
-            groups.ForEach(e => this.DialogGroups.Add(e.Id, e));
+            //List<DialogGroup> groups = XmlUtilities.CreateInstances<DialogGroup>(Game.Instance.ResourceController.BuildPath(@"Resources\Language\en-us\Actions.xml"));
+            //groups.ForEach(e => this.DialogGroups.Add(e.Id, e));
         }
 
         public override void Update()

@@ -59,6 +59,20 @@ namespace HLife
                 case Key.O:
                     this.tab_Occupants.Focus();
                     break;
+
+                case Key.S:
+                    if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                    {
+                        SaveLoadController.Save();
+                    }
+                    break;
+
+                case Key.L:
+                    if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                    {
+                        SaveLoadController.Load();
+                    }
+                    break;
             }
         }
 

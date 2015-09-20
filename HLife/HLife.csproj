@@ -47,6 +47,10 @@
       <HintPath>..\packages\Magick.NET-Q16-AnyCPU.7.0.0.0018\lib\net40-client\Magick.NET.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -116,6 +120,7 @@
     <Compile Include="Controllers\PopulationController.cs" />
     <Compile Include="Controllers\PropController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
+    <Compile Include="Controllers\SaveLoadController.cs" />
     <Compile Include="Controllers\WindowController.cs" />
     <Compile Include="Dialog\Dialog.cs" />
     <Compile Include="Dialog\DialogGroup.cs" />
@@ -133,7 +138,8 @@
     <Compile Include="GameEntity\Person\Person.cs" />
     <Compile Include="GameEntity\Person\PersonPhysique.cs" />
     <Compile Include="GameEntity\Person\PersonPreferences.cs" />
-    <Compile Include="GameEntity\Stats.cs" />
+    <Compile Include="GameEntity\Stats\Stat.cs" />
+    <Compile Include="GameEntity\Stats\Stats.cs" />
     <Compile Include="GameEntity\Person\Player.cs" />
     <Compile Include="GameEntity\Person\Relationship.cs" />
     <Compile Include="GameEntity\Prop\Prop.cs" />
@@ -172,13 +178,14 @@
     <Compile Include="GUI\Windows\Setup.xaml.cs">
       <DependentUpon>Setup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Misc\DataStructures\SerializableDictionary.cs" />
     <Compile Include="Misc\Enums.cs" />
     <Compile Include="Misc\Events\CustomEventArgs.cs" />
     <Compile Include="Misc\Settings.cs" />
     <Compile Include="Misc\Utilities\AI\FuzzyLogicUtilities.cs" />
     <Compile Include="Misc\Utilities\AI\Pathfinding.cs" />
     <Compile Include="Misc\Utilities\Compiler\CompilerUtilities.cs" />
-    <Compile Include="Misc\Utilities\Compiler\ReflectiveUtilities.cs" />
+    <Compile Include="Misc\Utilities\Compiler\ReflectionUtilities.cs" />
     <Compile Include="Misc\Utilities\File\FileUtilities.cs" />
     <Compile Include="Misc\Utilities\File\XmlUtilities.cs" />
     <Compile Include="Misc\Utilities\Image\ImageUtilities.cs" />

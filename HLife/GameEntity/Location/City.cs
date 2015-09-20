@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -15,6 +16,7 @@ namespace HLife
     {
         public string SpawnLocation { get; set; }
 
+        [JsonIgnore]
         [XmlIgnore]
         public NavMap NavMap { get; set; }
 
@@ -39,7 +41,7 @@ namespace HLife
         {
             List<PathNode> nodes = this.CreateNode();
 
-            Dictionary<PathNode, List<PathNode>> edges = new Dictionary<PathNode, List<PathNode>>();
+            SerializableDictionary<PathNode, List<PathNode>> edges = new SerializableDictionary<PathNode, List<PathNode>>();
 
             foreach (PathNode node in nodes)
             {

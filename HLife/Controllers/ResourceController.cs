@@ -14,11 +14,11 @@ namespace HLife
     public class ResourceController
         : Controller
     {
-        public Dictionary<string, string> Paths { get; set; }
+        public SerializableDictionary<string, string> Paths { get; set; }
 
         public ResourceController()
         {
-            this.Paths = new Dictionary<string, string>();
+            this.Paths = new SerializableDictionary<string, string>();
 
             this.Paths.Add("Assets", @"Assets\");
                 this.Paths.Add("Images", this.Paths["Assets"] + @"Images\");

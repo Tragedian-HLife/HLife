@@ -64,6 +64,11 @@ namespace HLife
         public PenisSizes PenisSize { get; set; }
 
         /// <summary>
+        /// Volume of ejeculate in mL.
+        /// </summary>
+        public double CumVolume { get; set; }
+
+        /// <summary>
         /// Size of the veginal opening.
         /// </summary>
         public VaginalSizes VaginalSize { get; set; }

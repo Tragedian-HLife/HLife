@@ -21,11 +21,13 @@ namespace HLife.Actions.Bed
             this.DisableVisible         = true;
             
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Energy", 20)));
+
+            this.PerformLogic = MyLogic;
         }
 
         public override bool CanPerform(ActionEventArgs args)
         {
-            if((double)args.Doer.Stats.GetItem("Energy").Value < 100)
+            if(args.Doer.Stats.GetValue<double>("Energy") < 100)
             {
                 return true;
             }
@@ -33,7 +35,7 @@ namespace HLife.Actions.Bed
             return false;
         }
 
-        public override void PerformLogic(ActionEventArgs args)
+        public void MyLogic(ActionEventArgs args)
         {
             if (DoerIsPlayer)
             {
@@ -58,6 +60,8 @@ namespace HLife.Actions.Bed
             this.DisableVisible = false;
 
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Energy", 10)));
+
+            this.PerformLogic = MyLogic;
         }
 
         public override bool CanPerform(ActionEventArgs args)
@@ -70,7 +74,7 @@ namespace HLife.Actions.Bed
             return false;
         }
 
-        public override void PerformLogic(ActionEventArgs args)
+        public void MyLogic(ActionEventArgs args)
         {
             if (DoerIsPlayer)
             {
@@ -91,19 +95,25 @@ namespace HLife.Actions.Bed
         {
             this.DisplayName = "Masturbate";
             this.DisableVisible = true;
+
+            this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Energy", -10)));
+            this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("EjaculationsToday", 1)));
+            this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("CumVolume", 0.5, true, true)));
+
+            this.PerformLogic = MyLogic;
         }
 
-        public override void PerformLogic(ActionEventArgs args)
+        public void MyLogic(ActionEventArgs args)
         {
             if (DoerIsPlayer)
             {
                 Game.Instance.Output("You lie back on the bed and reach down to remove your pants.", true);
 
-                if ((double)args.Doer.Stats.GetValue("EjaculationsToday") < 2)
+                if (args.Doer.Stats.GetValue<double>("EjaculationsToday") < 2)
                 {
                     Game.Instance.Output("Your erect cock springs free.", true);
                 }
-                else if ((double)args.Doer.Stats.GetValue("EjaculationsToday") < 4)
+                else if (args.Doer.Stats.GetValue<double>("EjaculationsToday") < 4)
                 {
                     Game.Instance.Output("Your sore cock strains to rise.", true);
                 }
@@ -114,11 +124,11 @@ namespace HLife.Actions.Bed
 
                 Game.Instance.Output("You grip the shaft and begin masturbating.", true);
 
-                if ((double)args.Doer.Stats.GetValue("EjaculationsToday") < 2)
+                if (args.Doer.Stats.GetValue<double>("EjaculationsToday") < 2)
                 {
                     Game.Instance.Output("Before long, you feel yourself approaching climax.", true);
                 }
-                else if ((double)args.Doer.Stats.GetValue("EjaculationsToday") < 4)
+                else if (args.Doer.Stats.GetValue<double>("EjaculationsToday") < 4)
                 {
                     Game.Instance.Output("It takes longer than usual but you can finally feel yourself starting to climax.", true);
                 }
@@ -127,10 +137,10 @@ namespace HLife.Actions.Bed
                     Game.Instance.Output("You stroke your painful cock for a long time before finally giving up.", true);
                 }
 
-                this.DisplayImage("bed.masturbate.jpg");
+                //this.DisplayImage("bed.masturbate.jpg");
             }
 
-            args.Doer.Cum(Prepositions.On, args.Doer);
+            //args.Doer.Cum(Prepositions.On, args.Doer);
         }
     }
 }

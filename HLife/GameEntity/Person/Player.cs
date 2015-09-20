@@ -27,11 +27,11 @@ namespace HLife
             : base()
         {
             this.Money = 0;
-            
-            this.Stats.SetValue("CumVolume", 6.0);
-            this.Stats.SetValue("Stamina", 4.0);
 
-            //this.LoadPlayerStats();
+            // TODO: Cull this test data.
+            this.Physique.CumVolume = 6.0;
+            this.Stats.SetValue("CumVolume", this.Physique.CumVolume);
+            this.Stats.SetValue("Stamina", 50.0);
         }
 
         /// <summary>
@@ -69,24 +69,6 @@ namespace HLife
 
                 Game.Instance.Synchronize();
             }
-        }
-
-        // TODO: Remove this.
-        /// <summary>
-        /// Attempts to perform an action.
-        /// </summary>
-        /// <param name="action">Name of action.</param>
-        /// <param name="target">Target of action.</param>
-        /// <param name="prop">Prop for action.</param>
-        /// <returns>True if action was completed.</returns>
-        public bool TryAction(string action, Guid target, string prop)
-        {
-            Action.Get(action).Perform(new ActionEventArgs(
-                this, 
-                Game.Instance.PopulationController.GetPerson(target), 
-                Game.Instance.PropController.GetProp(prop)));
-
-            return false;
         }
     }
 }

@@ -55,6 +55,11 @@ namespace HLife
                     value.Margin = new Thickness(0, 2, 0, 0);
                     value.Name = "pgb_" + item.Name;
                     value.Height = 14;
+
+                    ToolTip tip = new System.Windows.Controls.ToolTip();
+                    tip.Content = "0";
+                    value.ToolTip = tip;
+
                     grid.Children.Add(value);
                 }
                 else if (item.ControlType == typeof(CheckBox))
@@ -160,10 +165,18 @@ namespace HLife
 
                     if(item.Maximum != null)
                     {
-                        value.Maximum = myPerson.Stats.GetValue<double>(item.Maximum);
+                        if (item.Maximum.Split('.').Count() > 1)
+                        {
+                            value.Maximum = (double)ReflectionUtilities.GetPropertyValue(myPerson, item.Maximum);
+                        }
+                        else
+                        {
+                            value.Maximum = myPerson.Stats.GetValue<double>(item.Maximum);
+                        }
                     }
 
                     value.Value = Math.Max(Math.Min((int)(double)item.Value, value.Maximum), value.Minimum);
+                    ((ToolTip)value.ToolTip).Content = value.Value;
                 }
                 else if (item.ControlType == typeof(CheckBox))
                 {

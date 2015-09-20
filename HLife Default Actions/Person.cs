@@ -16,17 +16,19 @@ namespace HLife.Actions.Person
         {
             this.DisplayName = "Hug";
             this.TimeNeeded = 10;
+
+            this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 10)));
+            this.TargetActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 10)));
+
+            this.PerformLogic = MyLogic;
         }
 
-        public override void PerformLogic(ActionEventArgs args)
+        public void MyLogic(ActionEventArgs args)
         {
             if (DoerIsPlayer)
             {
                 Game.Instance.DialogController.DrawDialog(new DialogControl("You give " + args.Target.FirstName + " a warm hug.", this, @"person\hug\",  true));
             }
-
-            args.Doer.Stats.SetValue("Happiness", 10, true);
-            args.Target.Stats.SetValue("Happiness", 10, true);
         }
     }
 
@@ -38,17 +40,19 @@ namespace HLife.Actions.Person
         {
             this.DisplayName = "Chat";
             this.TimeNeeded = 60;
+
+            this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 5)));
+            this.TargetActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 5)));
+
+            this.PerformLogic = MyLogic;
         }
 
-        public override void PerformLogic(ActionEventArgs args)
+        public void MyLogic(ActionEventArgs args)
         {
             if (DoerIsPlayer)
             {
                 Game.Instance.DialogController.DrawDialog(new DialogControl("You talk to " + args.Target.FirstName + ".", true));
             }
-
-            args.Doer.Stats.SetValue("Happiness", 10, true);
-            args.Target.Stats.SetValue("Happiness", 10, true);
         }
     }
 }

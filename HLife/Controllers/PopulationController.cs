@@ -117,10 +117,9 @@ namespace HLife
             newPerson.Physique.HairColor = MiscUtilities.GetRandomEnum<HairColors>();
             newPerson.Physique.HairLength = MiscUtilities.GetRandomEnum<HairLengths>();
             newPerson.Image = newPerson.Physique.Sex.ToString() + @"\" + newPerson.Physique.Sex.ToString() + "_0.png";
-            newPerson.HeadImage = new BitmapImage(new Uri(
-                    Game.Instance.ResourceController.BuildPath(@"\Assets\Images\Characters\BodyParts\" +
+            newPerson.HeadImage = Game.Instance.ResourceController.BuildPath(@"\Assets\Images\Characters\BodyParts\" +
                     (newPerson.Physique.Sex == Sexes.Futanari ? "Female" : newPerson.Physique.Sex.ToString()) +
-                    @"Heads_Cropped\" + newPerson.Physique.Sex.ToString()[0] + "_Head" + MiscUtilities.Rand.Next(100) + ".png")));
+                    @"Heads_Cropped\" + newPerson.Physique.Sex.ToString()[0] + "_Head" + MiscUtilities.Rand.Next(100) + ".png");
 
             return newPerson;
         }
@@ -199,7 +198,7 @@ namespace HLife
         {
             List<Person> population = new List<Person>();
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 1; i++)
             {
                 population.AddRange(this.GenerateFamily());
             }
@@ -241,7 +240,7 @@ namespace HLife
                 pb.Width = panel.Width * .25;
                 pb.Height = 50;
                 pb.Stretch = System.Windows.Media.Stretch.Uniform;
-                pb.Source = occupant.HeadImage;
+                pb.Source = new BitmapImage(new Uri(occupant.HeadImage));
                 pb.Margin = new Thickness(10, 20, 0, 0);
                 pb.VerticalAlignment = VerticalAlignment.Top;
                 pb.HorizontalAlignment = HorizontalAlignment.Left;

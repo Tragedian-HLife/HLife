@@ -20,6 +20,8 @@ namespace HLife
 
         public List<Person> Occupants { get; set; }
 
+        public int MaxOccupancy { get; set; }
+
         public List<KeyValuePair<Action, ActionEventArgs>> ActionsReceived { get; set; }
 
         public List<KeyValuePair<Action, ActionEventArgs>> ActionsPerformed { get; set; }
@@ -35,14 +37,16 @@ namespace HLife
 
             set
             {
-                this.MoveToLocation(value);
+                if(value != null)
+                {
+                    this.MoveToLocation(value);
+                }
             }
         }
 
         /// <summary>
         /// Personal status.
         /// </summary>
-        [XmlIgnore]
         public Stats Stats { get; set; }
 
         public GameEntity()
@@ -52,11 +56,7 @@ namespace HLife
             this.Occupants = new List<Person>();
             this.ActionsReceived = new List<KeyValuePair<Action, ActionEventArgs>>();
             this.ActionsPerformed = new List<KeyValuePair<Action, ActionEventArgs>>();
-        }
-
-        public virtual void HandlePropAction(Person doer, Prop prop, Action action, Person target)
-        {
-            Game.Instance.Player.TryAction(action.Name, target.Id, null);
+            this.MaxOccupancy = 0;
         }
 
         protected virtual void MoveToLocation(Location newLoc)

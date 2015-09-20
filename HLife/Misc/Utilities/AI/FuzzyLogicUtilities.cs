@@ -88,7 +88,7 @@ namespace HLife
 
         public static double GetResult(MamdaniFuzzySystem fuzzySystem, string outputVariable, params KeyValuePair<string, double>[] inputVariables)
         {
-            Dictionary<FuzzyVariable, double> inputValues = new Dictionary<FuzzyVariable, double>();
+            SerializableDictionary<FuzzyVariable, double> inputValues = new SerializableDictionary<FuzzyVariable, double>();
 
             foreach(KeyValuePair<string, double> entry in inputVariables)
             {

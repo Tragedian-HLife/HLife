@@ -9,8 +9,6 @@ using System.Threading.Tasks;
 
 namespace HLife
 {
-    // TODO: Handle each Location's agents in a new thread.
-    //       foreach location, start thread, handle each location's agents sequentially
     public class AIAgent
     {
         public Person Agent { get; set; }
@@ -60,8 +58,7 @@ namespace HLife
             //      4. Plan the steps to make it happen.
 
 
-
-
+            
             // If the agent has a destination...
             if (this.NavAgent.Path.Count > 0)
             {
@@ -70,36 +67,48 @@ namespace HLife
             }
             else
             {
+                Stat worstStat = this.SearchForNeeds();
+
+                if (worstStat != null)
+                {
+                    List<Action> candidates = this.GetCandidateActions(worstStat.Name);
+
+                    Action bestCandidate = this.GetBestCandidateAction(worstStat.Name, candidates);
+
+                    if(bestCandidate != null)
+                    {
+                        List<Prop> viableLocalProps = Game.Instance.PropController.GetPropsByAction(bestCandidate, this.Agent.Location);
+                        viableLocalProps = viableLocalProps.Where(e => e.Occupants.Count < e.MaxOccupancy).ToList();
+
+                        if(viableLocalProps.Count > 0)
+                        {
+                            bestCandidate.Perform(new ActionEventArgs(this.Agent, null, viableLocalProps.First()));
+                        }
+                    }
+                }
+
                 if (this.Agent.Stats.GetValue<double>("Energy") < 20)
                 {
-                    Prop bed = this.Agent.Location.Inventory.FindLast(e => e.Template.Categories.Contains("Bed"));
+                    //Prop bed = this.Agent.Location.Inventory.FindLast(e => e.Template.Categories.Contains("Bed"));
 
                     //this.UseProp(bed);
                 }
                 else
                 {
                     // Find a new destination.
-                    this.NavAgent.PathfindTo(this.LookForLocation());
+                    //this.NavAgent.PathfindTo(this.LookForLocation());
 
                     // Start moving there.
-                    this.NavAgent.Update();
+                    //this.NavAgent.Update();
                 }
             }
         }
 
-        protected void SearchForNeeds()
+        protected Stat SearchForNeeds()
         {
+            Stat worstStat = this.Agent.Stats.GetWorstStat(true);
 
-        }
-
-        protected void SearchForDireNeeds()
-        {
-
-        }
-
-        protected void SearchForComfortNeeds()
-        {
-
+            return worstStat;
         }
 
         protected Prop LookForProp(GameEntity target)
@@ -180,6 +189,16 @@ namespace HLife
             );
 
             Debug.WriteLine(result.ToString("f1"));
+        }
+
+        protected Action GetBestCandidateAction(string stat, List<Action> candidateActions)
+        {
+            return Game.Instance.ActionController.GetMostEffectiveActionByStat(stat, new ActionEventArgs(this.Agent, null, null), candidateActions);
+        }
+
+        protected List<Action> GetCandidateActions(string stat)
+        {
+            return Game.Instance.ActionController.GetActionsByStat(stat, new ActionEventArgs(this.Agent, null, null));
         }
     }
 }

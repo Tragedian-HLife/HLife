@@ -10,16 +10,22 @@ using System.IO;
 using System.Reflection;
 using ImageMagick;
 using System.Windows.Controls;
+using Newtonsoft.Json;
+using System.Xml.Serialization;
 
 namespace HLife
 {
     public class Game
     {
+        [JsonIgnore]
+        [XmlIgnore]
         private static Game _instance = null;
 
         /// <summary>
         /// Singleton instance for this class.
         /// </summary>
+        [JsonIgnore]
+        [XmlIgnore]
         public static Game Instance
         {
             get
@@ -48,31 +54,33 @@ namespace HLife
         /// </summary>
         public DateTime Date { get; set; }
 
+        /// <summary>
+        /// Player Person object.
+        /// </summary>
+        public Player Player { get; set; }
+        
+        public City City { get; set; }
+
         public PopulationController PopulationController { get; set; }
-
+        
         public ActionController ActionController { get; set; }
-
+        
         public PropController PropController { get; set; }
 
+        [JsonIgnore]
+        [XmlIgnore]
         public WindowController WindowController { get; set; }
-
+        
         public ResourceController ResourceController { get; set; }
-
+        
         public DialogController DialogController { get; set; }
-
+        
         public AIController AIController { get; set; }
 
         /// <summary>
         /// General game settings.
         /// </summary>
         public Settings Settings { get; set; }
-
-        /// <summary>
-        /// Player Person object.
-        /// </summary>
-        public Player Player { get; set; }
-
-        public City City { get; set; }
 
         /// <summary>
         /// Singleton constructor.
@@ -125,6 +133,10 @@ namespace HLife
             // Requires the PersonController.
             this.PopulationController.GeneratePopulation().ForEach(e => e.Location = MiscUtilities.GetRandomEntry<Location>(Location.GetAll(this.City)));
 
+            this.PopulationController.People.RemoveRange(1, this.PopulationController.People.Count - 2);
+
+            this.PopulationController.GeneratePopulation().ForEach(e => e.Location = Location.Get("Home.Bedroom"));
+
             // Initialize the AI.
             this.AIController.Initialize();
 
@@ -137,6 +149,7 @@ namespace HLife
             Player.MoveToLocation(Location.Get("Home.Bedroom"), false);
 
             //Action.Get("Bed.Sleep").Performed += (sender, e) => Debug.WriteLine(e.Doer.Name + " slept in the bed.");
+            this.Player.Stats.GetItem("Energy").FuzzyExample();
 
             // Synchronize everything.
             // Requires the Player and the WindowController.
@@ -171,15 +184,9 @@ namespace HLife
 
         public void Update()
         {
-            this.AIController.UpdateSingleThread();
-
             this.AIController.Update();
 
             Debug.WriteLine("Threaded: " + this.AIController.ThreadTime);
-            Debug.WriteLine("Unthreaded: " + this.AIController.Time);
-
-            this.AIController.Time = 0;
-            this.AIController.ThreadTime = 0;
 
             this.Synchronize();
 
@@ -209,6 +216,11 @@ namespace HLife
         public void MoveTime(int seconds)
         {
             this.Date = this.Date.AddSeconds(seconds);
+        }
+
+        public static void Load(Game newGame)
+        {
+            Game.Instance = newGame;
         }
     }
 }

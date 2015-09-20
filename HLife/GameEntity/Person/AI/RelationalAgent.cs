@@ -10,9 +10,8 @@ namespace HLife
     public class RelationalAgent
     {
         public AIAgent AIAgent { get; set; }
-
-        [XmlIgnore] // TODO: This will eventually need to be serializable.
-        public Dictionary<Person, Relationship> Relationships { get; set; }
+        
+        public SerializableDictionary<Person, Relationship> Relationships { get; set; }
 
         public Relationship this[Person index]
         {
@@ -37,7 +36,7 @@ namespace HLife
 
         public RelationalAgent()
         {
-            this.Relationships = new Dictionary<Person, Relationship>();
+            this.Relationships = new SerializableDictionary<Person, Relationship>();
         }
 
         public RelationalAgent(AIAgent aiAgent)
