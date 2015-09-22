@@ -227,27 +227,27 @@ namespace HLife
             return maxStat;
         }
 
-        public Stat GetWorstStat(bool includeNominal = false)
+        public Stat GetWorstStat(StatBasicStatuses highestInclusiveGroup)
         {
             Stat maxStat = null;
 
             maxStat = this.GetWorstStatByStatus(StatBasicStatuses.Fatal);
 
-            if(maxStat == null)
+            if(maxStat == null 
+                && highestInclusiveGroup != StatBasicStatuses.Fatal)
             {
                 maxStat = this.GetWorstStatByStatus(StatBasicStatuses.Danger);
-            }
 
-            if (maxStat == null)
-            {
-                maxStat = this.GetWorstStatByStatus(StatBasicStatuses.Warning);
-            }
-
-            if(includeNominal)
-            {
-                if (maxStat == null)
+                if (maxStat == null
+                    && highestInclusiveGroup != StatBasicStatuses.Danger)
                 {
-                    maxStat = this.GetWorstStatByStatus(StatBasicStatuses.Nominal);
+                    maxStat = this.GetWorstStatByStatus(StatBasicStatuses.Warning);
+
+                    if (maxStat == null
+                        && highestInclusiveGroup != StatBasicStatuses.Warning)
+                    {
+                        maxStat = this.GetWorstStatByStatus(StatBasicStatuses.Nominal);
+                    }
                 }
             }
 

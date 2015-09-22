@@ -33,8 +33,11 @@ namespace HLife
             {
                 foreach (var edge in node.Value)
                 {
-                    node.Key.neighbors.Add(edge);
-                    edge.neighbors.Add(node.Key);
+                    if (!node.Key.neighbors.Contains(edge))
+                        node.Key.neighbors.Add(edge);
+
+                    if (!edge.neighbors.Contains(node.Key))
+                        edge.neighbors.Add(node.Key);
                 }
             }
         }

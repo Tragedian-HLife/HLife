@@ -142,5 +142,24 @@ namespace HLife
 
             return props;
         }
+
+        public Prop GetClosestProp(List<Prop> props, Location start)
+        {
+            double min = 0;
+            Prop minLoc = null;
+
+            foreach (Prop prop in props)
+            {
+                double distance = start.TravelTime(prop.Location);
+
+                if (distance < min)
+                {
+                    min = distance;
+                    minLoc = prop;
+                }
+            }
+
+            return minLoc;
+        }
     }
 }

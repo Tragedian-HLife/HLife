@@ -70,6 +70,32 @@ namespace HLife
                 //ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             }));
         }
+        
+        public static int NodalDistance(this Location start, Location end)
+        {
+            return start.PathfindTo(end).Count();
+        }
+
+        public static double TravelTime(this Location start, Location end)
+        {
+            double time = 0;
+
+            List<Location> path = start.PathfindTo(end);
+
+            if (path.Count > 0)
+            {
+                path.RemoveAt(0);
+
+                foreach (Location node in path)
+                {
+                    time += start.Edges.First(e => e.Node == node.DisplayName).Cost;
+
+                    start = node;
+                }
+            }
+
+            return time;
+        }
     }
 
     public static class IconHelper

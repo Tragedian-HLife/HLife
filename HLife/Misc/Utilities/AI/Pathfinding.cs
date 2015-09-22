@@ -160,8 +160,8 @@ namespace HLife
 
                 foreach (PathNode neighbor in node.neighbors)
                 {
-
-                    double currentDistance = (node.DistanceExact + GeometryUtilities.Distance(neighbor.Position, node.Position));
+                    //double currentDistance = (node.DistanceExact + GeometryUtilities.Distance(neighbor.Position, node.Position));
+                    double currentDistance = node.Location.Edges.First(e => Location.Get(e.Node) == neighbor.Location).Cost;
 
                     if (!neighbor.IsVisited)
                     {
@@ -222,7 +222,6 @@ namespace HLife
 
                 foreach (PathNode neighbor in node.neighbors)
                 {
-
                     double currentDistance = GeometryUtilities.Distance(target.Position, neighbor.Position);
 
                     if (!neighbor.IsVisited)
@@ -283,8 +282,10 @@ namespace HLife
                 foreach (PathNode neighbor in node.neighbors)
                 {
                     //float distance_exact = (node.location - neighbor.location).Length() + node.distance_exact;
-                    double distance_exact = GeometryUtilities.Distance(start.Position, neighbor.Position);
-                    double distance_estimated = GeometryUtilities.Distance(target.Position, neighbor.Position);
+                    //double distance_exact = GeometryUtilities.Distance(start.Position, neighbor.Position);
+                    //double distance_estimated = GeometryUtilities.Distance(target.Position, neighbor.Position);
+                    double distance_exact = node.Location.Edges.First(e => Location.Get(e.Node) == neighbor.Location).Cost;
+                    double distance_estimated = target.Location.TravelTime(neighbor.Location);
                     double distance_total = distance_exact + distance_estimated;
 
                     if (!neighbor.IsVisited)

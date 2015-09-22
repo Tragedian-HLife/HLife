@@ -10,6 +10,31 @@ using System.Xml.Serialization;
 
 namespace HLife
 {
+    public class ActionCost
+    {
+        public double NodalDistance { get; set; }
+
+        public double TravelTime { get; set; }
+
+        public double PerformanceTime { get; set; }
+
+        public double TotalTime
+        {
+            get
+            {
+                return this.TravelTime
+                    + this.PerformanceTime;
+            }
+        }
+
+        public ActionCost()
+        {
+            this.NodalDistance = 0;
+            this.TravelTime = 0;
+            this.PerformanceTime = 0;
+        }
+    }
+
     /// <summary>
     /// Represents an atomic effect of an action.
     /// </summary>
@@ -136,6 +161,10 @@ namespace HLife
         public bool CanBeDoneByPlayer { get; set; }
 
         public bool CanBeDoneByOthers { get; set; }
+
+        public bool RequiresProp { get; set; }
+
+        public bool RequiresTarget { get; set; }
 
         public Mod Source { get; set; }
 
@@ -412,6 +441,77 @@ namespace HLife
             }
 
             return effects;
+        }
+
+        public ActionCost EstimateCostToPerform(ActionEventArgs args)
+        {
+            ActionCost cost = new ActionCost();
+
+            if (args.Prop != null)
+            {
+                // Get number of nodes between the doer and prop.
+                cost.NodalDistance = Math.Abs(args.Doer.Location.NodalDistance(args.Prop.Location));
+
+                // Get shortest travel time.
+                cost.TravelTime = args.Doer.Location.TravelTime(args.Prop.Location);
+            }
+            else if(this.RequiresProp)
+            {
+                List<Prop> viableLocalProps = Game.Instance.PropController.GetPropsByAction(this, args.Doer.Location)
+                    .Where(e => e.Occupants.Count < e.MaxOccupancy).ToList();
+
+                // If there are no viable props at this location...
+                if (viableLocalProps.Count == 0)
+                {
+                    List<Prop> viableRemoteProps = Game.Instance.PropController.GetPropsByAction(this)
+                        .Where(e => e.Occupants.Count < e.MaxOccupancy).ToList();
+
+                    // If there are no viable props at any location...
+                    if (viableRemoteProps.Count == 0)
+                    {
+                        // We're fucked. Let the requester know this action cannot be performed.
+                        return null;
+                    }
+                    // If there are viable props at any location...
+                    else
+                    {
+                        Prop closestProp = Game.Instance.PropController.GetClosestProp(viableRemoteProps, args.Doer.Location);
+
+                        // We don't have any travel time.
+                        cost.NodalDistance = args.Doer.Location.NodalDistance(closestProp.Location);
+                        cost.TravelTime = args.Doer.Location.TravelTime(closestProp.Location);
+                    }
+                }
+                // If there are viable props at this location...
+                else
+                {
+                    // We don't have any travel time.
+                    cost.NodalDistance = 0;
+                    cost.TravelTime = 0;
+                }
+            }
+
+            if (args.Target != null)
+            {
+                // Get number of nodes between the doer and target.
+                cost.NodalDistance = Math.Abs(args.Doer.Location.NodalDistance(args.Target.Location));
+
+                // Get shortest travel time.
+                cost.TravelTime = args.Doer.Location.TravelTime(args.Target.Location);
+            }
+            else if (this.RequiresTarget)
+            {
+                // TODO: Ability to find a viable Target.
+                //      This will eventually need to account for
+                //      relationship status, avoiding fatal outcomes
+                //      (eg. don't do something that will get the cops
+                //      involved.), etc.
+                throw new NotImplementedException();
+            }
+
+            cost.PerformanceTime = this.TimeNeeded;
+
+            return cost;
         }
     }
 }

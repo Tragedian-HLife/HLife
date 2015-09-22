@@ -19,6 +19,9 @@ namespace HLife.Actions.Bed
             this.Description            = "Sleep for an hour to regain plenty of energy.";
             this.DisabledDescription    = "I'm full of enery. There's no way I could sleep now.";
             this.DisableVisible         = true;
+
+            this.RequiresProp = true;
+            this.RequiresTarget = false;
             
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Energy", 20)));
 
@@ -59,6 +62,9 @@ namespace HLife.Actions.Bed
             this.DisabledDescription = "I'm full of enery. There's no way I could nap now.";
             this.DisableVisible = false;
 
+            this.RequiresProp = true;
+            this.RequiresTarget = false;
+
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Energy", 10)));
 
             this.PerformLogic = MyLogic;
@@ -95,6 +101,9 @@ namespace HLife.Actions.Bed
         {
             this.DisplayName = "Masturbate";
             this.DisableVisible = true;
+
+            this.RequiresProp = true;
+            this.RequiresTarget = false;
 
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Energy", -10)));
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("EjaculationsToday", 1)));

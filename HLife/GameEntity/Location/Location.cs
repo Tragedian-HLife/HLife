@@ -25,6 +25,11 @@ namespace HLife
         : GameEntity
     {
         /// <summary>
+        /// Name for reference.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Name presented to the player.
         /// </summary>
         public string DisplayName { get; set; }
@@ -249,7 +254,7 @@ namespace HLife
             List<Location> locPath = new List<Location>();
 
             PathNode path = PathfindingUtilities.FindPath(
-                PathfindingUtilities.PathfindingAlgorithms.BreadthFirst, 
+                PathfindingUtilities.PathfindingAlgorithms.Dijkstra, 
                 Game.Instance.City.NavMap.Nodes[start], 
                 Game.Instance.City.NavMap.Nodes[end], 
                 Game.Instance.City.NavMap);
@@ -304,6 +309,44 @@ namespace HLife
             }
 
             return edges;
+        }
+
+        public Location GetClosestLocationByEdges(List<Location> locations)
+        {
+            int min = 0;
+            Location minLoc = this;
+
+            foreach(Location loc in locations)
+            {
+                int distance = this.NodalDistance(loc);
+
+                if(distance < min)
+                {
+                    min = distance;
+                    minLoc = loc;
+                }
+            }
+
+            return minLoc;
+        }
+
+        public Location GetClosestLocationByTime(List<Location> locations)
+        {
+            double min = 0;
+            Location minLoc = this;
+
+            foreach (Location loc in locations)
+            {
+                double distance = this.TravelTime(loc);
+
+                if (distance < min)
+                {
+                    min = distance;
+                    minLoc = loc;
+                }
+            }
+
+            return minLoc;
         }
     }
 }

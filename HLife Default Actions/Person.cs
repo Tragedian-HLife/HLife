@@ -17,6 +17,9 @@ namespace HLife.Actions.Person
             this.DisplayName = "Hug";
             this.TimeNeeded = 10;
 
+            this.RequiresProp = false;
+            this.RequiresTarget = true;
+
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 10)));
             this.TargetActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 10)));
 
@@ -40,6 +43,9 @@ namespace HLife.Actions.Person
         {
             this.DisplayName = "Chat";
             this.TimeNeeded = 60;
+
+            this.RequiresProp = false;
+            this.RequiresTarget = true;
 
             this.DoerActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 5)));
             this.TargetActionEffects.Add(new ActionEffectSet(new ActionEffect("Happiness", 5)));
