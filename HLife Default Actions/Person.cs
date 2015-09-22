@@ -26,6 +26,25 @@ namespace HLife.Actions.Person
             this.PerformLogic = MyLogic;
         }
 
+        public override object GetDataLogic(ActionEventArgs args)
+        {
+            switch(args.Stage)
+            {
+                default:
+                case ActionStages.Passive:
+                    return null;
+
+                case ActionStages.CanPerform:
+                    return args.Target.AIAgent.RelationalAgent.Relationships;
+
+                case ActionStages.Preview:
+                    return null;
+
+                case ActionStages.Perform:
+                    return args.Target.AIAgent.RelationalAgent.Relationships;
+            }
+        }
+
         public void MyLogic(ActionEventArgs args)
         {
             if (DoerIsPlayer)
@@ -59,6 +78,30 @@ namespace HLife.Actions.Person
             {
                 Game.Instance.DialogController.DrawDialog(new DialogControl("You talk to " + args.Target.FirstName + ".", true));
             }
+        }
+    }
+
+    public partial class Move
+        : Action
+    {
+        public Move()
+            : base()
+        {
+            this.CanBeDoneByPlayer = false;
+            this.CanBeDoneByAnyone = false;
+
+            this.DisplayName = "Move";
+            this.TimeNeeded = 0;
+
+            this.RequiresProp = false;
+            this.RequiresTarget = false;
+
+            this.PerformLogic = MyLogic;
+        }
+
+        public void MyLogic(ActionEventArgs args)
+        {
+            //args.Doer.AIAgent.NavAgent.PathfindTo()
         }
     }
 }

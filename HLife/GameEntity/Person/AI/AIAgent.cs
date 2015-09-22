@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace HLife
 {
@@ -17,6 +18,7 @@ namespace HLife
 
         public RelationalAgent RelationalAgent { get; set; }
 
+        [XmlIgnore]
         public Queue<KeyValuePair<Action, ActionEventArgs>> ActionQueue { get; set; }
 
         public AIAgent()

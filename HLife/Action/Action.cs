@@ -10,163 +10,28 @@ using System.Xml.Serialization;
 
 namespace HLife
 {
-    public class ActionCost
-    {
-        public double NodalDistance { get; set; }
-
-        public double TravelTime { get; set; }
-
-        public double PerformanceTime { get; set; }
-
-        public double TotalTime
-        {
-            get
-            {
-                return this.TravelTime
-                    + this.PerformanceTime;
-            }
-        }
-
-        public ActionCost()
-        {
-            this.NodalDistance = 0;
-            this.TravelTime = 0;
-            this.PerformanceTime = 0;
-        }
-    }
-
-    /// <summary>
-    /// Represents an atomic effect of an action.
-    /// </summary>
-    public class ActionEffect
-    {
-        public string ItemName { get; set; }
-
-        public double Value { get; set; }
-
-        public bool ValueIsRelative { get; set; }
-
-        public bool RelativeOperationIsMultiplication { get; set; }
-
-        [XmlIgnore]
-        public Func<object, bool> Condition { get; set; }
-
-        public ActionEffect()
-        {
-            this.Value = 0;
-            this.ValueIsRelative = true;
-            this.RelativeOperationIsMultiplication = false;
-            this.Condition = delegate (object arg){ return true; };
-        }
-
-        public ActionEffect(string name, double value)
-            : this()
-        {
-            this.ItemName = name;
-            this.Value = value;
-            this.Condition = delegate (object arg){ return true; };
-        }
-
-        public ActionEffect(string name, double value, bool relative, bool isMultiplication)
-            : this()
-        {
-            this.ItemName = name;
-            this.Value = value;
-            this.ValueIsRelative = relative;
-            this.RelativeOperationIsMultiplication = isMultiplication;
-        }
-
-        public ActionEffect(string name, double value, bool relative, bool isMultiplication, Func<object, bool> condition)
-            : this()
-        {
-            this.ItemName = name;
-            this.Value = value;
-            this.ValueIsRelative = relative;
-            this.RelativeOperationIsMultiplication = isMultiplication;
-            this.Condition = condition;
-        }
-
-        public bool Apply(Person subject)
-        {
-            if (subject != null)
-            {
-                if (!this.RelativeOperationIsMultiplication)
-                {
-                    return subject.Stats.SetValue(this.ItemName, this.Value, this.ValueIsRelative);
-                }
-                else
-                {
-                    return subject.Stats.SetValue(this.ItemName, subject.Stats.GetValue<double>(this.ItemName) * this.Value, false);
-                }
-            }
-
-            return false;
-        }
-    }
-
-    public class ActionEffectSet
-    {
-        public List<ActionEffect> Effects { get; set; }
-
-        public ActionEffectSet()
-        {
-            this.Effects = new List<ActionEffect>();
-        }
-
-        public ActionEffectSet(ActionEffect effect)
-            : this()
-        {
-            this.Effects.Add(effect);
-        }
-
-        public List<ActionEffect> CheckCondition(object arg)
-        {
-            if(this.Effects == null || this.Effects.Count == 0)
-            {
-                return null;
-            }
-
-            List<ActionEffect> results = new List<ActionEffect>();
-
-            foreach (ActionEffect effect in this.Effects)
-            {
-                if(effect.Condition(arg))
-                {
-                    results.Add(effect);
-                }
-            }
-
-            return results;
-        }
-    }
-
     public class Action
     {
+        /// <summary>
+        /// Reference name. Should be Namespace.Action.
+        /// </summary>
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
-        public int TimeNeeded { get; set; }
-        
-        public List<ActionEffectSet> DoerActionEffects { get; set; }
-        
-        public List<ActionEffectSet> TargetActionEffects { get; set; }
-        
-        public List<ActionEffectSet> WitnessActionEffects { get; set; }
-
-        public string DisabledDescription { get; set; }
-
+        /// <summary>
+        /// Name presented to the player.
+        /// </summary>
         public string DisplayName { get; set; }
 
-        public bool CanBeDoneByPlayer { get; set; }
+        /// <summary>
+        /// Description to show the player.
+        /// </summary>
+        public string Description { get; set; }
 
-        public bool CanBeDoneByOthers { get; set; }
-
-        public bool RequiresProp { get; set; }
-
-        public bool RequiresTarget { get; set; }
-
-        public Mod Source { get; set; }
+        /// <summary>
+        /// Description to display when the action cannot be performed.
+        /// eg. A reason why it cannot be performed.
+        /// </summary>
+        public string DisabledDescription { get; set; }
 
         /// <summary>
         /// When action isn't performable, true to still add the
@@ -175,15 +40,69 @@ namespace HLife
         /// </summary>
         public bool DisableVisible { get; set; }
 
-        public bool DoerIsPlayer { get; set; }
+        /// <summary>
+        /// Time, in seconds, required to complete this action.
+        /// </summary>
+        public int TimeNeeded { get; set; }
+
+        /// <summary>
+        /// True if this action will be visible to the player.
+        /// False if the player cannot directly choose to do this.
+        /// </summary>
+        public bool CanBeDoneByPlayer { get; set; }
+
+        /// <summary>
+        /// True if people can choose to do this.
+        /// False if this action is only to be triggered by manual code.
+        /// </summary>
+        public bool CanBeDoneByAnyone { get; set; }
+
+        /// <summary>
+        /// True if the action can only be performed with a Prop.
+        /// </summary>
+        public bool RequiresProp { get; set; }
+
+        /// <summary>
+        /// True if the action can only be performed with a Target.
+        /// </summary>
+        public bool RequiresTarget { get; set; }
+
+        /// <summary>
+        /// The mod from which this action came.
+        /// Useful for retrieving images.
+        /// </summary>
+        public Mod Source { get; set; }
+
+        /// <summary>
+        /// Effects this action will have on the doer.
+        /// </summary>
+        public List<ActionEffectSet> DoerActionEffects { get; set; }
+        
+        /// <summary>
+        /// Effects this action will have on the target.
+        /// </summary>
+        public List<ActionEffectSet> TargetActionEffects { get; set; }
+        
+        /// <summary>
+        /// Effects this action will have on witnesses.
+        /// </summary>
+        public List<ActionEffectSet> WitnessActionEffects { get; set; }
+
+        /// <summary>
+        /// Shorthand flag to check if the player is performing this action.
+        /// </summary>
+        protected bool DoerIsPlayer { get; set; }
 
         /// <summary>
         /// People at the location of the action, minus the doer and target.
         /// </summary>
-        public List<Person> Witnesses { get; protected set; }
+        protected List<Person> Witnesses { get; set; }
 
+        /// <summary>
+        /// Custom logic to execute when this action is performed.
+        /// </summary>
         [XmlIgnore]
-        public System.Action<ActionEventArgs> PerformLogic;
+        public System.Action<ActionEventArgs> PerformLogic { get; set; }
 
         /// <summary>
         /// Fired when the Perform method has completed execution.
@@ -205,13 +124,16 @@ namespace HLife
         /// </summary>
         public event EventHandler<ActionEventArgs> Performed_PostCustomLogic;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Action()
         {
             this.Name = this.GetType().FullName.Remove(this.GetType().FullName.IndexOf("HLife.Actions."), "HLife.Actions.".Length);
             this.DisplayName = "{ACTION}";
             this.TimeNeeded = 0;
             this.CanBeDoneByPlayer = true;
-            this.CanBeDoneByOthers = true;
+            this.CanBeDoneByAnyone = true;
             this.DoerIsPlayer = false;
             this.Witnesses = new List<Person>();
 
@@ -222,23 +144,66 @@ namespace HLife
             Game.Instance.ActionController.Add(this);
         }
 
+        /// <summary>
+        /// Retrieve an action by name.
+        /// </summary>
+        /// <param name="name">The fully-qualified type of the desired action.</param>
+        /// <returns>Requested action.</returns>
         public static Action Get(string name)
         {
             return Game.Instance.ActionController.Find(e => e.GetType().FullName == "HLife.Actions." + name);
         }
         
+        /// <summary>
+        /// Retrieves all actions within a namespace.
+        /// </summary>
+        /// <param name="nameSpace">The namespace under HLife.Actions.</param>
+        /// <returns>Requested actions.</returns>
         public static List<Action> GetAll(string nameSpace)
         {
             return Game.Instance.ActionController.Where(e => StringUtilities.TrimAfterLast(e.GetType().FullName, ".") == "HLife.Actions." + nameSpace).ToList();
         }
 
-        public virtual bool CanPerform(ActionEventArgs args)
+        public ActionEventArgs GetData(ActionEventArgs args)
+        {
+            args.Data = this.GetDataLogic(args);
+
+            return args;
+        }
+
+        public virtual object GetDataLogic(ActionEventArgs args)
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Custom logic to check if this action can be performed under the given conditions.
+        /// This can be overridden by each action.
+        /// </summary>
+        /// <param name="args">Conditions to check.</param>
+        /// <returns>True if can be performed.</returns>
+        public bool CanPerform(ActionEventArgs args)
+        {
+            args.Stage = ActionStages.CanPerform;
+            args = this.GetData(args);
+
+            return this.CanPerformLogic(args);
+        }
+
+        public virtual bool CanPerformLogic(ActionEventArgs args)
         {
             return true;
         }
-        
+
+        /// <summary>
+        /// Perform the action under the given conditions.
+        /// </summary>
+        /// <param name="args">Conditions under which to perform the action.</param>
         public void Perform(ActionEventArgs args)
         {
+            args.Stage = ActionStages.Perform;
+            args = this.GetData(args);
+
             // Tigger PrePerform event.
             this.PrePerform(args);
 
@@ -259,9 +224,9 @@ namespace HLife
             this.PostLogicPerform(args);
 
 
-            this.DoerActionEffects.ForEach(e => e.CheckCondition(args.Doer).First().Apply(args.Doer));
-            this.TargetActionEffects.ForEach(e => e.CheckCondition(args.Target).First().Apply(args.Target));
-            this.Witnesses.ForEach(w => this.WitnessActionEffects.ForEach(e => e.CheckCondition(w).First().Apply(w)));
+            this.DoerActionEffects.ForEach(e => e.CheckCondition(args).First().Apply(args.Doer));
+            this.TargetActionEffects.ForEach(e => e.CheckCondition(args).First().Apply(args.Target));
+            this.Witnesses.ForEach(w => this.WitnessActionEffects.ForEach(e => e.CheckCondition(args).First().Apply(w)));
 
 
             // If there is a target Person...
@@ -302,19 +267,40 @@ namespace HLife
             this.PostPerform(args);
         }
 
-        public ActionEventArgs Preview(ActionEventArgs args)
+        /// <summary>
+        /// Preview the effects that this action will have when performed.
+        /// </summary>
+        /// <param name="args">Conditions to preview.</param>
+        /// <returns>Conditions after the action.</returns>
+        public ActionEventArgs Preview(ActionEventArgs args, bool includeWitnesses = false)
         {
+            args.Stage = ActionStages.Preview;
+            args = this.GetData(args);
+
+            // Deep copy the arguments.
             ActionEventArgs previewArgs = new ActionEventArgs(
                 MiscUtilities.CloneJson<Person>(args.Doer), 
                 MiscUtilities.CloneJson<Person>(args.Target),
                 MiscUtilities.CloneJson<Prop>(args.Prop));
 
-            this.DoerActionEffects.ForEach(e => e.CheckCondition(previewArgs.Doer).First().Apply(previewArgs.Doer));
-            this.TargetActionEffects.ForEach(e => e.CheckCondition(previewArgs.Target).First().Apply(previewArgs.Target));
-            //this.Witnesses.ForEach(w => this.WitnessActionEffects.ForEach(e => e.CheckCondition(w).First().Apply(w)));
+            // Apply the action to the copied arguments.
+            this.DoerActionEffects.ForEach(e => e.CheckCondition(previewArgs).First().Apply(previewArgs.Doer));
+            this.TargetActionEffects.ForEach(e => e.CheckCondition(previewArgs).First().Apply(previewArgs.Target));
+
+            // If we should preview all of the witnesses, as well...
+            if (includeWitnesses)
+            {
+                // TODO: This will require creating publically-accessible copies of the witness list.
+
+                // Apply the action to each witness.
+                //this.Witnesses.ForEach(w => this.WitnessActionEffects.ForEach(e => e.CheckCondition(args).First().Apply(MiscUtilities.CloneJson<Person>(w))));
+            }
             
+            // Return the affected arguments.
             return previewArgs;
         }
+
+        #region Events
 
         protected virtual void PrePerform(ActionEventArgs e)
         {
@@ -352,88 +338,149 @@ namespace HLife
             }
         }
 
-        public virtual void DisplayImage(string image)
-        {
-            Grid panel = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
-
-            MediaElement pb = new MediaElement();
-            pb.Width = panel.Width;
-            pb.Height = panel.Height;
-            pb.Stretch = System.Windows.Media.Stretch.Uniform;
-            pb.Source = Game.Instance.ResourceController.GetActionImage(this, image, true);
-            //pb.Click += (sender, e) => panel.Controls.Remove(pb);
-            panel.Children.Add(pb);
-        }
+        #endregion
         
-        public MenuItem GetContextMenuItem(ActionEventArgs args)
+        /// <summary>
+        /// Retrieve the MenuItem for Prop context menus.
+        /// </summary>
+        /// <param name="args">The conditions to check for validity.</param>
+        /// <returns>MenuItem of this action.</returns>
+        public MenuItem GetMenuItemForProp(ActionEventArgs args)
         {
+            args.Stage = ActionStages.Preview;
+
+            // If the player can't choose to do this action...
+            if (!this.CanBeDoneByPlayer)
+            {
+                // We don't want to add anything to the list.
+                return null;
+            }
+
             MenuItem displayAction = new MenuItem();
             displayAction.Header = this.DisplayName;
 
+            // This action should be performed with the provided arguments when clicked.
             displayAction.Click += (sender, e) => this.Perform(args);
 
+            ToolTip tooltip = new ToolTip();
+
+            // If the arguments allow for the action to be performed...
             if (this.CanPerform(args))
             {
-                //displayAction.Text = this.Description;
+                // Set the tooltip to the performable description.
+                tooltip.Content = this.Description;
             }
+            // Else, if we should display the action despite being unperformable...
             else if (this.DisableVisible)
             {
-                //displayAction.Header = this.DisabledDescription;
+                // Set the tooltip to the disabled description.
+                tooltip.Content = this.DisabledDescription;
 
-                //displayAction.Enabled = false;
+                // Disable the MenuItem.
+                displayAction.IsEnabled = false;
             }
+            // Else, we don't want to add this action at all.
             else
             {
+                // Don't add anything to the list.
                 displayAction = null;
             }
 
+            // Set the tooltip.
+            displayAction.ToolTip = tooltip;
+
+            // Return the MenuItem.
             return displayAction;
         }
 
-        public MenuItem GetContextMenuItemPerson(ActionEventArgs args)
+        /// <summary>
+        /// Retrieve the MenuItem for Person context menus.
+        /// </summary>
+        /// <param name="args">The conditions to check for validity.</param>
+        /// <returns>MenuItem of this action.</returns>
+        public MenuItem GetMenuItemForPerson(ActionEventArgs args)
         {
+            args.Stage = ActionStages.Preview;
+
+            // If the player can't choose to do this action...
+            if (!this.CanBeDoneByPlayer)
+            {
+                // We don't want to add anything to the list.
+                return null;
+            }
+
             MenuItem displayAction = new MenuItem();
             displayAction.Header = this.DisplayName;
-            
+
+            // This action should be performed with the provided arguments when clicked.
             displayAction.Click += (sender, e) => this.Perform(args);
 
+            ToolTip tooltip = new ToolTip();
+
+            // If the arguments allow for the action to be performed...
             if (this.CanPerform(args))
             {
-                //displayAction.Text = this.Description;
+                // Set the tooltip to the performable description.
+                tooltip.Content = this.Description;
             }
+            // Else, if we should display the action despite being unperformable...
             else if (this.DisableVisible)
             {
-                //displayAction.Header = this.DisabledDescription;
+                // Set the tooltip to the disabled description.
+                tooltip.Content = this.DisabledDescription;
 
-                //displayAction.Enabled = false;
+                // Disable the MenuItem.
+                displayAction.IsEnabled = false;
             }
+            // Else, we don't want to add this action at all.
             else
             {
+                // Don't add anything to the list.
                 displayAction = null;
             }
 
+            // Set the tooltip.
+            displayAction.ToolTip = tooltip;
+
+            // Return the MenuItem.
             return displayAction;
         }
 
+        /// <summary>
+        /// Retrieve all of the ActionEffects that affect the given stat.
+        /// </summary>
+        /// <param name="stat">Name of the stat.</param>
+        /// <param name="args">Conditions to check. Used in EffectSet.Condition().</param>
+        /// <returns>All actions that can affect the stat.</returns>
         public List<ActionEffect> GetEffectsByStat(string stat, ActionEventArgs args = null)
         {
             List<ActionEffect> effects = new List<ActionEffect>();
 
+            // For each of the effect sets in this action...
             foreach(ActionEffectSet effectSet in this.DoerActionEffects)
             {
+                // For each of the effects in this set...
                 foreach (ActionEffect effect in effectSet.Effects)
                 {
+                    // If this effect deals with the given stat...
                     if(effect.ItemName == stat)
                     {
+                        // If we have arguments to check against...
                         if(args != null)
                         {
-                            if(effect.Condition(args))
+                            args.Stage = ActionStages.Passive;
+
+                            // If the effect is performable under these conditions...
+                            if (effect.Condition(args))
                             {
+                                // Add the effect to the list.
                                 effects.Add(effect);
                             }
                         }
+                        // Else, assume the effect is performable...
                         else
                         {
+                            // Add the effect to the list.
                             effects.Add(effect);
                         }
                     }
@@ -443,26 +490,38 @@ namespace HLife
             return effects;
         }
 
+        /// <summary>
+        /// Calculate a set of estimated costs required to perform this action.
+        /// </summary>
+        /// <param name="args">Conditions to check.</param>
+        /// <returns>Set of estimated costs.</returns>
         public ActionCost EstimateCostToPerform(ActionEventArgs args)
         {
+            args.Stage = ActionStages.Preview;
+            args = this.GetData(args);
+
             ActionCost cost = new ActionCost();
 
+            // If we were given a prop...
             if (args.Prop != null)
             {
-                // Get number of nodes between the doer and prop.
+                // Get number of nodes between the doer and the prop.
                 cost.NodalDistance = Math.Abs(args.Doer.Location.NodalDistance(args.Prop.Location));
 
                 // Get shortest travel time.
                 cost.TravelTime = args.Doer.Location.TravelTime(args.Prop.Location);
             }
-            else if(this.RequiresProp)
+            // Else, if this action requires a prop...
+            else if (this.RequiresProp)
             {
+                // Search for any usable props within the Doer's location.
                 List<Prop> viableLocalProps = Game.Instance.PropController.GetPropsByAction(this, args.Doer.Location)
                     .Where(e => e.Occupants.Count < e.MaxOccupancy).ToList();
 
                 // If there are no viable props at this location...
                 if (viableLocalProps.Count == 0)
                 {
+                    // Search for any usable props anywhere.
                     List<Prop> viableRemoteProps = Game.Instance.PropController.GetPropsByAction(this)
                         .Where(e => e.Occupants.Count < e.MaxOccupancy).ToList();
 
@@ -475,6 +534,7 @@ namespace HLife
                     // If there are viable props at any location...
                     else
                     {
+                        // Get the closest prop to the Doer, by travel time.
                         Prop closestProp = Game.Instance.PropController.GetClosestProp(viableRemoteProps, args.Doer.Location);
 
                         // We don't have any travel time.
@@ -491,14 +551,16 @@ namespace HLife
                 }
             }
 
+            // If we are given a Target...
             if (args.Target != null)
             {
-                // Get number of nodes between the doer and target.
+                // Get number of nodes between the doer and the target.
                 cost.NodalDistance = Math.Abs(args.Doer.Location.NodalDistance(args.Target.Location));
 
                 // Get shortest travel time.
                 cost.TravelTime = args.Doer.Location.TravelTime(args.Target.Location);
             }
+            // Else, if this action requires a target...
             else if (this.RequiresTarget)
             {
                 // TODO: Ability to find a viable Target.
@@ -509,6 +571,7 @@ namespace HLife
                 throw new NotImplementedException();
             }
 
+            // Get the time required to complete this action.
             cost.PerformanceTime = this.TimeNeeded;
 
             return cost;

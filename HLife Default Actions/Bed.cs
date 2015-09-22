@@ -28,7 +28,7 @@ namespace HLife.Actions.Bed
             this.PerformLogic = MyLogic;
         }
 
-        public override bool CanPerform(ActionEventArgs args)
+        public override bool CanPerformLogic(ActionEventArgs args)
         {
             if(args.Doer.Stats.GetValue<double>("Energy") < 100)
             {
@@ -70,7 +70,7 @@ namespace HLife.Actions.Bed
             this.PerformLogic = MyLogic;
         }
 
-        public override bool CanPerform(ActionEventArgs args)
+        public override bool CanPerformLogic(ActionEventArgs args)
         {
             if ((double)args.Doer.Stats.GetItem("Energy").Value < 100)
             {

@@ -109,6 +109,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Action\Action.cs" />
+    <Compile Include="Action\ActionCost.cs" />
+    <Compile Include="Action\ActionEffect.cs" />
+    <Compile Include="Action\ActionEffectSet.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -280,9 +280,9 @@ namespace HLife
                 menu.Items.Add(actions);
                 menu.Opened += (sender2, e2) =>
                 {
-                    foreach (Action action in Action.GetAll("Person"))
+                    foreach (Action action in Action.GetAll("Person").Where(e => e.CanBeDoneByPlayer))
                     {
-                        MenuItem displayAction = action.GetContextMenuItemPerson(new ActionEventArgs(Game.Instance.Player, occupant, null));
+                        MenuItem displayAction = action.GetMenuItemForPerson(new ActionEventArgs(Game.Instance.Player, occupant, null));
 
                         if (displayAction != null)
                         {

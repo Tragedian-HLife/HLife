@@ -71,7 +71,7 @@ namespace HLife
 
             foreach (string actionName in this.Template.Actions)
             {
-                MenuItem displayAction = Action.Get(actionName).GetContextMenuItem(new ActionEventArgs(Game.Instance.Player, null, this));
+                MenuItem displayAction = Action.Get(actionName).GetMenuItemForProp(new ActionEventArgs(Game.Instance.Player, null, this));
 
                 if (displayAction != null)
                 {

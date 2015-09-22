@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace HLife
 {
+    public enum ActionStages
+    {
+        Preview,
+        CanPerform,
+        Perform,
+        Passive,
+    }
+
     public class ActionEventArgs
     {
         public Person Doer { get; set; }
@@ -14,11 +22,17 @@ namespace HLife
 
         public Prop Prop { get; set; }
 
-        public ActionEventArgs(Person doer, Person target, Prop prop)
+        public object Data { get; set; }
+
+        public ActionStages Stage { get; set; }
+
+        public ActionEventArgs(Person doer, Person target, Prop prop, object data = null)
         {
             this.Doer = doer;
             this.Target = target;
             this.Prop = prop;
+            this.Data = data;
+            this.Stage = ActionStages.Passive;
         }
     }
 }
