@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -10,52 +11,26 @@ using System.Windows.Media.Imaging;
 
 namespace HLife
 {
-    public struct DialogControl
-    {
-        public Uri Image { get; set; }
-
-        public string Message { get; set; }
-
-        public bool BlurBackground { get; set; }
-
-        public DialogControl(string message, Uri image, bool blurBackground)
-        {
-            this.Message = message;
-
-            this.Image = image;
-
-            this.BlurBackground = blurBackground;
-        }
-
-        public DialogControl(string message, Action action, string image, bool blurBackground)
-        {
-            this.Message = message;
-
-            this.Image = Game.Instance.ResourceController.GetActionImage(action, image, true);
-
-            this.BlurBackground = blurBackground;
-        }
-
-        public DialogControl(string message, bool blurBackground)
-        {
-            this.Message = message;
-
-            this.Image = null;
-
-            this.BlurBackground = blurBackground;
-        }
-    }
-
     public class DialogController
         : Controller
     {
         public SerializableDictionary<string, DialogGroup> DialogGroups { get; set; }
 
-        private DialogControl CurrentDialog { get; set; }
+        private DialogGroup CurrentDialog { get; set; }
+
+        private Timer TypingTimer { get; set; }
+
+        private Timer ImageEffectTimer { get; set; }
+
+        private int TypingTicks { get; set; }
+
+        private int ImageEffectTicks { get; set; }
 
         public DialogController()
         {
             this.DialogGroups = new SerializableDictionary<string, DialogGroup>();
+            this.TypingTimer = new Timer();
+            this.ImageEffectTimer = new Timer();
         }
 
         public override void Initialize()
@@ -67,49 +42,129 @@ namespace HLife
         public override void Update()
         { }
 
-        public void DrawDialog(DialogControl dialogControl)
+        public void DrawDialog(DialogGroup dialogControl)
         {
             this.CurrentDialog = dialogControl;
 
             Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
 
-            if (this.CurrentDialog.BlurBackground)
-            {
-                Game.Instance.Player.Location.BlurBackground();
-            }
+            Game.Instance.Player.Location.BlurBackground();
 
             container.Children.RemoveRange(1, container.Children.Count);
 
             MediaElement pb = new MediaElement();
-            if (this.CurrentDialog.Image != null)
+            if (this.CurrentDialog.Current().Image != null)
             {
                 pb.Stretch = System.Windows.Media.Stretch.Uniform;
+                pb.Name = "pb_Action";
                 pb.StretchDirection = StretchDirection.Both;
-                pb.Source = this.CurrentDialog.Image;
+                pb.Source = new Uri(this.CurrentDialog.Current().Image);
+                pb.VerticalAlignment = VerticalAlignment.Center;
+                pb.HorizontalAlignment = HorizontalAlignment.Center;
+                pb.Opacity = 0;
                 container.Children.Add(pb);
+                
+                this.ImageEffectTicks = 0;
+                this.ImageEffectTimer.Elapsed += ImageEffectTick;
+                this.ImageEffectTimer.Interval = 1;
+                this.ImageEffectTimer.Start();
             }
 
-            Label lbl = new Label();
-            lbl.Content = this.CurrentDialog.Message;
-            lbl.Background = new SolidColorBrush(Brushes.Black.Color);
-            lbl.Background.Opacity = 0.75;
+            this.DrawDialog();
+
+            container.PreviewMouseLeftButtonUp += NextDialog;
+            container.PreviewMouseRightButtonUp += ToggleDialog;
+        }
+
+        private void DrawDialog()
+        {
+            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
+
+            HLife.GUI.Controls.Dialog dialog = new GUI.Controls.Dialog();
+            dialog.Width = container.Width;
+            dialog.Height = 150;
+            dialog.Margin = new Thickness(10);
+            dialog.VerticalAlignment = VerticalAlignment.Bottom;
+            dialog.HorizontalAlignment = HorizontalAlignment.Stretch;
+            container.Children.Add(dialog);
+            
+            TextBlock lbl = (TextBlock)LogicalTreeHelper.FindLogicalNode(container, "text_Message");
+            lbl.Text = "";
+            lbl.TextWrapping = TextWrapping.Wrap;
             lbl.Foreground = Brushes.LightGray;
             lbl.Width = container.Width;
-            lbl.Height = (container.ActualHeight / 3);
+            lbl.FontSize = 18;
             lbl.Padding = new Thickness(20);
-            lbl.Margin = new Thickness(0, (container.ActualHeight / 3) * 2, 0, 0);
-            lbl.FontSize = 16;
-            container.Children.Add(lbl);
+            lbl.Background = new SolidColorBrush(Brushes.Black.Color);
+            lbl.Background.Opacity = 0.8;
+            lbl.FontFamily = ResourceController.GetFont("Montserrat");
+
             
+            Label pageCounter = (Label)LogicalTreeHelper.FindLogicalNode(container, "lbl_Page");
+            pageCounter.Content = (this.CurrentDialog.Index + 1) + " / " + this.CurrentDialog.Entries.Count;
+            pageCounter.Foreground = Brushes.LightGray;
+            pageCounter.FontSize = 12;
+            pageCounter.Background = new SolidColorBrush(Brushes.Black.Color);
+            pageCounter.Background.Opacity = 0.8;
+            pageCounter.FontFamily = ResourceController.GetFont("Montserrat");
+            pageCounter.HorizontalContentAlignment = HorizontalAlignment.Center;
 
-            lbl.MouseLeftButtonUp += RemoveDialog;
 
-            container.MouseLeftButtonUp += RemoveDialog;
-            container.MouseRightButtonUp += ToggleDialog;
+            this.TypingTicks = 0;
+            this.TypingTimer.Elapsed += TypeIncremental;
+            this.TypingTimer.Interval = 30;
+            this.TypingTimer.Start();
+        }
 
-            if (this.CurrentDialog.Image != null)
+        private void ImageEffectTick(object sender, ElapsedEventArgs e)
+        {
+            WindowController.Get<MainWindow>().Dispatcher.BeginInvoke(new System.Action(() =>
             {
-                pb.MouseLeftButtonUp += RemoveDialog;
+                MediaElement pb = (MediaElement)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "pb_Action");
+                pb.Opacity += 0.01;
+
+                if (this.ImageEffectTicks < 100)
+                {
+                    this.ImageEffectTicks++;
+                }
+                else
+                {
+                    this.ImageEffectTimer.Stop();
+                    this.ImageEffectTimer.Elapsed -= ImageEffectTick;
+                }
+            }), null);
+        }
+
+        private void TypeIncremental(object sender, ElapsedEventArgs e)
+        {
+            WindowController.Get<MainWindow>().Dispatcher.BeginInvoke(new System.Action(() =>
+            {
+                TextBlock lbl = (TextBlock)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "text_Message");
+                InlineExpression.SetInlineExpression(lbl, this.CurrentDialog.Current().RawText.Substring(0, this.TypingTicks));
+
+                if (this.TypingTicks < this.CurrentDialog.Current().RawText.Length)
+                {
+                    this.TypingTicks++;
+                }
+                else
+                {
+                    this.TypingTimer.Stop();
+                    this.TypingTimer.Elapsed -= TypeIncremental;
+                }
+            }), null);
+        }
+        
+        private void NextDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!this.CurrentDialog.IsLastDialog())
+            {
+                this.CurrentDialog.Next();
+
+                this.DrawDialog(this.CurrentDialog);
+            }
+            else
+            {
+                this.RemoveDialog(sender, e);
             }
         }
 
@@ -121,8 +176,8 @@ namespace HLife
 
             container.Children.RemoveRange(1, container.Children.Count);
 
-            ((UIElement)sender).MouseLeftButtonUp -= RemoveDialog;
-            container.MouseRightButtonUp -= ToggleDialog;
+            container.PreviewMouseLeftButtonUp -= NextDialog;
+            container.PreviewMouseRightButtonUp -= ToggleDialog;
         }
 
         public void ToggleDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -149,15 +204,6 @@ namespace HLife
                 }
 
                 blurred = control.Visibility == Visibility.Visible;
-            }
-
-            if (blurred && this.CurrentDialog.BlurBackground)
-            {
-                //Game.Instance.Player.Location.BlurBackground();
-            }
-            else
-            {
-                //Game.Instance.Player.Location.UnblurBackground();
             }
         }
     }

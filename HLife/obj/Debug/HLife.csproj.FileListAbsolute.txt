@@ -37,3 +37,7 @@ E:\Dropbox\Programming\HLife\HLife\obj\Debug\GeneratedInternalTypeHelper.g.cs
 E:\Dropbox\Programming\HLife\HLife\obj\Debug\HLife.csprojResolveAssemblyReference.cache
 E:\Dropbox\Programming\HLife\HLife\bin\Debug\Newtonsoft.Json.dll
 E:\Dropbox\Programming\HLife\HLife\bin\Debug\Newtonsoft.Json.xml
+E:\Dropbox\Programming\HLife\HLife\obj\Debug\GUI\Controls\Dialog.g.cs
+E:\Dropbox\Programming\HLife\HLife\obj\Debug\GUI\Controls\Dialog.baml
+E:\Dropbox\Programming\HLife\HLife\bin\Debug\U2UConsult.RichHtmlTextBlock.dll
+E:\Dropbox\Programming\HLife\HLife\bin\Debug\U2UConsult.RichHtmlTextBlock.pdb

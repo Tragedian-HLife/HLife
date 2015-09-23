@@ -9,5 +9,9 @@ namespace HLife
     public class Dialog
     {
         public string RawText { get; set; }
+
+        public string ParsedText { get; set; }
+
+        public string Image { get; set; }
     }
 }

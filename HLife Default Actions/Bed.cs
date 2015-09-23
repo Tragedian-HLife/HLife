@@ -42,7 +42,18 @@ namespace HLife.Actions.Bed
         {
             if (DoerIsPlayer)
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl("You crawl into the bed and fall asleep.", this, @"bed\sleep\", true));
+                DialogGroup group = new DialogGroup();
+
+                Dialog dialog = new Dialog();
+                dialog.RawText = "You crawl into the bed and fall asleep.";
+                dialog.Image = Game.Instance.ResourceController.GetActionImage(this, @"bed\sleep\", true);
+                group.Entries.Add(dialog);
+                
+                Dialog dialog2 = new Dialog();
+                dialog2.RawText = "You wake up.";
+                group.Entries.Add(dialog2);
+
+                Game.Instance.DialogController.DrawDialog(group);
             }
             else if (this.Witnesses.Contains(Game.Instance.Player))
             {
@@ -84,7 +95,13 @@ namespace HLife.Actions.Bed
         {
             if (DoerIsPlayer)
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl("You lie back on the bed and take a short nap.", this, @"bed\sleep\", true));
+                DialogGroup group = new DialogGroup();
+                Dialog dialog = new Dialog();
+                dialog.RawText = "You lie back on the bed and take a short nap.";
+                dialog.Image = Game.Instance.ResourceController.GetActionImage(this, @"bed\sleep\", true);
+                group.Entries.Add(dialog);
+
+                Game.Instance.DialogController.DrawDialog(group);
             }
             else if(this.Witnesses.Contains(Game.Instance.Player))
             {

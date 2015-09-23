@@ -11,9 +11,25 @@ namespace HLife
     /// </summary>
     public enum Sexualities
     {
+        /// <summary>
+        /// Attracted exclusively to members outside of their own sex.
+        /// </summary>
         Heterosexual,
+
+        /// <summary>
+        /// Attracted to members exclusively inside of their own sex.
+        /// </summary>
         Homosexual,
-        Bisexual
+
+        /// <summary>
+        /// Attracted to both apparent males and females.
+        /// </summary>
+        Bisexual,
+
+        /// <summary>
+        /// Attracted to anyone.
+        /// </summary>
+        Pansexual
     }
 
     /// <summary>
@@ -59,7 +75,9 @@ namespace HLife
     {
         Brown,
         Green,
-        Blue
+        Blue,
+        White,
+        Black
     }
 
     /// <summary>
@@ -67,7 +85,11 @@ namespace HLife
     /// </summary>
     public enum BreastSizes
     {
+        /// <summary>
+        /// Equivalent to no breasts, such as for males.
+        /// </summary>
         Flat,
+
         AA,
         A,
         B,
@@ -219,8 +241,19 @@ namespace HLife
     /// </summary>
     public enum MapSizeModes
     {
+        /// <summary>
+        /// All values are in pixels from the origin with no scaling applied.
+        /// </summary>
         Absolute,
+
+        /// <summary>
+        /// All values are in pixels, relative to the map's display dimensions.
+        /// </summary>
         Relative,
+
+        /// <summary>
+        /// All values are decimal percentages, relative to the map's display dimensions.
+        /// </summary>
         Percent
     }
 
@@ -246,5 +279,32 @@ namespace HLife
         Married,
         ExDating,
         Divorced
+    }
+    
+    /// <summary>
+    /// Describes each possible stage or mode of an Action.
+    /// </summary>
+    public enum ActionStages
+    {
+        /// <summary>
+        /// Used when previewing the effects of the action.
+        /// </summary>
+        Preview,
+
+        /// <summary>
+        /// Used when checking if the action can be performed.
+        /// </summary>
+        CanPerform,
+
+        /// <summary>
+        /// Used when performing the action.
+        /// </summary>
+        Perform,
+
+        /// <summary>
+        /// Used when processing the action for clerical purposes.
+        /// This is the default state.
+        /// </summary>
+        Passive,
     }
 }

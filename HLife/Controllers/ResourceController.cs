@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace HLife
@@ -73,16 +74,21 @@ namespace HLife
             return new Uri(prop.Template.Source.Directory + @"\Props\Images\" + prop.Image);
         }
 
-        public Uri GetActionImage(Action action, string path, bool randomize)
+        public string GetActionImage(Action action, string path, bool randomize)
         {
             if (randomize)
             {
                 List<string> files = Directory.EnumerateFiles(action.Source.Directory + @"\Actions\Images\" + path, "*").ToList();
 
-                return new Uri(files[MiscUtilities.Rand.Next(files.Count)]);
+                return files[MiscUtilities.Rand.Next(files.Count)];
             }
 
-            return new Uri(action.Source.Directory + @"\Actions\Images\" + path);
+            return action.Source.Directory + @"\Actions\Images\" + path;
+        }
+
+        public static FontFamily GetFont(string name)
+        {
+            return new FontFamily(new Uri("pack://application:,,,/"), "./Misc/Fonts/#" + name);
         }
     }
 }

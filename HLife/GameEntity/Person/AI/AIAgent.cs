@@ -1,4 +1,5 @@
 ﻿using AI.Fuzzy.Library;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,6 +20,7 @@ namespace HLife
         public RelationalAgent RelationalAgent { get; set; }
 
         [XmlIgnore]
+        [JsonIgnore]
         public Queue<KeyValuePair<Action, ActionEventArgs>> ActionQueue { get; set; }
 
         public AIAgent()
@@ -72,7 +74,7 @@ namespace HLife
             }
             else
             {
-                this.FindSomethingToDo();
+                //this.FindSomethingToDo();
 
                 if (this.ActionQueue.Count > 0)
                 {

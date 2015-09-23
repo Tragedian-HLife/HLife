@@ -1,0 +1,18 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:HLife.GUI.Controls"
+             xmlns:Controls="clr-namespace:Microsoft.Windows.Controls;assembly=U2UConsult.RichHtmlTextBlock" xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="HLife.GUI.Controls.Dialog"
+             mc:Ignorable="d" Height="97.87" Width="317.827">
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label x:Name="lbl_Page" Content="10 / 10" HorizontalAlignment="Left" Padding="5" Foreground="#FFD6D6D6" Height="26" VerticalAlignment="Top" Width="47"/>
+        <TextBlock x:Name="text_Message" Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" Foreground="#FFD6D6D6"/>
+
+    </Grid>
+</UserControl>

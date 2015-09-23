@@ -49,7 +49,13 @@ namespace HLife.Actions.Person
         {
             if (DoerIsPlayer)
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl("You give " + args.Target.FirstName + " a warm hug.", this, @"person\hug\",  true));
+                DialogGroup group = new DialogGroup();
+                Dialog dialog = new Dialog();
+                dialog.RawText = "You give " + args.Target.FirstName + " a warm hug.";
+                dialog.Image = Game.Instance.ResourceController.GetActionImage(this, @"person\hug\", true);
+                group.Entries.Add(dialog);
+
+                Game.Instance.DialogController.DrawDialog(group);
             }
         }
     }
@@ -76,7 +82,12 @@ namespace HLife.Actions.Person
         {
             if (DoerIsPlayer)
             {
-                Game.Instance.DialogController.DrawDialog(new DialogControl("You talk to " + args.Target.FirstName + ".", true));
+                DialogGroup group = new DialogGroup();
+                Dialog dialog = new Dialog();
+                dialog.RawText = "You talk to " + args.Target.FirstName + ".";
+                group.Entries.Add(dialog);
+
+                Game.Instance.DialogController.DrawDialog(group);
             }
         }
     }

@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 E:\Dropbox\Programming\HLife\HLife\App.xaml
-6366147914
+7-755391173
 
-671436590342
-24-269984270
-GUI\Controls\PagingControl.xaml;GUI\Windows\LauncherWindow.xaml;GUI\Windows\MainWindow.xaml;GUI\Windows\MapWindow.xaml;GUI\Windows\PersonInformationWindow.xaml;GUI\Windows\Setup.xaml;
+691053535943
+252044679291
+GUI\Controls\Dialog.xaml;GUI\Controls\PagingControl.xaml;GUI\Windows\LauncherWindow.xaml;GUI\Windows\MainWindow.xaml;GUI\Windows\MapWindow.xaml;GUI\Windows\PersonInformationWindow.xaml;GUI\Windows\Setup.xaml;
 
-False
+True
 
