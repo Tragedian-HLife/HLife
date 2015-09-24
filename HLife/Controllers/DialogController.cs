@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HLife.GUI.Effects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,6 +70,9 @@ namespace HLife
                 this.ImageEffectTimer.Interval = 1;
                 this.ImageEffectTimer.Start();
             }
+
+
+            this.CurrentDialog.Current().StartBeginEffects(container);
 
             this.DrawDialog();
 
@@ -156,16 +160,25 @@ namespace HLife
         
         private void NextDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (!this.CurrentDialog.IsLastDialog())
+            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
+            
+            this.CurrentDialog.Current().StartEndEffects(container);
+            this.CurrentDialog.Current().EndEffectsFinished += (sender2, e2) =>
             {
-                this.CurrentDialog.Next();
+                container.Dispatcher.Invoke(new System.Action(() =>
+                {
+                    if (!this.CurrentDialog.IsLastDialog())
+                    {
+                        this.CurrentDialog.Next();
 
-                this.DrawDialog(this.CurrentDialog);
-            }
-            else
-            {
-                this.RemoveDialog(sender, e);
-            }
+                        this.DrawDialog(this.CurrentDialog);
+                    }
+                    else
+                    {
+                        this.RemoveDialog(sender, e);
+                    }
+                }));
+            };
         }
 
         private void RemoveDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)

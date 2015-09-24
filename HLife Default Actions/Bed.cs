@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Xml.Serialization;
 
 namespace HLife.Actions.Bed
@@ -47,6 +48,8 @@ namespace HLife.Actions.Bed
                 Dialog dialog = new Dialog();
                 dialog.RawText = "You crawl into the bed and fall asleep.";
                 dialog.Image = Game.Instance.ResourceController.GetActionImage(this, @"bed\sleep\", true);
+                dialog.AddBeginEffect(new GUI.Effects.Flash(Colors.White));
+                dialog.AddEndEffect(new GUI.Effects.Flash(Colors.Red));
                 group.Entries.Add(dialog);
                 
                 Dialog dialog2 = new Dialog();

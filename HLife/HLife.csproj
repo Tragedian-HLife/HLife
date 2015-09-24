@@ -182,6 +182,8 @@
     <Compile Include="GUI\Controls\PagingControl.xaml.cs">
       <DependentUpon>PagingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Effects\Effect.cs" />
+    <Compile Include="GUI\Effects\Flash.cs" />
     <Compile Include="GUI\Windows\LauncherWindow.xaml.cs">
       <DependentUpon>LauncherWindow.xaml</DependentUpon>
     </Compile>
