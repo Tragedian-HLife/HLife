@@ -27,4 +27,14 @@ namespace HLife
             this.Stage = ActionStages.Passive;
         }
     }
+
+    public class DialogChoiceEventArgs
+    {
+        public int Choice { get; set; }
+
+        public DialogChoiceEventArgs(int choice)
+        {
+            this.Choice = choice;
+        }
+    }
 }

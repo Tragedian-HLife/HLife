@@ -28,21 +28,32 @@ namespace HLife
             return this.Entries[this.Index];
         }
 
+        public Dialog Previous()
+        {
+            this.Index--;
+
+            return this.Current();
+        }
+
         public Dialog Next()
         {
-            return this.Entries[this.Index++];
+            this.Index++;
+
+            return this.Current();
         }
 
         public Dialog First()
         {
-            return this.Entries[0];
+            this.Index = 0;
+
+            return this.Current();
         }
 
         public Dialog Get(int index)
         {
-            this.Index = index--;
+            this.Index = index;
 
-            return this.Next();
+            return this.Current();
         }
 
         public bool IsLastDialog()

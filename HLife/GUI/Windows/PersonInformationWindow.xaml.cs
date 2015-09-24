@@ -175,7 +175,14 @@ namespace HLife
                         }
                     }
 
-                    value.Value = Math.Max(Math.Min((int)(double)item.Value, value.Maximum), value.Minimum);
+                    try
+                    {
+                        value.Value = Math.Max(Math.Min((double)item.Value, value.Maximum), value.Minimum);
+                    }
+                    catch(InvalidCastException)
+                    {
+                        value.Value = Math.Max(Math.Min((int)item.Value, value.Maximum), value.Minimum);
+                    }
                     ((ToolTip)value.ToolTip).Content = value.Value;
                 }
                 else if (item.ControlType == typeof(CheckBox))

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HLife.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,12 +22,12 @@ namespace HLife
         /// <summary>
         /// History of actions done to this iPerson by the Subject.
         /// </summary>
-        public List<Action> ActionHistoryReceived { get; set; }
+        public List<GameAction> ActionHistoryReceived { get; set; }
 
         /// <summary>
         /// History of actions done to the subject by this iPerson.
         /// </summary>
-        public List<Action> ActionHistoryGiven { get; set; }
+        public List<GameAction> ActionHistoryGiven { get; set; }
 
         /// <summary>
         /// If and how the two iPersons are related as family.
@@ -62,16 +63,14 @@ namespace HLife
         public Relationship()
         {
             this.CreatedOn = Game.Instance.Date;
-            this.ActionHistoryGiven = new List<Action>();
-            this.ActionHistoryReceived = new List<Action>();
+            this.ActionHistoryGiven = new List<GameAction>();
+            this.ActionHistoryReceived = new List<GameAction>();
         }
 
         public Relationship(Person subject)
+            : this()
         {
-            this.CreatedOn = Game.Instance.Date;
             this.Subject = subject;
-            this.ActionHistoryGiven = new List<Action>();
-            this.ActionHistoryReceived = new List<Action>();
         }
     }
 }

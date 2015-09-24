@@ -9,7 +9,7 @@ using System.Windows;
 namespace HLife.Actions.Person
 {
     public partial class Hug
-        : Action
+        : GameAction
     {
         public Hug()
             : base()
@@ -61,7 +61,7 @@ namespace HLife.Actions.Person
     }
 
     public partial class Chat
-        : Action
+        : GameAction
     {
         public Chat()
             : base()
@@ -93,7 +93,7 @@ namespace HLife.Actions.Person
     }
 
     public partial class Move
-        : Action
+        : GameAction
     {
         public Move()
             : base()

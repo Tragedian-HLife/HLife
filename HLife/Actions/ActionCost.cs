@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HLife
+namespace HLife.Actions
 {
     /// <summary>
     /// Set of estimated costs to perform an action under

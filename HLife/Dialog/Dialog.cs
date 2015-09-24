@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HLife.GUI.Effects;
 using System.Windows.Controls;
+using HLife.Choices;
 
 namespace HLife
 {
@@ -15,6 +16,10 @@ namespace HLife
         public string ParsedText { get; set; }
 
         public string Image { get; set; }
+
+        public List<DialogChoice> Choices { get; set; }
+
+        public int Choice { get; protected set; }
 
         public List<Effect> BeginEffects { get; protected set; }
 
@@ -32,6 +37,8 @@ namespace HLife
         {
             this.BeginEffects = new List<Effect>();
             this.EndEffects = new List<Effect>();
+
+            this.Choices = new List<DialogChoice>();
 
             this.FinishedEndEffects = 0;
         }

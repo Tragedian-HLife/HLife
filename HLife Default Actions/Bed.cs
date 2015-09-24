@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HLife.Choices;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Xml.Serialization;
 namespace HLife.Actions.Bed
 {
     public partial class Sleep
-        : Action
+        : GameAction
     {
         public Sleep()
             : base()
@@ -50,11 +51,21 @@ namespace HLife.Actions.Bed
                 dialog.Image = Game.Instance.ResourceController.GetActionImage(this, @"bed\sleep\", true);
                 dialog.AddBeginEffect(new GUI.Effects.Flash(Colors.White));
                 dialog.AddEndEffect(new GUI.Effects.Flash(Colors.Red));
+                dialog.Choices.Add(new DialogChoice("Test", new Action(() => { Game.Instance.Player.Stats.SetValue("Happiness", 0.0); })));
+                dialog.Choices.Add(new DialogChoice("Test2", new Action(() => { Game.Instance.Player.Stats.SetValue("Happiness", 50.0); })));
+                dialog.Choices.Add(new DialogChoice("Test3", new Action(() => { Game.Instance.Player.Stats.SetValue("Happiness", 100.0); })));
                 group.Entries.Add(dialog);
                 
                 Dialog dialog2 = new Dialog();
                 dialog2.RawText = "You wake up.";
                 group.Entries.Add(dialog2);
+
+                Dialog dialog3 = new Dialog();
+                dialog3.RawText = "You crawl into the bed and fall asleep.";
+                dialog3.Image = Game.Instance.ResourceController.GetActionImage(this, @"bed\sleep\", true);
+                dialog3.AddBeginEffect(new GUI.Effects.Flash(Colors.White));
+                dialog3.AddEndEffect(new GUI.Effects.Flash(Colors.Red));
+                group.Entries.Add(dialog3);
 
                 Game.Instance.DialogController.DrawDialog(group);
             }
@@ -66,7 +77,7 @@ namespace HLife.Actions.Bed
     }
 
     public partial class Rest
-        : Action
+        : GameAction
     {
         public Rest()
             : base()
@@ -114,7 +125,7 @@ namespace HLife.Actions.Bed
     }
 
     public partial class Masturbate
-        : Action
+        : GameAction
     {
         public Masturbate()
             : base()

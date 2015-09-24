@@ -5,14 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:HLife.GUI.Controls"
              xmlns:Controls="clr-namespace:Microsoft.Windows.Controls;assembly=U2UConsult.RichHtmlTextBlock" xmlns:awe="http://schemas.awesomium.com/winfx" x:Class="HLife.GUI.Controls.Dialog"
-             mc:Ignorable="d" Height="97.87" Width="317.827">
+             mc:Ignorable="d" Height="164.37" Width="467.327" Background="#FF662121">
     <Grid x:Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="412*"/>
+            <ColumnDefinition Width="55*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label x:Name="lbl_Page" Content="10 / 10" HorizontalAlignment="Left" Padding="5" Foreground="#FFD6D6D6" Height="26" VerticalAlignment="Top" Width="47"/>
-        <TextBlock x:Name="text_Message" Margin="0" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" Foreground="#FFD6D6D6"/>
+        <Label x:Name="lbl_Page" Content="10 / 10" HorizontalAlignment="Left" Padding="5,0" Foreground="#FFD6D6D6" Height="26" VerticalAlignment="Top" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="60"/>
+        <TextBlock x:Name="text_Message" Grid.Row="1" TextWrapping="Wrap" Text="TextBlock" Foreground="#FFD6D6D6" FontSize="24" Padding="20" Grid.RowSpan="2"/>
+        <Button x:Name="btn_Next" Content="Next" Grid.Column="1" Grid.Row="1"/>
+        <Button x:Name="btn_Prev" Content="Prev" Grid.Column="1" Grid.Row="2"/>
 
     </Grid>
 </UserControl>

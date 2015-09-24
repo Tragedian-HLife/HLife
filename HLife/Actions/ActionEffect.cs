@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace HLife
+namespace HLife.Actions
 {
     /// <summary>
     /// Represents an atomic effect of an action.

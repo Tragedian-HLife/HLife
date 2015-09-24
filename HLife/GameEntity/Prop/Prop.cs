@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HLife.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -71,7 +72,7 @@ namespace HLife
 
             foreach (string actionName in this.Template.Actions)
             {
-                MenuItem displayAction = Action.Get(actionName).GetMenuItemForProp(new ActionEventArgs(Game.Instance.Player, null, this));
+                MenuItem displayAction = GameAction.Get(actionName).GetMenuItemForProp(new ActionEventArgs(Game.Instance.Player, null, this));
 
                 if (displayAction != null)
                 {

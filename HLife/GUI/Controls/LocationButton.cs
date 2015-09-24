@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace HLife
+namespace HLife.GUI.Controls
 {
     public class LocationButton
         : Button

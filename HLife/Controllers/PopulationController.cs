@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HLife.Actions;
+using HLife.GUI.Controls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -208,7 +210,7 @@ namespace HLife
 
         public void PopulateOccupantList()
         {
-            PagingControl pagination = (PagingControl)WindowController.Get<MainWindow>().FindName("pagination");
+            PagingControl pagination = (PagingControl)WindowController.Get<MainWindow>().FindName("Pagination");
             pagination.Updated += (sender, e) => this.DrawOccupantList(pagination);
             pagination.SetData<Person>(Game.Instance.PopulationController.GetPeopleAtLocation(Game.Instance.Player.Location).FindAll(e => e != Game.Instance.Player), 25);
         }
@@ -280,7 +282,7 @@ namespace HLife
                 menu.Items.Add(actions);
                 menu.Opened += (sender2, e2) =>
                 {
-                    foreach (Action action in Action.GetAll("Person").Where(e => e.CanBeDoneByPlayer))
+                    foreach (GameAction action in GameAction.GetAll("Person").Where(e => e.CanBeDoneByPlayer))
                     {
                         MenuItem displayAction = action.GetMenuItemForPerson(new ActionEventArgs(Game.Instance.Player, occupant, null));
 

@@ -136,14 +136,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Action\Action.cs" />
-    <Compile Include="Action\ActionCost.cs" />
-    <Compile Include="Action\ActionEffect.cs" />
-    <Compile Include="Action\ActionEffectSet.cs" />
+    <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\ActionCost.cs" />
+    <Compile Include="Actions\ActionEffect.cs" />
+    <Compile Include="Actions\ActionEffectSet.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Choices\DialogChoice.cs" />
     <Compile Include="Controllers\ActionController.cs" />
     <Compile Include="Controllers\AIController.cs" />
     <Compile Include="Controllers\Controller.cs" />

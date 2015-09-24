@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows;
 using System.IO;
 using System.Windows.Controls;
+using HLife.Actions;
 
 namespace HLife
 {
@@ -94,7 +95,7 @@ namespace HLife
             return null;
         }
 
-        public List<PropTemplate> GetPropTemplatesByAction(Action action)
+        public List<PropTemplate> GetPropTemplatesByAction(GameAction action)
         {
             List<PropTemplate> props = new List<PropTemplate>();
 
@@ -131,7 +132,7 @@ namespace HLife
             return props;
         }
 
-        public List<Prop> GetPropsByAction(Action action, Location zone = null)
+        public List<Prop> GetPropsByAction(GameAction action, Location zone = null)
         {
             List<Prop> props = new List<Prop>();
 

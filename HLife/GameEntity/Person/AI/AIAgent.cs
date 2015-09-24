@@ -1,4 +1,5 @@
 ﻿using AI.Fuzzy.Library;
+using HLife.Actions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,11 @@ namespace HLife
 
         [XmlIgnore]
         [JsonIgnore]
-        public Queue<KeyValuePair<Action, ActionEventArgs>> ActionQueue { get; set; }
+        public Queue<KeyValuePair<GameAction, ActionEventArgs>> ActionQueue { get; set; }
 
         public AIAgent()
         {
-            this.ActionQueue = new Queue<KeyValuePair<Action, ActionEventArgs>>();
+            this.ActionQueue = new Queue<KeyValuePair<GameAction, ActionEventArgs>>();
             this.NavAgent = new NavAgent(this);
             this.RelationalAgent = new RelationalAgent(this);
         }
@@ -94,10 +95,10 @@ namespace HLife
             if (worstStat != null)
             {
                 // Get all of the actions that would affect this stat, given our current circumstances.
-                List<Action> candidates = this.GetCandidateActions(worstStat.Name);
+                List<GameAction> candidates = this.GetCandidateActions(worstStat.Name);
 
                 // Get the action that would get the stat closest to Nominal.
-                Action bestCandidate = this.GetBestCandidateAction(worstStat.Name, candidates);
+                GameAction bestCandidate = this.GetBestCandidateAction(worstStat.Name, candidates);
 
                 // If there is any action we can take to improve this stat...
                 if (bestCandidate != null)
@@ -123,7 +124,7 @@ namespace HLife
                     if ((!bestCandidate.RequiresProp || (bestCandidate.RequiresProp && newArgs.Prop != null))
                         && (!bestCandidate.RequiresTarget || (bestCandidate.RequiresTarget && newArgs.Target != null)))
                     {
-                        this.ActionQueue.Enqueue(new KeyValuePair<Action, ActionEventArgs>(bestCandidate, newArgs));
+                        this.ActionQueue.Enqueue(new KeyValuePair<GameAction, ActionEventArgs>(bestCandidate, newArgs));
 
                         return true;
                     }
@@ -147,13 +148,13 @@ namespace HLife
             return temp;
         }
 
-        protected Action UseProp(Prop prop)
+        protected GameAction UseProp(Prop prop)
         {
-            Action action = null;
+            GameAction action = null;
 
             if (prop != null && prop.Template.Actions.Count > 0)
             {
-                action = Action.Get(MiscUtilities.GetRandomEntry<string>(prop.Template.Actions));
+                action = GameAction.Get(MiscUtilities.GetRandomEntry<string>(prop.Template.Actions));
 
                 action.Perform(new ActionEventArgs(this.Agent, null, prop));
             }
@@ -220,22 +221,22 @@ namespace HLife
             Debug.WriteLine(result.ToString("f1"));
         }
 
-        protected Action GetBestCandidateAction(string stat, List<Action> candidateActions)
+        protected GameAction GetBestCandidateAction(string stat, List<GameAction> candidateActions)
         {
             return Game.Instance.ActionController.GetMostEffectiveActionByStat(stat, new ActionEventArgs(this.Agent, null, null), candidateActions);
         }
 
-        protected List<Action> GetCandidateActions(string stat)
+        protected List<GameAction> GetCandidateActions(string stat)
         {
             return Game.Instance.ActionController.GetActionsByStat(stat, new ActionEventArgs(this.Agent, null, null));
         }
 
-        protected Action BuildActionCost(Action action)
+        protected GameAction BuildActionCost(GameAction action)
         {
             return null;
         }
 
-        protected List<Action> BuildActionCosts(List<Action> actions)
+        protected List<GameAction> BuildActionCosts(List<GameAction> actions)
         {
             return null;
         }

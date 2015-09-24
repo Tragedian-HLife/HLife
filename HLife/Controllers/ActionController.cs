@@ -7,17 +7,18 @@ using System.Reflection;
 using System.IO;
 using System.Windows;
 using System.Collections;
+using HLife.Actions;
 
 namespace HLife
 {
     public class ActionController
         : Controller
     {
-        public List<Action> Actions { get; set; }
+        public List<GameAction> Actions { get; set; }
 
         public ActionController()
         {
-            this.Actions = new List<Action>();
+            this.Actions = new List<GameAction>();
         }
 
         public override void Initialize()
@@ -41,10 +42,10 @@ namespace HLife
                     foreach (IGrouping<string, Type> group in groups)
                     {
                         // For each class in this namespace...
-                        foreach (Type type in group.Where(e => e.BaseType == typeof(Action)))
+                        foreach (Type type in group.Where(e => e.BaseType == typeof(GameAction)))
                         {
                             // Create an instance of that class.
-                            Action action = (Action)Activator.CreateInstance(type);
+                            GameAction action = (GameAction)Activator.CreateInstance(type);
                             action.Source = mod;
                         }
                     }
@@ -55,31 +56,31 @@ namespace HLife
         public override void Update()
         { }
 
-        public void Add(Action action)
+        public void Add(GameAction action)
         {
             this.Actions.Add(action);
         }
 
-        public void Remove(Action action)
+        public void Remove(GameAction action)
         {
             this.Actions.Remove(action);
         }
 
-        public Action Find(Predicate<Action> match)
+        public GameAction Find(Predicate<GameAction> match)
         {
             return this.Actions.Find(match);
         }
 
-        public IEnumerable<Action> Where(Func<Action, bool> function)
+        public IEnumerable<GameAction> Where(Func<GameAction, bool> function)
         {
             return this.Actions.Where(function);
         }
 
-        public List<Action> GetActionsByStat(string stat, ActionEventArgs args)
+        public List<GameAction> GetActionsByStat(string stat, ActionEventArgs args)
         {
-            List<Action> actions = new List<Action>();
+            List<GameAction> actions = new List<GameAction>();
 
-            foreach (Action action in Game.Instance.ActionController.Actions)
+            foreach (GameAction action in Game.Instance.ActionController.Actions)
             {
                 if(action.GetEffectsByStat(stat, args).Count > 0)
                 {
@@ -90,9 +91,9 @@ namespace HLife
             return actions;
         }
 
-        public Action GetMostEffectiveActionByStat(string stat, ActionEventArgs args, List<Action> actionPool = null)
+        public GameAction GetMostEffectiveActionByStat(string stat, ActionEventArgs args, List<GameAction> actionPool = null)
         {
-            List<Action> actions;
+            List<GameAction> actions;
 
             if (actionPool == null)
             {
@@ -108,10 +109,10 @@ namespace HLife
                 return null;
             }
 
-            Action minAction = null;
+            GameAction minAction = null;
             double minDiff = args.Doer.Stats.GetItem(stat).GetAbsoluteDifference(StatBasicStatuses.Fatal);
 
-            foreach (Action action in actions)
+            foreach (GameAction action in actions)
             {
                 ActionEventArgs previewArgs = action.Preview(args);
 

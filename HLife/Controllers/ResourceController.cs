@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HLife.Actions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -74,7 +75,7 @@ namespace HLife
             return new Uri(prop.Template.Source.Directory + @"\Props\Images\" + prop.Image);
         }
 
-        public string GetActionImage(Action action, string path, bool randomize)
+        public string GetActionImage(GameAction action, string path, bool randomize)
         {
             if (randomize)
             {

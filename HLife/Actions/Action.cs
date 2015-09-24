@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
 
-namespace HLife
+namespace HLife.Actions
 {
-    public class Action
+    public class GameAction
     {
         /// <summary>
         /// Reference name. Should be Namespace.Action.
@@ -127,7 +127,7 @@ namespace HLife
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public Action()
+        public GameAction()
         {
             this.Name = this.GetType().FullName.Remove(this.GetType().FullName.IndexOf("HLife.Actions."), "HLife.Actions.".Length);
             this.DisplayName = "{ACTION}";
@@ -149,7 +149,7 @@ namespace HLife
         /// </summary>
         /// <param name="name">The fully-qualified type of the desired action.</param>
         /// <returns>Requested action.</returns>
-        public static Action Get(string name)
+        public static GameAction Get(string name)
         {
             return Game.Instance.ActionController.Find(e => e.GetType().FullName == "HLife.Actions." + name);
         }
@@ -159,7 +159,7 @@ namespace HLife
         /// </summary>
         /// <param name="nameSpace">The namespace under HLife.Actions.</param>
         /// <returns>Requested actions.</returns>
-        public static List<Action> GetAll(string nameSpace)
+        public static List<GameAction> GetAll(string nameSpace)
         {
             return Game.Instance.ActionController.Where(e => StringUtilities.TrimAfterLast(e.GetType().FullName, ".") == "HLife.Actions." + nameSpace).ToList();
         }

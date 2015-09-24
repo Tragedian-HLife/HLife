@@ -1,4 +1,5 @@
-﻿using HLife.GUI.Effects;
+﻿using HLife.Choices;
+using HLife.GUI.Effects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,8 @@ namespace HLife
 
         private int ImageEffectTicks { get; set; }
 
+        private GUI.Controls.Dialog Dialog { get; set; }
+
         public DialogController()
         {
             this.DialogGroups = new SerializableDictionary<string, DialogGroup>();
@@ -51,6 +54,7 @@ namespace HLife
 
             Game.Instance.Player.Location.BlurBackground();
 
+            this.Dialog = null;
             container.Children.RemoveRange(1, container.Children.Count);
 
             MediaElement pb = new MediaElement();
@@ -70,54 +74,81 @@ namespace HLife
                 this.ImageEffectTimer.Interval = 1;
                 this.ImageEffectTimer.Start();
             }
-
-
+            
+            container.PreviewMouseRightButtonUp += ToggleDialog;
+            
             this.CurrentDialog.Current().StartBeginEffects(container);
 
-            this.DrawDialog();
-
-            container.PreviewMouseLeftButtonUp += NextDialog;
-            container.PreviewMouseRightButtonUp += ToggleDialog;
+            this.AddDialogControl();
         }
 
-        private void DrawDialog()
+        private void AddDialogControl()
         {
             Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
 
-            HLife.GUI.Controls.Dialog dialog = new GUI.Controls.Dialog();
-            dialog.Width = container.Width;
-            dialog.Height = 150;
-            dialog.Margin = new Thickness(10);
-            dialog.VerticalAlignment = VerticalAlignment.Bottom;
-            dialog.HorizontalAlignment = HorizontalAlignment.Stretch;
-            container.Children.Add(dialog);
-            
+            this.Dialog = new GUI.Controls.Dialog();
+            this.Dialog.Name = "dialog";
+            this.Dialog.Width = container.Width;
+            this.Dialog.Height = 150;
+            this.Dialog.Margin = new Thickness(10);
+            this.Dialog.Background = Brushes.Transparent;
+            this.Dialog.VerticalAlignment = VerticalAlignment.Bottom;
+            this.Dialog.HorizontalAlignment = HorizontalAlignment.Stretch;
+            container.Children.Add(this.Dialog);
+
+            ((Button)this.Dialog.FindName("btn_Next")).Click += NextDialog;
+            ((Button)this.Dialog.FindName("btn_Prev")).Click += PrevDialog;
+
             TextBlock lbl = (TextBlock)LogicalTreeHelper.FindLogicalNode(container, "text_Message");
             lbl.Text = "";
-            lbl.TextWrapping = TextWrapping.Wrap;
             lbl.Foreground = Brushes.LightGray;
-            lbl.Width = container.Width;
-            lbl.FontSize = 18;
-            lbl.Padding = new Thickness(20);
             lbl.Background = new SolidColorBrush(Brushes.Black.Color);
             lbl.Background.Opacity = 0.8;
             lbl.FontFamily = ResourceController.GetFont("Montserrat");
-
             
             Label pageCounter = (Label)LogicalTreeHelper.FindLogicalNode(container, "lbl_Page");
             pageCounter.Content = (this.CurrentDialog.Index + 1) + " / " + this.CurrentDialog.Entries.Count;
             pageCounter.Foreground = Brushes.LightGray;
-            pageCounter.FontSize = 12;
             pageCounter.Background = new SolidColorBrush(Brushes.Black.Color);
             pageCounter.Background.Opacity = 0.8;
             pageCounter.FontFamily = ResourceController.GetFont("Montserrat");
-            pageCounter.HorizontalContentAlignment = HorizontalAlignment.Center;
 
+
+            StackPanel panel = new StackPanel();
+            panel.HorizontalAlignment = HorizontalAlignment.Right;
+            panel.VerticalAlignment = VerticalAlignment.Center;
+            foreach (DialogChoice choice in this.CurrentDialog.Current().Choices)
+            {
+                Button btn = new Button();
+                btn.Content = choice.Text;
+                btn.Tag = choice;
+                btn.Padding = new Thickness(5);
+                btn.Click += ChoiceClick;
+                panel.Children.Add(btn);
+
+                ((Button)this.Dialog.FindName("btn_Next")).IsEnabled = false;
+            }
+            container.Children.Add(panel);
+
+            if (this.CurrentDialog.Index <= 0)
+            {
+                ((Button)this.Dialog.FindName("btn_Prev")).IsEnabled = false;
+            }
+
+            Game.Instance.WindowController.Update();
 
             this.TypingTicks = 0;
+            this.TypingTimer.Elapsed -= TypeIncremental;
             this.TypingTimer.Elapsed += TypeIncremental;
             this.TypingTimer.Interval = 30;
             this.TypingTimer.Start();
+        }
+
+        private void ChoiceClick(object sender, RoutedEventArgs e)
+        {
+            ((DialogChoice)((Button)sender).Tag).Choose();
+
+            this.NextDialog(sender, null);
         }
 
         private void ImageEffectTick(object sender, ElapsedEventArgs e)
@@ -158,27 +189,54 @@ namespace HLife
             }), null);
         }
         
-        private void NextDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void NextDialog(object sender, RoutedEventArgs e)
         {
             Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
-            
-            this.CurrentDialog.Current().StartEndEffects(container);
-            this.CurrentDialog.Current().EndEffectsFinished += (sender2, e2) =>
-            {
-                container.Dispatcher.Invoke(new System.Action(() =>
-                {
-                    if (!this.CurrentDialog.IsLastDialog())
-                    {
-                        this.CurrentDialog.Next();
 
-                        this.DrawDialog(this.CurrentDialog);
-                    }
-                    else
-                    {
-                        this.RemoveDialog(sender, e);
-                    }
-                }));
-            };
+            this.CurrentDialog.Current().EndEffectsFinished += NextDialogLogic;
+
+            this.CurrentDialog.Current().StartEndEffects(container);
+        }
+
+        private void NextDialogLogic(object sender, EventArgs e)
+        {
+            WindowController.Get<MainWindow>().Dispatcher.Invoke(new System.Action(() =>
+            {
+                Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
+
+                ((Button)this.Dialog.FindName("btn_Next")).Click -= NextDialog;
+                ((Button)this.Dialog.FindName("btn_Prev")).Click -= PrevDialog;
+
+                this.CurrentDialog.Current().EndEffectsFinished -= NextDialogLogic;
+
+                if (!this.CurrentDialog.IsLastDialog())
+                {
+                    this.CurrentDialog.Next();
+
+                    this.DrawDialog(this.CurrentDialog);
+                }
+                else
+                {
+                    this.RemoveDialog(sender, null);
+                }
+            }));
+        }
+
+        private void PrevDialog(object sender, RoutedEventArgs e)
+        {
+            Grid container = (Grid)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "grid_View");
+
+            if (this.CurrentDialog.Index > 0)
+            {
+                this.CurrentDialog.Current().EndEffectsFinished -= NextDialogLogic;
+
+                this.CurrentDialog.Previous();
+
+                ((Button)this.Dialog.FindName("btn_Next")).Click -= NextDialog;
+                ((Button)this.Dialog.FindName("btn_Prev")).Click -= PrevDialog;
+
+                this.DrawDialog(this.CurrentDialog);
+            }
         }
 
         private void RemoveDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -187,10 +245,14 @@ namespace HLife
 
             Game.Instance.Player.Location.UnblurBackground();
 
-            container.Children.RemoveRange(1, container.Children.Count);
+            ((Button)this.Dialog.FindName("btn_Next")).Click -= NextDialog;
+            ((Button)this.Dialog.FindName("btn_Prev")).Click -= PrevDialog;
 
-            container.PreviewMouseLeftButtonUp -= NextDialog;
+            container.Children.RemoveRange(1, container.Children.Count);
+            
             container.PreviewMouseRightButtonUp -= ToggleDialog;
+
+            this.CurrentDialog = null;
         }
 
         public void ToggleDialog(object sender, System.Windows.Input.MouseButtonEventArgs e)
