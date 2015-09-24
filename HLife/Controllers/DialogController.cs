@@ -22,11 +22,7 @@ namespace HLife
 
         private Timer TypingTimer { get; set; }
 
-        private Timer ImageEffectTimer { get; set; }
-
         private int TypingTicks { get; set; }
-
-        private int ImageEffectTicks { get; set; }
 
         private GUI.Controls.Dialog Dialog { get; set; }
 
@@ -34,7 +30,6 @@ namespace HLife
         {
             this.DialogGroups = new SerializableDictionary<string, DialogGroup>();
             this.TypingTimer = new Timer();
-            this.ImageEffectTimer = new Timer();
         }
 
         public override void Initialize()
@@ -66,20 +61,17 @@ namespace HLife
                 pb.Source = new Uri(this.CurrentDialog.Current().Image);
                 pb.VerticalAlignment = VerticalAlignment.Center;
                 pb.HorizontalAlignment = HorizontalAlignment.Center;
-                pb.Opacity = 0;
                 container.Children.Add(pb);
-                
-                this.ImageEffectTicks = 0;
-                this.ImageEffectTimer.Elapsed += ImageEffectTick;
-                this.ImageEffectTimer.Interval = 1;
-                this.ImageEffectTimer.Start();
             }
             
             container.PreviewMouseRightButtonUp += ToggleDialog;
-            
-            this.CurrentDialog.Current().StartBeginEffects(container);
+
+            this.CurrentDialog.Current().PrepareBeginEffects(container);
+            this.CurrentDialog.Current().PrepareEndEffects(container);
 
             this.AddDialogControl();
+
+            this.CurrentDialog.Current().StartBeginEffects();
         }
 
         private void AddDialogControl()
@@ -151,25 +143,6 @@ namespace HLife
             this.NextDialog(sender, null);
         }
 
-        private void ImageEffectTick(object sender, ElapsedEventArgs e)
-        {
-            WindowController.Get<MainWindow>().Dispatcher.BeginInvoke(new System.Action(() =>
-            {
-                MediaElement pb = (MediaElement)LogicalTreeHelper.FindLogicalNode(WindowController.Get<MainWindow>(), "pb_Action");
-                pb.Opacity += 0.01;
-
-                if (this.ImageEffectTicks < 100)
-                {
-                    this.ImageEffectTicks++;
-                }
-                else
-                {
-                    this.ImageEffectTimer.Stop();
-                    this.ImageEffectTimer.Elapsed -= ImageEffectTick;
-                }
-            }), null);
-        }
-
         private void TypeIncremental(object sender, ElapsedEventArgs e)
         {
             WindowController.Get<MainWindow>().Dispatcher.BeginInvoke(new System.Action(() =>
@@ -195,7 +168,7 @@ namespace HLife
 
             this.CurrentDialog.Current().EndEffectsFinished += NextDialogLogic;
 
-            this.CurrentDialog.Current().StartEndEffects(container);
+            this.CurrentDialog.Current().StartEndEffects();
         }
 
         private void NextDialogLogic(object sender, EventArgs e)

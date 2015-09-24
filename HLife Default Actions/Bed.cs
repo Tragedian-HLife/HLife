@@ -49,8 +49,8 @@ namespace HLife.Actions.Bed
                 Dialog dialog = new Dialog();
                 dialog.RawText = "You crawl into the bed and fall asleep.";
                 dialog.Image = Game.Instance.ResourceController.GetActionImage(this, @"bed\sleep\", true);
-                dialog.AddBeginEffect(new GUI.Effects.Flash(Colors.White));
-                dialog.AddEndEffect(new GUI.Effects.Flash(Colors.Red));
+                dialog.AddBeginEffect(new GUI.Effects.FadeColorOut());
+                dialog.AddEndEffect(new GUI.Effects.FadeColorIn());
                 dialog.Choices.Add(new DialogChoice("Test", new Action(() => { Game.Instance.Player.Stats.SetValue("Happiness", 0.0); })));
                 dialog.Choices.Add(new DialogChoice("Test2", new Action(() => { Game.Instance.Player.Stats.SetValue("Happiness", 50.0); })));
                 dialog.Choices.Add(new DialogChoice("Test3", new Action(() => { Game.Instance.Player.Stats.SetValue("Happiness", 100.0); })));
@@ -58,13 +58,15 @@ namespace HLife.Actions.Bed
                 
                 Dialog dialog2 = new Dialog();
                 dialog2.RawText = "You wake up.";
+                dialog2.AddBeginEffect(new GUI.Effects.FadeColorOut());
+                dialog2.AddEndEffect(new GUI.Effects.FadeColorIn());
                 group.Entries.Add(dialog2);
 
                 Dialog dialog3 = new Dialog();
                 dialog3.RawText = "You crawl into the bed and fall asleep.";
                 dialog3.Image = Game.Instance.ResourceController.GetActionImage(this, @"bed\sleep\", true);
-                dialog3.AddBeginEffect(new GUI.Effects.Flash(Colors.White));
-                dialog3.AddEndEffect(new GUI.Effects.Flash(Colors.Red));
+                dialog3.AddBeginEffect(new GUI.Effects.FadeColorOut());
+                dialog3.AddEndEffect(new GUI.Effects.FadeColorIn());
                 group.Entries.Add(dialog3);
 
                 Game.Instance.DialogController.DrawDialog(group);

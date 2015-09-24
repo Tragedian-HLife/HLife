@@ -7,10 +7,14 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace HLife.GUI.Effects
 {
+    /// <summary>
+    /// Visual effect.
+    /// </summary>
     public class Effect
     {
         /// <summary>
@@ -44,22 +48,10 @@ namespace HLife.GUI.Effects
         protected double HalfCycles { get; set; }
 
         /// <summary>
-        /// The Control in which the Target will reside.
-        /// </summary>
-        public Panel Container { get; set; }
-
-        /// <summary>
-        /// The Control to which to apply the effect.
-        /// </summary>
-        public Label Target { get; set; }
-
-        /// <summary>
         /// The speed of the effect.
         /// Defaults to 1.
         /// </summary>
-        public int StepsPerInterval { get; set; }
-
-        public bool DisposeAtEnd { get; set; }
+        public double StepsPerInterval { get; set; }
         
         /// <summary>
         /// Fired once the effect reaches the set number of cycles.
@@ -81,23 +73,11 @@ namespace HLife.GUI.Effects
             this.Timer = new Timer(100);
 
             this.Timer.Elapsed += Timer_Elapsed;
-
-            this.Target = new Label();
-            this.Target.VerticalAlignment = VerticalAlignment.Stretch;
-            this.Target.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-            this.DisposeAtEnd = true;
-        }
-
-        public Effect(Panel container)
-            : this()
-        {
-            this.Container = container;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.Target.Dispatcher.Invoke(new System.Action(this.Update));
+            WindowController.Get<MainWindow>().Dispatcher.Invoke(new System.Action(this.Update));
 
             this.TimesElapsed++;
 
@@ -108,7 +88,7 @@ namespace HLife.GUI.Effects
 
                 if (this.SuperCycle >= this.SuperCycles)
                 {
-                    this.Target.Dispatcher.Invoke(new System.Action(this.Stop));
+                    WindowController.Get<MainWindow>().Dispatcher.Invoke(new System.Action(this.Stop));
 
                     ElapsedEventHandler handler = this.Finished;
                     if (handler != null)
@@ -128,11 +108,12 @@ namespace HLife.GUI.Effects
         public virtual void StopLogic()
         { }
 
-        public void Start()
-        {
-            this.Target.Dispatcher.Invoke(new System.Action(() => { this.Container.Children.Add(this.Target); }));
+        public virtual void Prepare()
+        { }
 
-            this.Target.Dispatcher.Invoke(new System.Action(this.StartLogic));
+        public virtual void Start()
+        {
+            WindowController.Get<MainWindow>().Dispatcher.Invoke(new System.Action(this.StartLogic));
 
             this.HalfCycles = (double)this.Cycles / 2.0;
 
@@ -141,24 +122,22 @@ namespace HLife.GUI.Effects
             this.Timer.Start();
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             this.Timer.Stop();
 
-            this.Target.Dispatcher.Invoke(new System.Action(this.StopLogic));
+            WindowController.Get<MainWindow>().Dispatcher.Invoke(new System.Action(this.StopLogic));
 
             this.TimesElapsed = 0;
             this.SuperCycle = 0;
-
-            this.Container.Children.Remove(this.Target);
         }
 
-        public void Pause()
+        public virtual void Pause()
         {
             this.Timer.Stop();
         }
 
-        public void Restart()
+        public virtual void Restart()
         {
             this.Timer.Stop();
 

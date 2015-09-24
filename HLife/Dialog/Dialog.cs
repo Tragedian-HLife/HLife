@@ -61,7 +61,33 @@ namespace HLife
             return add;
         }
 
-        public void StartBeginEffects(Panel container)
+        public void PrepareBeginEffects(Panel container)
+        {
+            foreach (Effect effect in this.BeginEffects)
+            {
+                if(effect.GetType().BaseType == typeof(OverlayEffect))
+                {
+                    ((OverlayEffect)effect).Container = container;
+                }
+
+                effect.Prepare();
+            }
+        }
+
+        public void PrepareEndEffects(Panel container)
+        {
+            foreach (Effect effect in this.EndEffects)
+            {
+                if (effect.GetType().BaseType == typeof(OverlayEffect))
+                {
+                    ((OverlayEffect)effect).Container = container;
+                }
+
+                effect.Prepare();
+            }
+        }
+
+        public void StartBeginEffects()
         {
             if (this.BeginEffects.Count == 0)
             {
@@ -74,14 +100,13 @@ namespace HLife
 
             foreach (Effect effect in this.BeginEffects)
             {
-                effect.Container = container;
                 effect.Start();
             }
         }
 
-        public void StartEndEffects(Panel container)
+        public void StartEndEffects()
         {
-            if(this.EndEffects.Count ==0)
+            if(this.EndEffects.Count == 0)
             {
                 EventHandler temp = this.EndEffectsFinished;
                 if (temp != null)
@@ -92,7 +117,6 @@ namespace HLife
 
             foreach (Effect effect in this.EndEffects)
             {
-                effect.Container = container;
                 effect.Start();
             }
         }

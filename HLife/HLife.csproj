@@ -184,7 +184,10 @@
       <DependentUpon>PagingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\Effects\Effect.cs" />
-    <Compile Include="GUI\Effects\Flash.cs" />
+    <Compile Include="GUI\Effects\Overlay\FadeColorOut.cs" />
+    <Compile Include="GUI\Effects\Overlay\FadeColorIn.cs" />
+    <Compile Include="GUI\Effects\Overlay\Flash.cs" />
+    <Compile Include="GUI\Effects\Overlay\OverlayEffect.cs" />
     <Compile Include="GUI\Windows\LauncherWindow.xaml.cs">
       <DependentUpon>LauncherWindow.xaml</DependentUpon>
     </Compile>
@@ -264,6 +267,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Misc\logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GUI\Effects\Image\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

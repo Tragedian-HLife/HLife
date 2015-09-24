@@ -9,22 +9,22 @@ using System.Windows.Media;
 
 namespace HLife.GUI.Effects
 {
-    public class Flash
-        : Effect
+    public class FadeColorOut
+        : OverlayEffect
     {
         public Color Color { get; set; }
 
-        public Flash(Panel container = null)
+        public FadeColorOut(Panel container = null)
             : base(container)
         {
-            this.Color = Brushes.White.Color;
+            this.Color = Brushes.Black.Color;
 
             this.Timer.Interval = 1;
 
-            this.StepsPerInterval = 8;
+            this.StepsPerInterval = 1;
         }
 
-        public Flash(Color color, Panel container = null)
+        public FadeColorOut(Color color, Panel container = null)
             : this(container)
         {
             this.Color = color;
@@ -32,21 +32,14 @@ namespace HLife.GUI.Effects
 
         public override void StartLogic()
         {
-            this.Cycles = (int)(200.0 / (double)this.StepsPerInterval);
+            this.Cycles = (int)(100.0 / (double)this.StepsPerInterval);
 
             this.Target.Background = new SolidColorBrush(this.Color);
         }
 
         public override void Update()
         {
-            if (this.TimesElapsed <= this.HalfCycles)
-            {
-                this.Target.Background.Opacity = (double)this.TimesElapsed / this.HalfCycles;
-            }
-            else
-            {
-                this.Target.Background.Opacity = (double)(this.Cycles - this.TimesElapsed)  / this.HalfCycles;
-            }
+            this.Target.Background.Opacity = (double)(this.Cycles - this.TimesElapsed) / this.Cycles;
         }
     }
 }
