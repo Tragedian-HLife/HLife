@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HLife.GameEntities.Locations;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

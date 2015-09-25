@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace HLife.Choices
 {
@@ -14,7 +15,6 @@ namespace HLife.Choices
 
         public DialogChoice()
         {
-
         }
 
         public DialogChoice(string text, Action choose)

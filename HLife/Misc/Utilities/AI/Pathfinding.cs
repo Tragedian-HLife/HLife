@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HLife.GameEntities.Locations;
+using HLife.GameEntities.People.AI.Pathfinding;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

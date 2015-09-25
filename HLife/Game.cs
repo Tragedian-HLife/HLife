@@ -12,6 +12,12 @@ using ImageMagick;
 using System.Windows.Controls;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
+using HLife.Dialogs;
+using HLife.GameEntities.People;
+using HLife.Actions;
+using HLife.GameEntities.People.AI;
+using HLife.GameEntities.Locations;
+using HLife.GameEntities.Props;
 
 namespace HLife
 {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HLife.GameEntities.People;
+using HLife.GameEntities.Props;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

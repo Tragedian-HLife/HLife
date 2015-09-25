@@ -140,42 +140,44 @@
     <Compile Include="Actions\ActionCost.cs" />
     <Compile Include="Actions\ActionEffect.cs" />
     <Compile Include="Actions\ActionEffectSet.cs" />
+    <Compile Include="Actions\PlannedAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Choices\DialogChoice.cs" />
-    <Compile Include="Controllers\ActionController.cs" />
-    <Compile Include="Controllers\AIController.cs" />
+    <Compile Include="Actions\ActionController.cs" />
+    <Compile Include="GameEntities\People\AI\AIController.cs" />
     <Compile Include="Controllers\Controller.cs" />
-    <Compile Include="Controllers\DialogController.cs" />
-    <Compile Include="Controllers\PopulationController.cs" />
-    <Compile Include="Controllers\PropController.cs" />
+    <Compile Include="Dialogs\DialogController.cs" />
+    <Compile Include="GameEntities\People\PopulationController.cs" />
+    <Compile Include="GameEntities\Props\PropController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\SaveLoadController.cs" />
-    <Compile Include="Controllers\WindowController.cs" />
-    <Compile Include="Dialog\Dialog.cs" />
-    <Compile Include="Dialog\DialogGroup.cs" />
+    <Compile Include="GUI\Effects\EffectStack.cs" />
+    <Compile Include="GUI\WindowController.cs" />
+    <Compile Include="Dialogs\Dialog.cs" />
+    <Compile Include="Dialogs\DialogGroup.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameEntity\GameEntity.cs" />
-    <Compile Include="GameEntity\Location\City.cs" />
-    <Compile Include="GameEntity\Location\Location.cs" />
-    <Compile Include="GameEntity\Location\LocationNetworkEdge.cs" />
-    <Compile Include="GameEntity\Person\AI\AIAgent.cs" />
-    <Compile Include="GameEntity\Person\AI\Pathfinding\Map\NavMap.cs" />
-    <Compile Include="GameEntity\Person\AI\Pathfinding\Map\PathNode.cs" />
-    <Compile Include="GameEntity\Person\AI\Pathfinding\NavAgent.cs" />
-    <Compile Include="GameEntity\Person\AI\RelationalAgent.cs" />
-    <Compile Include="GameEntity\Person\Perk.cs" />
-    <Compile Include="GameEntity\Person\Person.cs" />
-    <Compile Include="GameEntity\Person\PersonPhysique.cs" />
-    <Compile Include="GameEntity\Person\PersonPreferences.cs" />
-    <Compile Include="GameEntity\Stats\Stat.cs" />
-    <Compile Include="GameEntity\Stats\Stats.cs" />
-    <Compile Include="GameEntity\Person\Player.cs" />
-    <Compile Include="GameEntity\Person\Relationship.cs" />
-    <Compile Include="GameEntity\Prop\Prop.cs" />
-    <Compile Include="GameEntity\Prop\PropTemplate.cs" />
+    <Compile Include="GameEntities\GameEntity.cs" />
+    <Compile Include="GameEntities\Locations\City.cs" />
+    <Compile Include="GameEntities\Locations\Location.cs" />
+    <Compile Include="GameEntities\Locations\LocationNetworkEdge.cs" />
+    <Compile Include="GameEntities\People\AI\AIAgent.cs" />
+    <Compile Include="GameEntities\People\AI\Pathfinding\Map\NavMap.cs" />
+    <Compile Include="GameEntities\People\AI\Pathfinding\Map\PathNode.cs" />
+    <Compile Include="GameEntities\People\AI\Pathfinding\NavAgent.cs" />
+    <Compile Include="GameEntities\People\AI\RelationalAgent.cs" />
+    <Compile Include="GameEntities\People\Perk.cs" />
+    <Compile Include="GameEntities\People\Person.cs" />
+    <Compile Include="GameEntities\People\PersonPhysique.cs" />
+    <Compile Include="GameEntities\People\PersonPreferences.cs" />
+    <Compile Include="GameEntities\Stats\Stat.cs" />
+    <Compile Include="GameEntities\Stats\Stats.cs" />
+    <Compile Include="GameEntities\People\Player.cs" />
+    <Compile Include="GameEntities\People\Relationship.cs" />
+    <Compile Include="GameEntities\Props\Prop.cs" />
+    <Compile Include="GameEntities\Props\PropTemplate.cs" />
     <Compile Include="GUI\Controls\Dialog.xaml.cs">
       <DependentUpon>Dialog.xaml</DependentUpon>
     </Compile>
@@ -234,8 +236,8 @@
     <Compile Include="Misc\Utilities\Math\MatrixUtilities.cs" />
     <Compile Include="Misc\Utilities\MiscUtilities.cs" />
     <Compile Include="Misc\Utilities\StringUtilities.cs" />
-    <Compile Include="Mod\Mod.cs" />
-    <Compile Include="Controllers\ModController.cs" />
+    <Compile Include="Mods\Mod.cs" />
+    <Compile Include="Mods\ModController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -269,6 +271,7 @@
     <Resource Include="Misc\logo.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Events\" />
     <Folder Include="GUI\Effects\Image\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
